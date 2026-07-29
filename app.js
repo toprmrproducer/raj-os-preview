@@ -10,7 +10,7 @@ const apps = {
         <p class="app-deck">AI products, revenue infrastructure, and digital experiences built to survive contact with real users. Click a project to open the case file.</p>
         <div class="project-list">
           ${projectCard("01","RapidX Voice Studio","AI Voice Product","A live studio for building personas, testing conversations, generating speech, and launching outbound calls.","LIVE SYSTEM","78–86% MODELLED MARGIN","#b9dfe8","http://168.144.22.217")}
-          ${projectCard("02","Kawsaypac","Premium Commerce","A cinematic Shopify experience moving from the Andes to the Amazon across a 17-product catalog.","$1,500 ENGAGEMENT","17 PRODUCT FLOWS","#e3b5a3","https://toprmrproducer.github.io/kawsaypac-ancestral/")}
+          ${projectCard("02","Kawsaypac Preview 3","Premium Commerce","The final cinematic Shopify preview, moving from Cotopaxi to the living forest across a 17-product catalog.","FINAL PREVIEW 3","17 PRODUCT FLOWS","#e3b5a3","https://toprmrproducer.github.io/kawsaypac-preview3/")}
           ${projectCard("03","EXTNGO","Headless Commerce","A Shopify-backed storefront for a retractable flat CAT6 cable, from product states through purchasing flow.","SHOPIFY BACKED","LIVE DEPLOYMENT","#c7f36b","https://extngo-cable-385.netlify.app")}
           ${projectCard("04","RapidX AI Voice","White-label Voice SaaS","Agent creation, analytics, call storage, telephony, and Gemini integrations under one RapidXAI system.","FULL REBRAND","AUTH + CALL LOGS","#c2b2e9","")}
           ${projectCard("05","Shreyas OS","Personal Operating System","A private local command surface for tasks, focus, calendar, activity, and recent workspaces.","LOCAL FIRST","REAL TASK WRITE-BACK","#ffd95a","")}
@@ -129,12 +129,11 @@ const apps = {
         <span class="app-kicker">THE DISTRIBUTION LAYER</span>
         <h2 class="app-heading">Build in public.<br><em>Learn in public.</em></h2>
         <p class="app-deck">I document the tools, decisions, failures, and systems behind the work for builders who want usable signal.</p>
-        <p class="source-note">My recent Instagram @ai.w.raj got banned 😭. The active backup is @theshreyasraj9595.</p>
+        <p class="source-note">My 70K Instagram @ai.w.raj got banned 😭. New account: @theshreyasraj9595.</p>
         <div class="social-list">
           ${social("YT","YouTube","31.7K subscribers · 1.81M views","https://www.youtube.com/@AIwithShreyasRaj","#ffb2ae")}
-          ${social("IG","Instagram","71.1K recorded followers","https://www.instagram.com/theshreyasraj9595/","#f3b8db")}
+          ${social("IG","New Instagram","Rebuilding after the 70K account ban","https://www.instagram.com/theshreyasraj9595/","#f3b8db")}
           ${social("X","X / Twitter","Daily experiments and operator notes","https://x.com/TopR9595","#b9dfe8")}
-          ${social("IN","LinkedIn","Founder updates and business systems","https://www.linkedin.com/in/shreyasraj-","#c7f36b")}
           ${social("GH","GitHub","Products, experiments, and shipped code","https://github.com/TopR9595","#d4c7ed")}
         </div>
       </div>`,
@@ -142,14 +141,15 @@ const apps = {
   updates: {
     title: "Updates — Changelog.app",
     chrome: "#9ec58f",
-        subtitle: "LIVE OS / v3.0.0",
+        subtitle: "LIVE OS / v3.2.0",
     render: () => `
       <div class="app-content">
         <span class="app-kicker">PUBLIC CHANGELOG</span>
         <h2 class="app-heading">A portfolio that<br><em>keeps shipping.</em></h2>
         <p class="app-deck">RAJ OS gets patched as the business changes. Projects, proof, lessons, and experiments become visible updates instead of stale résumé bullets.</p>
         <div class="process-list">
-          ${step("v3.0.0 · Desktop Mode","One-screen desktop, premium app sprites, working browser, emergency channel, movable windows, and a moving Raj.","#c7f36b")}
+          ${step("v3.2.0 · Night + Voice","Day/night world toggle, autonomous Raj, custom cursor, restrained Mac-like app chrome, safe browser-native voice concierge, and grounded Voice Agent Lab.","#a9e1d2")}
+          ${step("v3.0.0 · Desktop Mode","One-screen desktop, working browser, emergency channel, movable windows, and a moving Raj.","#c7f36b")}
           ${step("v1.2.0 · Proof Vault","Source-backed metrics and five canonical client testimonial links added.","#ffd95a")}
           ${step("v1.0.0 · First Boot","Desktop OS, draggable windows, command search, projects, revenue, process, achievements, socials, and contact.","#f5a39c")}
         </div>
@@ -205,6 +205,34 @@ const apps = {
             <p class="source-note">BEST INPUT: the constraint, current cost, desired outcome, and deadline.</p>
           </aside>
         </div>
+      </div>`,
+  },
+  voice: {
+    title: "Voice Agent — Concierge.app",
+    chrome: "#9fded4",
+    subtitle: "BROWSER VOICE / ONLINE",
+    render: () => `
+      <div class="voice-agent">
+        <header class="voice-agent-hero">
+          <img src="./assets/premium-world/voice-lab.png" alt="" />
+          <div><span>RAPIDXAI VOICE CONCIERGE</span><h2>Talk to<br><em>RAJ OS.</em></h2><p>Ask about projects, results, systems, testimonials, the team, socials, or starting a project.</p></div>
+        </header>
+        <div class="voice-console">
+          <div class="voice-status"><i></i><span data-voice-status>READY FOR A COMMAND</span></div>
+          <div class="voice-transcript" data-voice-transcript aria-live="polite">
+            <p class="agent-line"><strong>RAJ OS</strong><span>Say “show me the projects” or type below.</span></p>
+          </div>
+          <div class="voice-controls">
+            <button type="button" data-voice-mic>HOLD TO TALK</button>
+            <label><input type="text" data-voice-input placeholder="Ask RAJ OS..." autocomplete="off" /><button type="button" data-voice-send>SEND</button></label>
+          </div>
+          <div class="voice-prompts">
+            <button type="button" data-voice-prompt="Show me the projects">PROJECTS</button>
+            <button type="button" data-voice-prompt="What results have you generated?">RESULTS</button>
+            <button type="button" data-voice-prompt="How can I contact Shreyas?">CONTACT</button>
+          </div>
+        </div>
+        <p class="source-note">PRIVACY: this version uses the browser's speech recognition and speech synthesis. No Gemini or other private API key is exposed in the static site.</p>
       </div>`,
   },
   browser: {
@@ -270,6 +298,7 @@ const worldScroll = document.querySelector("#world-scroll");
 const worldPlayer = document.querySelector("#world-player");
 const playerSprite = worldPlayer.querySelector("img");
 const playerLabel = document.querySelector("#player-label");
+const themeToggle = document.querySelector("[data-theme-toggle]");
 const spriteSources = {
   down: "./assets/raj-front.png",
   up: "./assets/raj-back.png",
@@ -282,8 +311,22 @@ const districtLabels = {
   proof: "RAJ · PROOF PLAZA",
   updates: "RAJ · UPDATE TERMINAL",
 };
-let playerState = { x: 0, y: 0, direction: "down", manualUntil: 0 };
+let playerState = { x: 0, y: 0, direction: "down", waypoint: -1, paused: false };
 let walkTimer;
+
+function applyTheme(theme) {
+  const night = theme === "night";
+  os.classList.toggle("night-mode", night);
+  themeToggle.setAttribute("aria-label", night ? "Switch to day mode" : "Switch to night mode");
+  themeToggle.setAttribute("aria-pressed", String(night));
+  localStorage.setItem("raj-os-theme", night ? "night" : "day");
+}
+
+function toggleTheme() {
+  const next = os.classList.contains("night-mode") ? "day" : "night";
+  applyTheme(next);
+  toast(next === "night" ? "NIGHT MODE" : "DAY MODE", next === "night" ? "Moonlight shift complete. The night desk is online." : "Sunrise restored. Day operations resumed.");
+}
 
 function projectCard(index, title, category, copy, proofA, proofB, color, url) {
   return `<article class="project-card" style="--card:${color}" data-project-url="${url}">
@@ -297,7 +340,15 @@ function metric(value, label, copy, color) { return `<article class="metric-card
 function step(title, copy, color) { return `<article class="process-step" style="--step:${color}"><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
 function badge(glyph, title, copy, color) { return `<article class="badge-card" style="--badge:${color}"><span class="badge-glyph">${glyph}</span><h3>${title}</h3><p>${copy}</p></article>`; }
 function team(initials, name, role, copy, color) { return `<article class="team-card" style="--team:${color}"><span class="team-avatar">${initials}</span><h3>${name}</h3><strong>${role}</strong><p>${copy}</p></article>`; }
-function social(mark, name, copy, url, color) { return `<a class="social-link" href="${url}" target="_blank" rel="noreferrer"><span class="social-monogram" style="--social:${color}">${mark}</span><span><strong>${name}</strong><small>${copy}</small></span><b>↗</b></a>`; }
+function social(mark, name, copy, url, color) {
+  const sprite = {
+    YT: "./assets/premium-dock/voices.png",
+    IG: "./assets/premium-apps/socials.png",
+    X: "./assets/premium-world/data-beacon.png",
+    GH: "./assets/premium-world/data-modules.png",
+  }[mark];
+  return `<a class="social-link" href="${url}" target="_blank" rel="noreferrer" style="--social:${color}"><span class="social-monogram">${sprite ? `<img src="${sprite}" alt="">` : mark}</span><span><strong>${name}</strong><small>${copy}</small></span><b>↗</b></a>`;
+}
 
 function finishBoot() {
   if (booted) return;
@@ -305,7 +356,7 @@ function finishBoot() {
   boot.classList.add("done");
   os.classList.add("ready");
   setTimeout(() => {
-    toast("SYSTEM ONLINE", "RAJ OS loaded. Open an app, move Raj, or press ⌘K.");
+    toast("SYSTEM ONLINE", "RAJ OS loaded. Open an app, click Raj, or press ⌘K.");
   }, 680);
 }
 
@@ -390,6 +441,117 @@ function bindWindow(win) {
     win.querySelectorAll("[data-browser-url]").forEach(button => button.addEventListener("click", () => navigateBrowser(button.dataset.browserUrl)));
     browserInput.addEventListener("keydown", event => { if (event.key === "Enter") navigateBrowser(); });
   }
+  const voiceInput = win.querySelector("[data-voice-input]");
+  if (voiceInput) bindVoiceAgent(win, voiceInput);
+}
+
+function bindVoiceAgent(win, voiceInput) {
+  const transcript = win.querySelector("[data-voice-transcript]");
+  const status = win.querySelector("[data-voice-status]");
+  const mic = win.querySelector("[data-voice-mic]");
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition;
+
+  const addLine = (role, copy) => {
+    const line = document.createElement("p");
+    line.className = role === "YOU" ? "user-line" : "agent-line";
+    const strong = document.createElement("strong");
+    const span = document.createElement("span");
+    strong.textContent = role;
+    span.textContent = copy;
+    line.append(strong, span);
+    transcript.appendChild(line);
+    transcript.scrollTop = transcript.scrollHeight;
+  };
+
+  const speak = copy => {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(copy);
+    utterance.rate = 1.05;
+    utterance.pitch = .94;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const answer = query => {
+    const clean = query.trim();
+    if (!clean) {
+      status.textContent = "TYPE OR SAY SOMETHING FIRST";
+      return;
+    }
+    addLine("YOU", clean);
+    const q = clean.toLowerCase();
+    let response = "I can open projects, results, systems, testimonials, team, socials, browser, or the emergency contact channel.";
+    let target;
+    if (/project|kawsay|ship|work/.test(q)) {
+      response = "Opening the shipped project files. Kawsaypac Preview 3 is the final commerce preview.";
+      target = "projects";
+    } else if (/result|revenue|number|proof|money/.test(q)) {
+      response = "Opening verified results and commercial proof. The headline range is five to six lakh rupees in monthly company gross.";
+      target = "revenue";
+    } else if (/system|process|how.*work/.test(q)) {
+      response = "Opening the RapidXAI operating system and delivery loop.";
+      target = "process";
+    } else if (/testimonial|client|voice.*proof/.test(q)) {
+      response = "Opening five canonical client testimonial videos.";
+      target = "testimonials";
+    } else if (/team|hardik|who/.test(q)) {
+      response = "The operating party is Shreyas Raj and Hardik Agarwal. Opening the team file.";
+      target = "team";
+    } else if (/instagram|social|youtube|github|twitter|\\bx\\b/.test(q)) {
+      response = "Opening the live social channels. LinkedIn is intentionally not listed.";
+      target = "socials";
+    } else if (/contact|call|whatsapp|emergency|hire|start/.test(q)) {
+      response = "Opening the priority contact channel. You can WhatsApp, call, email, or book thirty minutes.";
+      target = "emergency";
+    } else if (/browser|web|internet/.test(q)) {
+      response = "Opening RajNet, the built-in browser surface.";
+      target = "browser";
+    }
+    addLine("RAJ OS", response);
+    status.textContent = "COMMAND COMPLETE";
+    speak(response);
+    if (target) setTimeout(() => openApp(target), 420);
+  };
+
+  win.querySelector("[data-voice-send]").addEventListener("click", () => {
+    answer(voiceInput.value);
+    voiceInput.value = "";
+  });
+  voiceInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      answer(voiceInput.value);
+      voiceInput.value = "";
+    }
+  });
+  win.querySelectorAll("[data-voice-prompt]").forEach(button => button.addEventListener("click", () => answer(button.dataset.voicePrompt)));
+
+  if (Recognition) {
+    recognition = new Recognition();
+    recognition.lang = "en-IN";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.addEventListener("start", () => {
+      mic.classList.add("listening");
+      mic.textContent = "LISTENING...";
+      status.textContent = "MICROPHONE LIVE";
+    });
+    recognition.addEventListener("result", event => answer(event.results[0][0].transcript));
+    recognition.addEventListener("error", event => {
+      status.textContent = `MIC ERROR: ${event.error.toUpperCase()}`;
+      addLine("RAJ OS", "Microphone access failed. You can still type your command below.");
+    });
+    recognition.addEventListener("end", () => {
+      mic.classList.remove("listening");
+      mic.textContent = "HOLD TO TALK";
+    });
+    mic.addEventListener("click", () => recognition.start());
+  } else {
+    mic.disabled = true;
+    mic.textContent = "VOICE UNSUPPORTED";
+    status.textContent = "TYPE MODE READY";
+  }
 }
 
 function startDrag(event) {
@@ -440,36 +602,69 @@ function jumpTo(id) {
 }
 
 function renderPlayer() {
-  worldPlayer.style.transform = `translate3d(${playerState.x}px, ${playerState.y}px, 0)`;
+  const scale = window.innerWidth <= 760 ? .78 : 1;
+  worldPlayer.style.transform = `translate3d(${playerState.x}px, ${playerState.y}px, 0) scale(${scale})`;
   playerSprite.src = spriteSources[playerState.direction];
   worldPlayer.classList.toggle("facing-left", playerState.direction === "left");
   worldPlayer.classList.add("walking");
   clearTimeout(walkTimer);
-  walkTimer = setTimeout(() => worldPlayer.classList.remove("walking"), 210);
-}
-
-function movePlayer(direction, multiplier = 1) {
-  const stepSize = 26 * multiplier;
-  const maxX = Math.max(110, window.innerWidth * .42);
-  const minY = -Math.max(180, window.innerHeight * .5);
-  const maxY = Math.max(70, window.innerHeight * .13);
-  playerState.direction = direction;
-  playerState.manualUntil = Date.now() + 1800;
-  if (direction === "left") playerState.x = Math.max(-maxX, playerState.x - stepSize);
-  if (direction === "right") playerState.x = Math.min(maxX, playerState.x + stepSize);
-  if (direction === "up") playerState.y = Math.max(minY, playerState.y - stepSize);
-  if (direction === "down") playerState.y = Math.min(maxY, playerState.y + stepSize);
-  renderPlayer();
-}
-
-function currentDistrict() {
-  const sections = [...document.querySelectorAll(".world-section")];
-  const focusLine = worldScroll.scrollTop + worldScroll.clientHeight * .44;
-  return sections.reduce((active, section) => section.offsetTop <= focusLine ? section : active, sections[0]);
+  walkTimer = setTimeout(() => worldPlayer.classList.remove("walking"), 1900);
 }
 
 function syncWorld() {
   playerLabel.textContent = "RAJ · HOME BASE";
+}
+
+function patrolWaypoints() {
+  const mobile = window.innerWidth <= 760;
+  const x = window.innerWidth;
+  const y = window.innerHeight;
+  return mobile
+    ? [
+        { x: 0, y: 0, label: "RAJ · HOME BASE" },
+        { x: -x * .18, y: -y * .08, label: "RAJ · CHECKING FILES" },
+        { x: x * .12, y: -y * .15, label: "RAJ · SHIPPING" },
+        { x: x * .04, y: -y * .02, label: "RAJ · ONLINE" },
+      ]
+    : [
+        { x: 0, y: 0, label: "RAJ · HOME BASE" },
+        { x: -x * .17, y: -y * .04, label: "RAJ · CHECKING FILES" },
+        { x: -x * .08, y: -y * .19, label: "RAJ · BUILDING" },
+        { x: x * .16, y: -y * .16, label: "RAJ · SHIPPING" },
+        { x: x * .08, y: -y * .03, label: "RAJ · BACK ONLINE" },
+      ];
+}
+
+function autoPatrol() {
+  if (playerState.paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const waypoints = patrolWaypoints();
+  playerState.waypoint = (playerState.waypoint + 1) % waypoints.length;
+  const target = waypoints[playerState.waypoint];
+  const deltaX = target.x - playerState.x;
+  const deltaY = target.y - playerState.y;
+  playerState.direction = Math.abs(deltaX) > Math.abs(deltaY)
+    ? (deltaX < 0 ? "left" : "right")
+    : (deltaY < 0 ? "up" : "down");
+  playerState.x = target.x;
+  playerState.y = target.y;
+  playerLabel.textContent = target.label;
+  renderPlayer();
+}
+
+function waveHello() {
+  playerState.paused = true;
+  worldPlayer.classList.remove("walking");
+  worldPlayer.classList.add("waving");
+  playerSprite.src = spriteSources.down;
+  worldPlayer.classList.remove("facing-left");
+  playerLabel.textContent = "RAJ · HEY THERE!";
+  toast("PLAYER 01", "Raj waved. He is getting back to work.");
+  setTimeout(() => {
+    worldPlayer.classList.remove("waving");
+    playerState.paused = false;
+    playerLabel.textContent = "RAJ · BACK TO WORK";
+    autoPatrol();
+  }, 1450);
 }
 
 function recordVisit(id, silent = false) {
@@ -513,6 +708,7 @@ function renderCommands(query) {
   const commands = [
     ...Object.entries(apps).map(([id, app]) => ({ id, label: `Open ${app.title}`, hint: "APP" })),
     { id: "desktop", label: "Show desktop", hint: "SYSTEM" },
+    { id: "theme", label: "Toggle day / night", hint: "SYSTEM" },
     { id: "email", label: "Copy Shreyas's email", hint: "ACTION" },
   ].filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
   commandResults.innerHTML = commands.map((item, index) => `<button class="command-result ${index === 0 ? "active" : ""}" type="button" data-command-id="${item.id}"><strong>${item.label}</strong><small>${item.hint}</small></button>`).join("");
@@ -522,6 +718,7 @@ function runCommand(id) {
   closePalette();
   if (apps[id]) openApp(id);
   else if (id === "desktop") showDesktop();
+  else if (id === "theme") toggleTheme();
   else if (id === "email") copyText("shreyas@rapid-xai.com");
 }
 
@@ -530,21 +727,11 @@ document.addEventListener("click", event => {
   if (opener) openApp(opener.dataset.open);
   const jumper = event.target.closest("[data-jump]");
   if (jumper) jumpTo(jumper.dataset.jump);
-  const mover = event.target.closest("[data-move]");
-  if (mover) movePlayer(mover.dataset.move);
   if (event.target.closest("[data-home]")) showDesktop();
   if (event.target.closest("[data-command]")) openPalette();
-  if (!event.target.closest("button, a, input, .os-window, .dock, .dpad, .sticky") && event.target.closest(".world-section")) {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight * .7;
-    playerState.x = Math.max(-window.innerWidth * .42, Math.min(window.innerWidth * .42, event.clientX - centerX));
-    playerState.y = Math.max(-window.innerHeight * .5, Math.min(window.innerHeight * .13, event.clientY - centerY));
-    playerState.direction = event.clientX < centerX ? "left" : "right";
-    playerState.manualUntil = Date.now() + 1800;
-    renderPlayer();
-  }
 });
 document.querySelector(".boot-skip").addEventListener("click", finishBoot);
+themeToggle.addEventListener("click", toggleTheme);
 document.querySelector(".palette-backdrop").addEventListener("click", closePalette);
 commandInput.addEventListener("input", event => renderCommands(event.target.value));
 commandInput.addEventListener("keydown", event => {
@@ -556,23 +743,21 @@ commandInput.addEventListener("keydown", event => {
 document.addEventListener("keydown", event => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); openPalette(); }
   if (event.key === "Escape") { palette.classList.contains("open") ? closePalette() : closeFocused(); }
-  if (event.target.matches("input, textarea") || event.target.isContentEditable || palette.classList.contains("open")) return;
-  const direction = {
-    ArrowUp: "up", w: "up", W: "up",
-    ArrowDown: "down", s: "down", S: "down",
-    ArrowLeft: "left", a: "left", A: "left",
-    ArrowRight: "right", d: "right", D: "right",
-  }[event.key];
-  if (direction) {
-    event.preventDefault();
-    movePlayer(direction);
-  }
 });
 document.querySelector(".sticky").addEventListener("keydown", event => {
   if (event.key === "Enter" || event.key === " ") openApp(event.currentTarget.dataset.open);
 });
-worldScroll.addEventListener("scroll", syncWorld, { passive: true });
-window.addEventListener("resize", renderPlayer);
+worldPlayer.addEventListener("click", event => { event.stopPropagation(); waveHello(); });
+worldPlayer.addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    waveHello();
+  }
+});
+window.addEventListener("resize", () => {
+  playerState.waypoint = -1;
+  autoPatrol();
+});
 
 function updateClock() {
   const now = new Date();
@@ -582,6 +767,9 @@ function updateClock() {
   document.querySelector("#timezone").textContent = zone ? zone.value.toUpperCase() : "LOCAL";
 }
 updateClock();
+applyTheme(localStorage.getItem("raj-os-theme") || "day");
 syncWorld();
 setInterval(updateClock, 30000);
 setTimeout(finishBoot, 2450);
+setTimeout(autoPatrol, 3300);
+setInterval(autoPatrol, 4700);

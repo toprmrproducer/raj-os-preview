@@ -16,9 +16,9 @@ python3 -m http.server 4173
 
 ## Controls
 
-- Walk Raj with `WASD` or the arrow keys.
-- Click a location in the world to move there.
-- Use the on-screen D-pad on mobile.
+- Raj automatically patrols the desktop and changes direction as he moves.
+- Click or keyboard-activate Raj to make him wave.
+- Click the sun or moon to toggle the complete day/night world.
 - Click a desktop app, menu item, or dock icon to open its OS window.
 - Drag windows by their title bars on desktop.
 - Double-click a title bar to maximize.
@@ -29,7 +29,11 @@ python3 -m http.server 4173
 
 ## Art direction
 
-The interface uses a bespoke 16-bit operating-system world rather than stock iconography. Generated assets include directional Shreyas sprites, a Hardik companion sprite, a full-body hero, fitness and systems scenes, premium application icons, dock sprites, interactive buildings, shipped crates, an update terminal, and matching world props.
+The interface uses a bespoke 16-bit operating-system world rather than stock iconography. Generated assets include directional Shreyas sprites, a Hardik companion sprite, fitness and systems scenes, gamified social-channel icons, interactive buildings, shipped crates, an update terminal, and matching world props. Desktop and dock launchers deliberately use restrained Mac-like tiles. The desktop also includes a custom pixel cursor, drifting clouds, day/night themes, and a grounded Voice Agent Lab.
+
+## Voice concierge
+
+`Voice Agent.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. No private Gemini key is embedded in the static site. A Gemini-backed conversational model would require a server-side proxy.
 
 ## Content guardrails
 

@@ -48,17 +48,25 @@
       <div id="world-scroll" class="world-scroll">
         <section id="home" class="world-section home-world" data-district="HOME BASE">
           <div class="world-noise" aria-hidden="true"></div>
+          <div class="sky-glow" aria-hidden="true"></div>
+          <div class="distant-ridge ridge-back" aria-hidden="true"></div>
+          <div class="distant-ridge ridge-front" aria-hidden="true"></div>
           <div class="tile-grass" aria-hidden="true"></div>
           <div class="pixel-water water-right" aria-hidden="true"></div>
           <div class="cliff-edge" aria-hidden="true"></div>
           <div class="world-cloud cloud-one" aria-hidden="true"></div>
           <div class="world-cloud cloud-two" aria-hidden="true"></div>
-          <div class="world-sun" aria-hidden="true"></div>
+          <div class="world-cloud cloud-three" aria-hidden="true"></div>
+          <div class="world-cloud cloud-four" aria-hidden="true"></div>
+          <div class="night-stars" aria-hidden="true"></div>
+          <button class="world-sun" type="button" data-theme-toggle aria-label="Switch to night mode"><span aria-hidden="true"></span></button>
           <div class="path path-home" aria-hidden="true"></div>
+          <img class="desktop-prop desktop-bench" src="./assets/premium-world/park-bench.png" alt="" />
+          <img class="desktop-prop desktop-plant" src="./assets/premium-world/potted-plant.png" alt="" />
 
           <article class="sticky" data-open="updates" tabindex="0" role="button">
             <span>UPDATE.LOG</span>
-            <p>RAJ OS v3.0<br />DESKTOP MODE<br />IS LIVE.</p>
+            <p>RAJ OS v3.2<br />NIGHT + VOICE<br />IS LIVE.</p>
             <small>PATCHED 29 JUL 2026 ↗</small>
           </article>
 
@@ -72,25 +80,22 @@
             </div>
           </div>
 
-          <figure class="hero-portrait">
-            <img src="./assets/raj-avatar.png" alt="Pixel-art portrait of Shreyas Raj" />
-            <figcaption><span>PLAYER 01</span><strong>SHREYAS RAJ</strong><small>FOUNDER MODE: ACTIVE</small></figcaption>
-          </figure>
+          <button class="voice-lab-widget" type="button" data-open="voice" aria-label="Open Voice Agent Lab">
+            <img src="./assets/premium-world/voice-lab.png" alt="" />
+            <span><strong>VOICE AGENT LAB</strong><small>ONLINE · TALK TO RAJ OS</small></span>
+          </button>
 
           <section class="home-apps" aria-label="Core RAJ OS applications">
-            <button class="world-app" type="button" data-open="projects"><img src="./assets/premium-apps/projects.png" alt="" /><strong>Projects</strong><small>Shipped files</small></button>
-            <button class="world-app" type="button" data-open="revenue"><img src="./assets/premium-apps/results.png" alt="" /><strong>Results</strong><small>Numbers + proof</small></button>
-            <button class="world-app" type="button" data-open="process"><img src="./assets/premium-apps/systems.png" alt="" /><strong>Systems</strong><small>How we work</small></button>
-            <button class="world-app" type="button" data-open="testimonials"><img src="./assets/premium-apps/testimonials.png" alt="" /><strong>Testimonials</strong><small>Client voices</small></button>
-            <button class="world-app" type="button" data-open="team"><img src="./assets/premium-apps/team.png" alt="" /><strong>Team</strong><small>Two people</small></button>
-            <button class="world-app" type="button" data-open="socials"><img src="./assets/premium-apps/socials.png" alt="" /><strong>Socials</strong><small>100K+ connected</small></button>
-            <button class="world-app" type="button" data-open="browser"><img src="./assets/premium-dock/command.png" alt="" /><strong>Browser</strong><small>Open the web</small></button>
-            <button class="world-app emergency-app" type="button" data-open="emergency"><img src="./assets/premium-apps/contact.png" alt="" /><strong>Emergency</strong><small>WhatsApp / Call</small></button>
+            <button class="world-app" type="button" data-open="projects"><span class="mac-app-icon tone-rose">PRJ</span><strong>Projects</strong><small>Shipped files</small></button>
+            <button class="world-app" type="button" data-open="revenue"><span class="mac-app-icon tone-gold">ROI</span><strong>Results</strong><small>Numbers + proof</small></button>
+            <button class="world-app" type="button" data-open="process"><span class="mac-app-icon tone-blue">SYS</span><strong>Systems</strong><small>How we work</small></button>
+            <button class="world-app" type="button" data-open="testimonials"><span class="mac-app-icon tone-violet">PLAY</span><strong>Testimonials</strong><small>Client voices</small></button>
+            <button class="world-app" type="button" data-open="team"><span class="mac-app-icon tone-mint">02</span><strong>Team</strong><small>Two people</small></button>
+            <button class="world-app" type="button" data-open="socials"><span class="mac-app-icon tone-pink">@</span><strong>Socials</strong><small>100K+ connected</small></button>
+            <button class="world-app" type="button" data-open="browser"><span class="mac-app-icon browser-tile"><i></i>WWW</span><strong>Browser</strong><small>Open the web</small></button>
+            <button class="world-app emergency-app" type="button" data-open="emergency"><span class="mac-app-icon emergency-tile">SOS</span><strong>Emergency</strong><small>WhatsApp / Call</small></button>
           </section>
 
-          <aside class="movement-hint">
-            <span>MOVE RAJ</span><kbd>WASD</kbd><kbd>ARROWS</kbd><small>or click anywhere in the world</small>
-          </aside>
           <button class="scroll-cue" type="button" data-open="projects"><span>OPEN PROJECTS.APP</span><i></i></button>
         </section>
 
@@ -179,7 +184,7 @@
 
           <div class="update-ledger">
             <img class="update-terminal-sprite" src="./assets/premium-world/update-terminal.png" alt="" />
-            <article><span>v3.0.0</span><strong>DESKTOP MODE</strong><p>One-screen OS, premium app sprites, working browser, emergency contacts, draggable windows and a moving Raj.</p><time>29 JUL 2026</time></article>
+            <article><span>v3.2.0</span><strong>NIGHT + VOICE</strong><p>Click-to-toggle day/night, autonomous Raj, restrained desktop chrome, custom cursor, voice concierge and grounded Voice Lab.</p><time>29 JUL 2026</time></article>
             <article><span>v1.2.0</span><strong>PROOF VAULT</strong><p>Verified results, five client-video links, source-aware revenue framing.</p><time>29 JUL 2026</time></article>
             <article><span>v1.0.0</span><strong>RAJ OS BOOTED</strong><p>Desktop apps, draggable windows, command search and custom Raj portrait.</p><time>29 JUL 2026</time></article>
           </div>
@@ -197,13 +202,12 @@
             <div>
               <span>DISTRIBUTION.STATUS</span>
               <h3>100K+ people connected.</h3>
-              <p class="ban-note">My recent Instagram got banned 😭 · Active backup: @theshreyasraj9595</p>
+              <p class="ban-note">My 70K Instagram @ai.w.raj got banned 😭 · New account: @theshreyasraj9595</p>
             </div>
             <nav aria-label="Social links">
               <a href="https://www.youtube.com/@AIwithShreyasRaj" target="_blank" rel="noreferrer">YOUTUBE ↗</a>
               <a href="https://www.instagram.com/theshreyasraj9595/" target="_blank" rel="noreferrer">INSTAGRAM ↗</a>
               <a href="https://x.com/TopR9595" target="_blank" rel="noreferrer">X / TWITTER ↗</a>
-              <a href="https://www.linkedin.com/in/shreyasraj-" target="_blank" rel="noreferrer">LINKEDIN ↗</a>
               <a href="https://github.com/TopR9595" target="_blank" rel="noreferrer">GITHUB ↗</a>
             </nav>
           </div>
@@ -220,30 +224,23 @@
         </section>
       </div>
 
-      <div id="world-player" class="world-player" aria-label="Raj player character">
+      <div id="world-player" class="world-player" aria-label="Raj player character. Click to wave." role="button" tabindex="0">
         <span id="player-label">RAJ · HOME BASE</span>
         <img id="player-sprite" src="./assets/raj-front.png" alt="" />
         <i aria-hidden="true"></i>
       </div>
 
-      <div class="dpad" aria-label="Touch movement controls">
-        <button type="button" data-move="up" aria-label="Move up">▲</button>
-        <button type="button" data-move="left" aria-label="Move left">◀</button>
-        <button type="button" data-move="down" aria-label="Move down">▼</button>
-        <button type="button" data-move="right" aria-label="Move right">▶</button>
-      </div>
-
       <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
       <nav class="dock" aria-label="Application dock">
-        <button type="button" data-home aria-label="Show desktop"><img class="dock-sprite" src="./assets/premium-dock/home.png" alt="" /><small>Desktop</small></button>
-        <button type="button" data-open="projects" aria-label="Open projects"><img class="dock-sprite" src="./assets/premium-dock/projects.png" alt="" /><small>Work</small></button>
-        <button type="button" data-open="revenue" aria-label="Open revenue"><img class="dock-sprite" src="./assets/premium-dock/proof.png" alt="" /><small>Proof</small></button>
-        <button type="button" data-open="testimonials" aria-label="Open testimonials"><img class="dock-sprite" src="./assets/premium-dock/voices.png" alt="" /><small>Voices</small></button>
-        <button type="button" data-open="team" aria-label="Open team"><img class="dock-sprite" src="./assets/premium-dock/team.png" alt="" /><small>Team</small></button>
-        <button type="button" data-open="emergency" aria-label="Open emergency contact"><img class="dock-sprite" src="./assets/premium-dock/contact.png" alt="" /><small>Emergency</small></button>
+        <button type="button" data-home aria-label="Show desktop"><span class="dock-tile">OS</span><small>Desktop</small></button>
+        <button type="button" data-open="projects" aria-label="Open projects"><span class="dock-tile">PRJ</span><small>Work</small></button>
+        <button type="button" data-open="revenue" aria-label="Open revenue"><span class="dock-tile">ROI</span><small>Proof</small></button>
+        <button type="button" data-open="voice" aria-label="Open voice agent"><span class="dock-tile voice-dock">MIC</span><small>Voice</small></button>
+        <button type="button" data-open="team" aria-label="Open team"><span class="dock-tile">02</span><small>Team</small></button>
+        <button type="button" data-open="emergency" aria-label="Open emergency contact"><span class="dock-tile sos-dock">SOS</span><small>Emergency</small></button>
         <span class="dock-divider"></span>
-        <button type="button" data-open="browser" aria-label="Open browser"><img class="dock-sprite" src="./assets/premium-dock/command.png" alt="" /><small>Browser</small></button>
+        <button type="button" data-open="browser" aria-label="Open browser"><span class="dock-tile browser-dock">WWW</span><small>Browser</small></button>
       </nav>
     </main>
 
