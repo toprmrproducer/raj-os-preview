@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="RAJ OS — the interactive portfolio of Shreyas Raj, founder of RapidXAI."
+    />
+    <meta name="theme-color" content="#f7a9bd" />
+    <title>RAJ OS — Shreyas Raj</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Silkscreen:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <noscript>RAJ OS needs JavaScript enabled.</noscript>
+
+    <div id="boot" class="boot" aria-live="polite">
+      <button class="boot-skip os-button" type="button">SKIP BOOT ↗</button>
+      <div class="boot-mark">R</div>
+      <div class="boot-terminal">
+        <p class="boot-line" style="--delay: 0.1s">RAJ BIOS v18.0</p>
+        <p class="boot-line" style="--delay: 0.38s">LOADING PROOF, PROJECTS, AND UNREASONABLE AMBITION...</p>
+        <p class="boot-line" style="--delay: 0.75s">FOUNDER MODE: <span>ACTIVE</span></p>
+        <div class="boot-progress" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+      <p class="boot-title">this is not a résumé.<br /><em>this is my operating system.</em></p>
+    </div>
+
+    <main id="os" class="os" aria-label="RAJ OS desktop">
+      <header class="menubar">
+        <button class="brand-menu" type="button" data-open="about">
+          <span class="brand-pixel">R</span>
+          <strong>RAJ OS</strong>
+        </button>
+        <nav class="menu-links" aria-label="System menu">
+          <button type="button" data-open="projects">File</button>
+          <button type="button" data-open="about">Profile</button>
+          <button type="button" data-open="process">Systems</button>
+          <button type="button" data-command>Search</button>
+        </nav>
+        <div class="system-status">
+          <span class="status-live"><i></i> BUILDING</span>
+          <span class="signal" aria-label="Signal connected"><i></i><i></i><i></i></span>
+          <span id="clock">14:21</span>
+        </div>
+      </header>
+
+      <section class="desktop">
+        <div class="ambient-grid" aria-hidden="true"></div>
+        <div class="cloud cloud-a" aria-hidden="true"></div>
+        <div class="cloud cloud-b" aria-hidden="true"></div>
+        <div class="sun-disc" aria-hidden="true"></div>
+
+        <article class="sticky" data-open="contact" tabindex="0" role="button">
+          <span>FOUNDER.TXT</span>
+          <p>Building systems<br />that make money<br />while I sleep.</p>
+          <small>AVAILABLE FOR SELECT BUILDS ↗</small>
+        </article>
+
+        <div class="desktop-intro">
+          <p class="eyebrow">FOUNDER / OPERATOR / BUILDER</p>
+          <h1>Shreyas<br /><em>Raj.</em></h1>
+          <p>I build AI systems, revenue engines, and digital experiences that refuse to be ignored.</p>
+          <div class="intro-actions">
+            <button class="os-button primary" type="button" data-open="projects">ENTER THE WORK</button>
+            <button class="os-button" type="button" data-open="contact">START A BUILD</button>
+          </div>
+        </div>
+
+        <section class="app-grid" aria-label="Desktop applications">
+          <button class="desktop-app" type="button" data-open="projects" style="--app:#f5a39c">
+            <span class="pixel-icon icon-projects" aria-hidden="true"><i></i></span>
+            <strong>Projects</strong><small>Selected systems</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="revenue" style="--app:#c7f36b">
+            <span class="pixel-icon icon-revenue" aria-hidden="true"><i></i></span>
+            <strong>Revenue</strong><small>Numbers & proof</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="process" style="--app:#a8d7e8">
+            <span class="pixel-icon icon-process" aria-hidden="true"><i></i></span>
+            <strong>How We Work</strong><small>The operating loop</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="achievements" style="--app:#ffd95a">
+            <span class="pixel-icon icon-achievements" aria-hidden="true"><i></i></span>
+            <strong>Achievements</strong><small>Unlocked proof</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="team" style="--app:#b8a7e8">
+            <span class="pixel-icon icon-team" aria-hidden="true"><i></i></span>
+            <strong>Team</strong><small>The people layer</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="socials" style="--app:#f4b6cf">
+            <span class="pixel-icon icon-socials" aria-hidden="true"><i></i></span>
+            <strong>Socials</strong><small>100K+ community</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="about" style="--app:#e9d19d">
+            <span class="pixel-icon icon-about" aria-hidden="true"><i></i></span>
+            <strong>About Raj</strong><small>Profile.app</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="contact" style="--app:#a9e1d2">
+            <span class="pixel-icon icon-contact" aria-hidden="true"><i></i></span>
+            <strong>Contact</strong><small>Open a channel</small>
+          </button>
+        </section>
+
+        <div class="avatar-zone">
+          <div class="avatar-speech">
+            <span>RAJ.AI</span>
+            <p>Click an app.<br />The proof is inside.</p>
+          </div>
+          <img src="./assets/raj-avatar.png" alt="Pixel-art portrait of Shreyas Raj" />
+          <div class="avatar-shadow" aria-hidden="true"></div>
+        </div>
+
+        <aside class="proof-rail" aria-label="Portfolio statistics">
+          <div><strong>100K+</strong><span>COMMUNITY</span></div>
+          <div><strong>1.81M</strong><span>YT VIEWS</span></div>
+          <div><strong>5</strong><span>VIDEO TESTIMONIALS</span></div>
+        </aside>
+
+        <div id="window-layer" class="window-layer" aria-live="polite"></div>
+
+        <nav class="dock" aria-label="Application dock">
+          <button type="button" data-home aria-label="Show desktop">
+            <span class="dock-icon home-glyph"></span><small>Home</small>
+          </button>
+          <button type="button" data-open="projects" aria-label="Open projects">
+            <span class="dock-icon work-glyph"></span><small>Work</small>
+          </button>
+          <button type="button" data-open="revenue" aria-label="Open revenue">
+            <span class="dock-icon graph-glyph"></span><small>Proof</small>
+          </button>
+          <button type="button" data-open="about" aria-label="Open about">
+            <span class="dock-icon user-glyph"></span><small>About</small>
+          </button>
+          <button type="button" data-open="socials" aria-label="Open socials">
+            <span class="dock-icon signal-glyph"></span><small>Social</small>
+          </button>
+          <button type="button" data-open="contact" aria-label="Open contact">
+            <span class="dock-icon mail-glyph"></span><small>Contact</small>
+          </button>
+          <span class="dock-divider"></span>
+          <button type="button" data-command aria-label="Open command palette">
+            <span class="dock-icon command-glyph"></span><small>Command</small>
+          </button>
+        </nav>
+      </section>
+    </main>
+
+    <div id="command-palette" class="command-palette" aria-hidden="true">
+      <button class="palette-backdrop" type="button" aria-label="Close command palette"></button>
+      <section class="palette-panel" role="dialog" aria-modal="true" aria-labelledby="palette-title">
+        <div class="palette-titlebar">
+          <span id="palette-title">RAJ SEARCH</span><kbd>ESC</kbd>
+        </div>
+        <label>
+          <span>›</span>
+          <input id="command-input" type="search" placeholder="Open an app or run a command..." autocomplete="off" />
+        </label>
+        <div id="command-results" class="command-results"></div>
+      </section>
+    </div>
+
+    <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
