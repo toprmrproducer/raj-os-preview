@@ -1,3 +1,11 @@
+const proofVideos = [
+  { id: "Oe2s8j6JomQ", label: "AI Deployment", type: "Vertical testimonial", duration: "00:39", url: "https://youtube.com/shorts/Oe2s8j6JomQ" },
+  { id: "ktfwr3nOFeU", label: "ROI Consulting", type: "Vertical testimonial", duration: "00:59", url: "https://youtube.com/shorts/ktfwr3nOFeU" },
+  { id: "IIjhViAlMTA", label: "AI Services", type: "Vertical testimonial", duration: "01:05", url: "https://youtube.com/shorts/IIjhViAlMTA" },
+  { id: "9OCD3Udnfs8", label: "Client Voice 04", type: "Client testimonial", duration: "00:44", url: "https://youtu.be/9OCD3Udnfs8" },
+  { id: "mtmHkGaE0r0", label: "Client Voice 05", type: "Client testimonial", duration: "01:30", url: "https://youtu.be/mtmHkGaE0r0" },
+];
+
 const apps = {
   projects: {
     title: "Projects — Finder",
@@ -19,23 +27,23 @@ const apps = {
       </div>`,
   },
   revenue: {
-    title: "Revenue — Proof.app",
+    title: "Results — Proof.app",
     chrome: "#c7f36b",
-    subtitle: "THE NUMBERS",
+    subtitle: "PUBLIC EVIDENCE",
     render: () => `
       <div class="app-content">
         <span class="app-kicker">RECEIPTS, NOT VIBES</span>
-        <h2 class="app-heading">Built for<br><em>commercial reality.</em></h2>
-        <p class="app-deck">The public scoreboard behind the work. Numbers are labelled by what they actually mean, because inflated claims are useless.</p>
+        <h2 class="app-heading">Visible work.<br><em>Playable proof.</em></h2>
+        <p class="app-deck">The public scoreboard behind the work. Internal company revenue stays private; this surface only shows evidence visitors can inspect.</p>
         <div class="metric-grid">
-          ${metric("₹5–6L","MONTHLY COMPANY GROSS","Current internal operating range for RapidXAI.","#d8efaf")}
-          ${metric("100K+","BUILDER COMMUNITY","31.7K YouTube + 71.1K Instagram at the latest recorded check.","#f6c1d0")}
+          ${metric("6","SHIPPED SYSTEMS","Selected public products, websites, and operating systems.","#d8efaf")}
           ${metric("1.81M","YOUTUBE VIEWS","Across 315 published videos at the latest saved channel audit.","#c4e5ed")}
-          ${metric("5","VIDEO TESTIMONIALS","Real client testimonial videos archived and ready for proof.","#f8dfa2")}
-          ${metric("₹5L","LARGEST SAVED AI DEAL","One-time white-label AI ownership engagement in the internal record.","#d1c5ee")}
-          ${metric("₹1/min","AI LAYER FROM","Promotional AI-layer cost. Full carrier-inclusive cost is higher.","#d9edc0")}
+          ${metric("100K+","BUILDER COMMUNITY","31.7K YouTube + 71.1K Instagram at the latest recorded check.","#f6c1d0")}
+          ${metric("5","PLAYABLE TESTIMONIALS","Real client videos embedded inside Proof.app.","#f8dfa2")}
+          ${metric("315","PUBLISHED VIDEOS","Recorded YouTube publishing archive at the latest saved audit.","#d1c5ee")}
+          ${metric("17","K_P3 PRODUCT FLOWS","The final Kawsaypac Preview 3 catalog experience.","#d9edc0")}
         </div>
-        <p class="source-note">SYSTEM NOTE: The $1.2M portfolio-sales figure stays out of the headline until attribution and client permission are verified. Proof beats bullshit.</p>
+        <p class="source-note">SYSTEM NOTE: company revenue and unverified attribution claims are intentionally private. Open Testimonials.app for the actual client videos.</p>
       </div>`,
   },
   process: {
@@ -72,7 +80,7 @@ const apps = {
         <div class="badge-grid">
           ${badge("100K","Audience Engine","Built a six-figure community around practical AI building.","#f5a39c")}
           ${badge("1.8M","Attention Earned","Crossed 1.81 million recorded YouTube views.","#a8d7e8")}
-          ${badge("CEO","Founder Mode","Built RapidXAI into a real monthly revenue operation.","#c7f36b")}
+          ${badge("CEO","Founder Mode","Built RapidXAI into a real commercial operation.","#c7f36b")}
           ${badge("05","Client Proof","Archived five real video testimonials.","#ffd95a")}
           ${badge("18","Young Operator","Turned 18 while running an AI systems company.","#b8a7e8")}
           ${badge("LIVE","Ship Streak","Multiple production websites and AI systems launched.","#a9e1d2")}
@@ -85,18 +93,12 @@ const apps = {
     chrome: "#ffd95a",
     subtitle: "5 REAL VIDEOS",
     render: () => `
-      <div class="app-content">
+      <div class="app-content video-proof-app">
         <span class="app-kicker">CLIENT VOICES / YOUTUBE</span>
         <h2 class="app-heading">Do not trust me.<br><em>Press play.</em></h2>
-        <p class="app-deck">Five real RapidXAI client testimonial videos. Labels stay service-based because client names and companies have not been cleared for public attribution.</p>
-        <div class="social-list">
-          ${social("01","AI Deployment","Vertical testimonial · 00:39","https://youtube.com/shorts/Oe2s8j6JomQ","#f5a39c")}
-          ${social("02","ROI Consulting","Vertical testimonial · 00:59","https://youtube.com/shorts/ktfwr3nOFeU","#c7f36b")}
-          ${social("03","AI Services","Vertical testimonial · 01:05","https://youtube.com/shorts/IIjhViAlMTA","#a8d7e8")}
-          ${social("04","Client Voice","Testimonial · 00:44","https://youtu.be/9OCD3Udnfs8","#b8a7e8")}
-          ${social("05","Client Voice","Testimonial · 01:30","https://youtu.be/mtmHkGaE0r0","#ffd95a")}
-        </div>
-        <p class="source-note">Every card opens the canonical YouTube upload. No invented names, titles, or results.</p>
+        <p class="app-deck">Five real RapidXAI client testimonial videos with their actual voices. Choose a card to play it here, expand the theater, or open the canonical YouTube upload.</p>
+        ${renderProofTheater()}
+        <p class="source-note">No invented client names, companies, titles, or outcomes. Playback comes directly from YouTube and starts only after your interaction.</p>
       </div>`,
   },
   journey: {
@@ -126,7 +128,7 @@ const apps = {
         <header><span>FOUNDER.TXT</span><small>SHREYASRAJ.COM</small></header>
         <p class="notepad-lead">Building systems<br>that make money<br>while I sleep.</p>
         <p>I am Shreyas Raj—founder, operator, and AI builder. I care about commercially useful systems: products that ship, automations that remove expensive work, and interfaces people remember.</p>
-        <p>The main folders on this desktop are Projects and Revenue. Start there. The rest explains how the machine works.</p>
+        <p>The main folders on this desktop are Projects and Results. Start there. The rest explains how the machine works.</p>
         <blockquote>My word is iron. I do what I say, I say what I do.</blockquote>
         <footer>AVAILABLE FOR SELECT BUILDS · LAST PATCHED 29 JUL 2026</footer>
       </div>`,
@@ -157,13 +159,14 @@ const apps = {
   updates: {
     title: "Updates — Changelog.app",
     chrome: "#9ec58f",
-    subtitle: "LIVE OS / v4.0.0",
+    subtitle: "LIVE OS / v4.1.0",
     render: () => `
       <div class="app-content">
         <span class="app-kicker">PUBLIC CHANGELOG</span>
         <h2 class="app-heading">A portfolio that<br><em>keeps shipping.</em></h2>
         <p class="app-deck">RAJ OS gets patched as the business changes. Projects, proof, lessons, and experiments become visible updates instead of stale résumé bullets.</p>
         <div class="process-list">
+          ${step("v4.1.0 · Video Proof","Embedded five real YouTube testimonials with actual audio, thumbnails, playlist selection, cinema expansion, and direct source fallbacks.","#ffd95a")}
           ${step("v4.0.0 · Homepage Mode","Restored the original desktop composition, removed the game world, added Day/Night/Dark themes, professional iconography, honest activity, Founder.txt, and Journey.app.","#f5a39c")}
           ${step("v3.2.0 · Night + Voice","Added a safe browser-native voice concierge and appearance controls.","#a9e1d2")}
           ${step("v3.0.0 · Desktop Mode","One-screen desktop, working browser, emergency channel, movable windows, and a moving Raj.","#c7f36b")}
@@ -361,6 +364,58 @@ function step(title, copy, color) { return `<article class="process-step" style=
 function milestone(year, title, copy, color) { return `<article class="journey-entry" style="--milestone:${color}"><time>${year}</time><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
 function badge(glyph, title, copy, color) { return `<article class="badge-card" style="--badge:${color}"><span class="badge-glyph">${glyph}</span><h3>${title}</h3><p>${copy}</p></article>`; }
 function team(initials, name, role, copy, color) { return `<article class="team-card" style="--team:${color}"><span class="team-avatar">${initials}</span><h3>${name}</h3><strong>${role}</strong><p>${copy}</p></article>`; }
+function renderProofTheater() {
+  const first = proofVideos[0];
+  return `
+    <section class="proof-theater" data-proof-theater>
+      <div class="proof-screen">
+        <div class="proof-screen-bar">
+          <span><i></i> NOW PLAYING</span>
+          <strong data-proof-now>${first.label}</strong>
+          <small data-proof-duration>${first.duration}</small>
+        </div>
+        <div class="proof-frame-wrap">
+          <iframe
+            data-proof-frame
+            src="https://www.youtube-nocookie.com/embed/${first.id}?rel=0&modestbranding=1"
+            title="${first.label} client testimonial"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="proof-screen-actions">
+          <button type="button" data-proof-expand aria-pressed="false">EXPAND THEATER</button>
+          <a data-proof-external href="${first.url}" target="_blank" rel="noreferrer">OPEN ON YOUTUBE ↗</a>
+        </div>
+      </div>
+      <div class="proof-playlist" aria-label="Client testimonial videos">
+        ${proofVideos.map((video, index) => `
+          <button
+            class="proof-video-card ${index === 0 ? "active" : ""}"
+            type="button"
+            data-proof-video="${video.id}"
+            data-proof-label="${video.label}"
+            data-proof-duration="${video.duration}"
+            data-proof-url="${video.url}"
+            aria-pressed="${index === 0 ? "true" : "false"}"
+          >
+            <span class="proof-thumb">
+              <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg" alt="${video.label} YouTube thumbnail" loading="lazy" />
+              <i aria-hidden="true"></i>
+              <time>${video.duration}</time>
+            </span>
+            <span class="proof-card-copy">
+              <small>${String(index + 1).padStart(2, "0")} / CLIENT VOICE</small>
+              <strong>${video.label}</strong>
+              <em>${video.type}</em>
+            </span>
+          </button>
+        `).join("")}
+      </div>
+    </section>`;
+}
 function social(mark, name, copy, url, color) {
   const sprite = {
     YT: "./assets/premium-dock/voices.png",
@@ -387,13 +442,18 @@ function openApp(id, options = {}) {
   if (openWindows.has(id)) {
     const existing = openWindows.get(id);
     existing.classList.remove("minimized");
+    resumeProofMedia(existing);
     focusWindow(existing);
+    existing.focus({ preventScroll: true });
     return;
   }
 
   const win = document.createElement("section");
   win.className = "os-window";
   win.dataset.app = id;
+  win.tabIndex = -1;
+  win.setAttribute("role", "dialog");
+  win.setAttribute("aria-modal", "false");
   win.style.setProperty("--chrome", app.chrome);
   const desktopWidth = window.innerWidth;
   const baseLeft = desktopWidth > 760 ? Math.min(180 + (cascade % 5) * 34, desktopWidth - 730) : 8;
@@ -414,23 +474,43 @@ function openApp(id, options = {}) {
         <button class="window-control min" type="button" aria-label="Minimize ${app.title}"></button>
         <button class="window-control max" type="button" aria-label="Maximize ${app.title}"></button>
       </div>
-      <strong class="window-title">${app.title}</strong>
+      <strong class="window-title" id="window-title-${id}">${app.title}</strong>
       <span class="window-meta">${app.subtitle}</span>
     </header>
     <div class="window-body">${app.render()}</div>`;
   layer.appendChild(win);
+  win.setAttribute("aria-labelledby", `window-title-${id}`);
   openWindows.set(id, win);
   document.querySelectorAll(`[data-open="${id}"]`).forEach(el => el.classList.add("open"));
   bindWindow(win);
   focusWindow(win);
+  win.focus({ preventScroll: true });
   recordVisit(id, options.auto);
+}
+
+function pauseProofMedia(win) {
+  const frame = win.querySelector("[data-proof-frame]");
+  if (!frame || frame.src === "about:blank") return;
+  frame.dataset.restoreSrc = frame.src;
+  frame.src = "about:blank";
+}
+
+function resumeProofMedia(win) {
+  const frame = win.querySelector("[data-proof-frame]");
+  if (!frame?.dataset.restoreSrc) return;
+  frame.src = frame.dataset.restoreSrc;
+  delete frame.dataset.restoreSrc;
 }
 
 function bindWindow(win) {
   const bar = win.querySelector(".window-titlebar");
   win.addEventListener("pointerdown", () => focusWindow(win));
   win.querySelector(".close").addEventListener("click", (event) => { event.stopPropagation(); closeWindow(win); });
-  win.querySelector(".min").addEventListener("click", (event) => { event.stopPropagation(); win.classList.add("minimized"); });
+  win.querySelector(".min").addEventListener("click", (event) => {
+    event.stopPropagation();
+    pauseProofMedia(win);
+    win.classList.add("minimized");
+  });
   win.querySelector(".max").addEventListener("click", (event) => { event.stopPropagation(); win.classList.toggle("maximized"); });
   bar.addEventListener("dblclick", () => win.classList.toggle("maximized"));
   bar.addEventListener("pointerdown", startDrag);
@@ -464,6 +544,44 @@ function bindWindow(win) {
   }
   const voiceInput = win.querySelector("[data-voice-input]");
   if (voiceInput) bindVoiceAgent(win, voiceInput);
+  const proofTheater = win.querySelector("[data-proof-theater]");
+  if (proofTheater) bindProofTheater(win, proofTheater);
+}
+
+function bindProofTheater(win, theater) {
+  const frame = theater.querySelector("[data-proof-frame]");
+  const nowPlaying = theater.querySelector("[data-proof-now]");
+  const duration = theater.querySelector("[data-proof-duration]");
+  const external = theater.querySelector("[data-proof-external]");
+  const expand = theater.querySelector("[data-proof-expand]");
+  const cards = [...theater.querySelectorAll("[data-proof-video]")];
+
+  const selectVideo = card => {
+    cards.forEach(item => {
+      const selected = item === card;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+    nowPlaying.textContent = card.dataset.proofLabel;
+    duration.textContent = card.dataset.proofDuration;
+    external.href = card.dataset.proofUrl;
+    frame.title = `${card.dataset.proofLabel} client testimonial`;
+    delete frame.dataset.restoreSrc;
+    frame.src = `https://www.youtube-nocookie.com/embed/${card.dataset.proofVideo}?autoplay=1&rel=0&modestbranding=1`;
+    toast("PROOF LOADED", `${card.dataset.proofLabel} · ${card.dataset.proofDuration}`);
+  };
+
+  cards.forEach(card => card.addEventListener("click", () => selectVideo(card)));
+  theater.querySelectorAll(".proof-thumb img").forEach(image => image.addEventListener("error", () => {
+    image.hidden = true;
+    image.closest(".proof-thumb")?.classList.add("thumb-error");
+  }));
+  expand.addEventListener("click", () => {
+    const expanded = theater.classList.toggle("cinema-mode");
+    win.classList.toggle("proof-cinema-window", expanded);
+    expand.textContent = expanded ? "EXIT THEATER" : "EXPAND THEATER";
+    expand.setAttribute("aria-pressed", String(expanded));
+  });
 }
 
 function bindVoiceAgent(win, voiceInput) {
@@ -508,7 +626,7 @@ function bindVoiceAgent(win, voiceInput) {
       response = "Opening the shipped project files. Kawsaypac Preview 3 is the final commerce preview.";
       target = "projects";
     } else if (/result|revenue|number|proof|money/.test(q)) {
-      response = "Opening verified results and commercial proof. The headline range is five to six lakh rupees in monthly company gross.";
+      response = "Opening public results and inspectable proof. Internal company revenue stays private.";
       target = "revenue";
     } else if (/system|process|how.*work/.test(q)) {
       response = "Opening the RapidXAI operating system and delivery loop.";
@@ -614,7 +732,10 @@ function closeFocused() {
   if (focused) closeWindow(focused);
 }
 function showDesktop() {
-  openWindows.forEach(win => win.classList.add("minimized"));
+  openWindows.forEach(win => {
+    pauseProofMedia(win);
+    win.classList.add("minimized");
+  });
   toast("SHOW DESKTOP", "All windows minimized. Click an open app to restore it.");
 }
 

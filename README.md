@@ -33,6 +33,10 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 
 `Voice Agent.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. No private Gemini key is embedded in the static site. A Gemini-backed conversational model would require a server-side proxy.
 
+## Video proof
+
+`Testimonials.app` contains five real YouTube testimonial videos with their original audio, thumbnails, durations, a selectable in-window player, cinema expansion, and canonical YouTube fallbacks. Only one privacy-enhanced YouTube iframe is mounted at a time. Playback never autostarts on page load and is stopped when the proof window is minimized.
+
 ## Content guardrails
 
-The public metrics are taken from Shreyas's source-backed portfolio brief. Activity notifications use verified project and proof events; no fake company or revenue win is presented as real. The unverified `$1.2M+` attribution claim is intentionally excluded from the headline until underlying proof and client permission are confirmed.
+The public metrics are taken from Shreyas's source-backed portfolio brief. Company revenue and unverified attribution claims stay private. Activity notifications use inspectable project, audience, and proof events; no fake company or revenue win is presented as real.
