@@ -54,6 +54,10 @@ const apps = {
           ${step("Test the full loop","Real-browser QA, mobile behavior, edge cases, and the actual end-user outcome. “It compiled” means nothing.","#c7f36b")}
           ${step("Ship, measure, improve","Production verification, evidence, handoff, then iteration from real usage instead of opinions.","#b8a7e8")}
         </div>
+        <div class="app-scene-grid">
+          <figure><img src="./assets/raj-fitness.webp" alt="Shreyas training in a pixel-art kickboxing gym"><figcaption>A weak operator builds a weak business.</figcaption></figure>
+          <figure><img src="./assets/raj-systems.webp" alt="Shreyas inside a pixel-art systems control room"><figcaption>Your business is not strong if it needs you awake.</figcaption></figure>
+        </div>
       </div>`,
   },
   achievements: {
@@ -76,6 +80,25 @@ const apps = {
         <div class="quote">“My word is iron. I do what I say, I say what I do.”</div>
       </div>`,
   },
+  testimonials: {
+    title: "Testimonials — Voices.app",
+    chrome: "#ffd95a",
+    subtitle: "5 REAL VIDEOS",
+    render: () => `
+      <div class="app-content">
+        <span class="app-kicker">CLIENT VOICES / YOUTUBE</span>
+        <h2 class="app-heading">Do not trust me.<br><em>Press play.</em></h2>
+        <p class="app-deck">Five real RapidXAI client testimonial videos. Labels stay service-based because client names and companies have not been cleared for public attribution.</p>
+        <div class="social-list">
+          ${social("01","AI Deployment","Vertical testimonial · 00:39","https://youtube.com/shorts/Oe2s8j6JomQ","#f5a39c")}
+          ${social("02","ROI Consulting","Vertical testimonial · 00:59","https://youtube.com/shorts/ktfwr3nOFeU","#c7f36b")}
+          ${social("03","AI Services","Vertical testimonial · 01:05","https://youtube.com/shorts/IIjhViAlMTA","#a8d7e8")}
+          ${social("04","Client Voice","Testimonial · 00:44","https://youtu.be/9OCD3Udnfs8","#b8a7e8")}
+          ${social("05","Client Voice","Testimonial · 01:30","https://youtu.be/mtmHkGaE0r0","#ffd95a")}
+        </div>
+        <p class="source-note">Every card opens the canonical YouTube upload. No invented names, titles, or results.</p>
+      </div>`,
+  },
   team: {
     title: "Team — People.app",
     chrome: "#b8a7e8",
@@ -83,15 +106,18 @@ const apps = {
     render: () => `
       <div class="app-content">
         <span class="app-kicker">THE PEOPLE LAYER</span>
-        <h2 class="app-heading">Small team.<br><em>Serious output.</em></h2>
-        <p class="app-deck">A lean network of strategy, engineering, design, and specialist partners assembled around the problem, not around headcount theatre.</p>
+        <h2 class="app-heading">Two people.<br><em>Conquering the world.</em></h2>
+        <p class="app-deck">A two-person operating team built around commercial leverage and deep technical execution.</p>
+        <div class="team-party">
+          <figure><img src="./assets/raj-front.png" alt=""><figcaption>PLAYER 01 · SHREYAS</figcaption></figure>
+          <b>+</b>
+          <figure><img src="./assets/hardik-front.png" alt=""><figcaption>PLAYER 02 · HARDIK</figcaption></figure>
+        </div>
         <div class="team-grid">
           ${team("SR","Shreyas Raj","Founder / Strategy / Product","Owns the business outcome, product direction, commercial system, and final quality bar.","#f5a39c")}
-          ${team("HG","Technical Partner","Engineering / Infrastructure","Builds and operates technical systems across voice, product, and deployment layers.","#a8d7e8")}
-          ${team("AI","AI Build Swarm","Research / Code / QA","Specialized agents accelerate research, implementation, regression testing, and documentation.","#c7f36b")}
-          ${team("+","Specialist Network","Design / Media / Delivery","Trusted collaborators join when a build needs deep domain craft without permanent agency bloat.","#ffd95a")}
+          ${team("HA","Hardik Agarwal","Engineering / Infrastructure","Builds and operates technical systems across voice, agent products, telephony, infrastructure, and deployment.","#a8d7e8")}
         </div>
-        <p class="source-note">SYSTEM NOTE: Team identities and client-facing attribution stay intentionally minimal until public naming is approved.</p>
+        <div class="quote">Strategy × engineering. Two people. One unreasonable target.</div>
       </div>`,
   },
   socials: {
@@ -103,12 +129,29 @@ const apps = {
         <span class="app-kicker">THE DISTRIBUTION LAYER</span>
         <h2 class="app-heading">Build in public.<br><em>Learn in public.</em></h2>
         <p class="app-deck">I document the tools, decisions, failures, and systems behind the work for builders who want usable signal.</p>
+        <p class="source-note">My recent Instagram @ai.w.raj got banned 😭. The active backup is @theshreyasraj9595.</p>
         <div class="social-list">
           ${social("YT","YouTube","31.7K subscribers · 1.81M views","https://www.youtube.com/@AIwithShreyasRaj","#ffb2ae")}
           ${social("IG","Instagram","71.1K recorded followers","https://www.instagram.com/theshreyasraj9595/","#f3b8db")}
           ${social("X","X / Twitter","Daily experiments and operator notes","https://x.com/TopR9595","#b9dfe8")}
           ${social("IN","LinkedIn","Founder updates and business systems","https://www.linkedin.com/in/shreyasraj-","#c7f36b")}
           ${social("GH","GitHub","Products, experiments, and shipped code","https://github.com/TopR9595","#d4c7ed")}
+        </div>
+      </div>`,
+  },
+  updates: {
+    title: "Updates — Changelog.app",
+    chrome: "#9ec58f",
+        subtitle: "LIVE OS / v3.0.0",
+    render: () => `
+      <div class="app-content">
+        <span class="app-kicker">PUBLIC CHANGELOG</span>
+        <h2 class="app-heading">A portfolio that<br><em>keeps shipping.</em></h2>
+        <p class="app-deck">RAJ OS gets patched as the business changes. Projects, proof, lessons, and experiments become visible updates instead of stale résumé bullets.</p>
+        <div class="process-list">
+          ${step("v3.0.0 · Desktop Mode","One-screen desktop, premium app sprites, working browser, emergency channel, movable windows, and a moving Raj.","#c7f36b")}
+          ${step("v1.2.0 · Proof Vault","Source-backed metrics and five canonical client testimonial links added.","#ffd95a")}
+          ${step("v1.0.0 · First Boot","Desktop OS, draggable windows, command search, projects, revenue, process, achievements, socials, and contact.","#f5a39c")}
         </div>
       </div>`,
   },
@@ -164,6 +207,49 @@ const apps = {
         </div>
       </div>`,
   },
+  browser: {
+    title: "Browser — RajNet.app",
+    chrome: "#a8d7e8",
+    subtitle: "WEB / SECURE",
+    render: () => `
+      <div class="browser-app">
+        <div class="browser-toolbar">
+          <button type="button" data-browser-home aria-label="Browser home">⌂</button>
+          <label><span>HTTPS://</span><input type="text" value="rapidxai.com" aria-label="Web address" /></label>
+          <button type="button" data-browser-go>GO</button>
+          <button type="button" data-browser-external>OPEN ↗</button>
+        </div>
+        <nav class="browser-bookmarks" aria-label="Browser bookmarks">
+          <button type="button" data-browser-url="https://rapidxai.com">RAPIDXAI</button>
+          <button type="button" data-browser-url="https://www.youtube.com/@AIwithShreyasRaj">YOUTUBE</button>
+          <button type="button" data-browser-url="https://www.instagram.com/theshreyasraj9595/">INSTAGRAM</button>
+          <button type="button" data-browser-url="https://github.com/TopR9595">GITHUB</button>
+        </nav>
+        <div class="browser-start">
+          <img src="./assets/premium-world/update-terminal.png" alt="" />
+          <span>RAJNET / READY</span>
+          <h2>Where do you<br /><em>want to go?</em></h2>
+          <p>This is a working browser surface. Some websites block embedded viewing; OPEN ↗ always launches the address in a full browser tab.</p>
+        </div>
+        <iframe class="browser-frame" title="RajNet browser page" hidden></iframe>
+      </div>`,
+  },
+  emergency: {
+    title: "Emergency — Hotline.app",
+    chrome: "#ff6b63",
+    subtitle: "PRIORITY CHANNEL",
+    render: () => `
+      <div class="app-content emergency-content">
+        <span class="app-kicker">URGENT BUSINESS IMPLEMENTATION</span>
+        <h2 class="app-heading">Need it fixed<br /><em>right now?</em></h2>
+        <p class="app-deck">For urgent AI implementation, broken revenue systems, or a high-speed build, reach Shreyas directly. Please use this for genuine business emergencies.</p>
+        <div class="emergency-actions">
+          <a class="emergency-primary" href="https://wa.me/919307512816?text=Hey%20Shreyas%2C%20I%20have%20an%20urgent%20business%20implementation." target="_blank" rel="noreferrer">WHATSAPP NOW ↗<small>+91 93075 12816</small></a>
+          <a class="emergency-secondary" href="tel:+919307512816">CALL SHREYAS ↗<small>Tap to call</small></a>
+          <a class="emergency-secondary" href="https://calendly.com/shreyasrajsony11/30min" target="_blank" rel="noreferrer">BOOK 30 MIN ↗<small>For non-emergency builds</small></a>
+        </div>
+      </div>`,
+  },
 };
 
 const projects = [];
@@ -180,6 +266,24 @@ const layer = document.querySelector("#window-layer");
 const palette = document.querySelector("#command-palette");
 const commandInput = document.querySelector("#command-input");
 const commandResults = document.querySelector("#command-results");
+const worldScroll = document.querySelector("#world-scroll");
+const worldPlayer = document.querySelector("#world-player");
+const playerSprite = worldPlayer.querySelector("img");
+const playerLabel = document.querySelector("#player-label");
+const spriteSources = {
+  down: "./assets/raj-front.png",
+  up: "./assets/raj-back.png",
+  left: "./assets/raj-side.png",
+  right: "./assets/raj-side.png",
+};
+const districtLabels = {
+  home: "RAJ · HOME BASE",
+  systems: "RAJ · SYSTEMS DISTRICT",
+  proof: "RAJ · PROOF PLAZA",
+  updates: "RAJ · UPDATE TERMINAL",
+};
+let playerState = { x: 0, y: 0, direction: "down", manualUntil: 0 };
+let walkTimer;
 
 function projectCard(index, title, category, copy, proofA, proofB, color, url) {
   return `<article class="project-card" style="--card:${color}" data-project-url="${url}">
@@ -201,8 +305,7 @@ function finishBoot() {
   boot.classList.add("done");
   os.classList.add("ready");
   setTimeout(() => {
-    toast("SYSTEM ONLINE", "RAJ OS loaded. Open an app or press ⌘K.");
-    openApp("about", { auto: true });
+    toast("SYSTEM ONLINE", "RAJ OS loaded. Open an app, move Raj, or press ⌘K.");
   }, 680);
 }
 
@@ -225,6 +328,11 @@ function openApp(id, options = {}) {
   const baseTop = desktopWidth > 760 ? 64 + (cascade % 5) * 27 : 8;
   win.style.left = `${Math.max(16, baseLeft)}px`;
   win.style.top = `${baseTop}px`;
+  if (id === "browser" && desktopWidth > 760) {
+    const browserWidth = Math.min(980, desktopWidth - 56);
+    win.style.left = `${Math.max(16, (desktopWidth - browserWidth) / 2)}px`;
+    win.style.top = "48px";
+  }
   win.style.zIndex = ++zTop;
   cascade += 1;
   win.innerHTML = `
@@ -260,6 +368,28 @@ function bindWindow(win) {
     if (url) window.open(url, "_blank", "noopener,noreferrer");
     else toast("CASE FILE", "This system is documented internally. Public deployment pending.");
   }));
+  const browserInput = win.querySelector(".browser-toolbar input");
+  const browserFrame = win.querySelector(".browser-frame");
+  if (browserInput && browserFrame) {
+    const normalizeUrl = value => /^https?:\/\//i.test(value.trim()) ? value.trim() : `https://${value.trim()}`;
+    const navigateBrowser = value => {
+      const url = normalizeUrl(value || browserInput.value);
+      browserInput.value = url.replace(/^https?:\/\//i, "");
+      browserFrame.hidden = false;
+      win.querySelector(".browser-start").hidden = true;
+      browserFrame.src = url;
+      toast("RAJNET", `Loading ${url.replace(/^https?:\/\//i, "")}`);
+    };
+    win.querySelector("[data-browser-go]").addEventListener("click", () => navigateBrowser());
+    win.querySelector("[data-browser-external]").addEventListener("click", () => window.open(normalizeUrl(browserInput.value), "_blank", "noopener,noreferrer"));
+    win.querySelector("[data-browser-home]").addEventListener("click", () => {
+      browserFrame.hidden = true;
+      browserFrame.removeAttribute("src");
+      win.querySelector(".browser-start").hidden = false;
+    });
+    win.querySelectorAll("[data-browser-url]").forEach(button => button.addEventListener("click", () => navigateBrowser(button.dataset.browserUrl)));
+    browserInput.addEventListener("keydown", event => { if (event.key === "Enter") navigateBrowser(); });
+  }
 }
 
 function startDrag(event) {
@@ -300,6 +430,46 @@ function closeFocused() {
 function showDesktop() {
   openWindows.forEach(win => win.classList.add("minimized"));
   toast("SHOW DESKTOP", "All windows minimized. Click an open app to restore it.");
+}
+
+function jumpTo(id) {
+  const section = document.querySelector(`#${id}`);
+  if (!section) return;
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+  playerLabel.textContent = districtLabels[id] || "RAJ · ONLINE";
+}
+
+function renderPlayer() {
+  worldPlayer.style.transform = `translate3d(${playerState.x}px, ${playerState.y}px, 0)`;
+  playerSprite.src = spriteSources[playerState.direction];
+  worldPlayer.classList.toggle("facing-left", playerState.direction === "left");
+  worldPlayer.classList.add("walking");
+  clearTimeout(walkTimer);
+  walkTimer = setTimeout(() => worldPlayer.classList.remove("walking"), 210);
+}
+
+function movePlayer(direction, multiplier = 1) {
+  const stepSize = 26 * multiplier;
+  const maxX = Math.max(110, window.innerWidth * .42);
+  const minY = -Math.max(180, window.innerHeight * .5);
+  const maxY = Math.max(70, window.innerHeight * .13);
+  playerState.direction = direction;
+  playerState.manualUntil = Date.now() + 1800;
+  if (direction === "left") playerState.x = Math.max(-maxX, playerState.x - stepSize);
+  if (direction === "right") playerState.x = Math.min(maxX, playerState.x + stepSize);
+  if (direction === "up") playerState.y = Math.max(minY, playerState.y - stepSize);
+  if (direction === "down") playerState.y = Math.min(maxY, playerState.y + stepSize);
+  renderPlayer();
+}
+
+function currentDistrict() {
+  const sections = [...document.querySelectorAll(".world-section")];
+  const focusLine = worldScroll.scrollTop + worldScroll.clientHeight * .44;
+  return sections.reduce((active, section) => section.offsetTop <= focusLine ? section : active, sections[0]);
+}
+
+function syncWorld() {
+  playerLabel.textContent = "RAJ · HOME BASE";
 }
 
 function recordVisit(id, silent = false) {
@@ -358,8 +528,21 @@ function runCommand(id) {
 document.addEventListener("click", event => {
   const opener = event.target.closest("[data-open]");
   if (opener) openApp(opener.dataset.open);
+  const jumper = event.target.closest("[data-jump]");
+  if (jumper) jumpTo(jumper.dataset.jump);
+  const mover = event.target.closest("[data-move]");
+  if (mover) movePlayer(mover.dataset.move);
   if (event.target.closest("[data-home]")) showDesktop();
   if (event.target.closest("[data-command]")) openPalette();
+  if (!event.target.closest("button, a, input, .os-window, .dock, .dpad, .sticky") && event.target.closest(".world-section")) {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight * .7;
+    playerState.x = Math.max(-window.innerWidth * .42, Math.min(window.innerWidth * .42, event.clientX - centerX));
+    playerState.y = Math.max(-window.innerHeight * .5, Math.min(window.innerHeight * .13, event.clientY - centerY));
+    playerState.direction = event.clientX < centerX ? "left" : "right";
+    playerState.manualUntil = Date.now() + 1800;
+    renderPlayer();
+  }
 });
 document.querySelector(".boot-skip").addEventListener("click", finishBoot);
 document.querySelector(".palette-backdrop").addEventListener("click", closePalette);
@@ -373,13 +556,32 @@ commandInput.addEventListener("keydown", event => {
 document.addEventListener("keydown", event => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); openPalette(); }
   if (event.key === "Escape") { palette.classList.contains("open") ? closePalette() : closeFocused(); }
+  if (event.target.matches("input, textarea") || event.target.isContentEditable || palette.classList.contains("open")) return;
+  const direction = {
+    ArrowUp: "up", w: "up", W: "up",
+    ArrowDown: "down", s: "down", S: "down",
+    ArrowLeft: "left", a: "left", A: "left",
+    ArrowRight: "right", d: "right", D: "right",
+  }[event.key];
+  if (direction) {
+    event.preventDefault();
+    movePlayer(direction);
+  }
 });
-document.querySelector(".sticky").addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") openApp("contact"); });
+document.querySelector(".sticky").addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") openApp(event.currentTarget.dataset.open);
+});
+worldScroll.addEventListener("scroll", syncWorld, { passive: true });
+window.addEventListener("resize", renderPlayer);
 
 function updateClock() {
   const now = new Date();
   document.querySelector("#clock").textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+  document.querySelector("#date").textContent = now.toLocaleDateString([], { day: "2-digit", month: "short" }).toUpperCase();
+  const zone = Intl.DateTimeFormat([], { timeZoneName: "short" }).formatToParts(now).find(part => part.type === "timeZoneName");
+  document.querySelector("#timezone").textContent = zone ? zone.value.toUpperCase() : "LOCAL";
 }
 updateClock();
+syncWorld();
 setInterval(updateClock, 30000);
 setTimeout(finishBoot, 2450);
