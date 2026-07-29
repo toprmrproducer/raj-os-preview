@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.1 preserves the original editorial desktop composition and makes the portfolio the core product: ten evidence-aware case files, four service lanes, a generated systems map, real video proof, a YouTube learning library, four production Dograh voice-agent embeds, daily motivation, music, two upgraded playable games, Netlify Garage Mail, video suggestions, portrait poses, ambient characters, hidden folders, and a visible SOS channel.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.2 preserves the original editorial desktop composition and makes the portfolio the core product: client-result case files with generated visuals, ten selected project files, a nested Finder-style case archive, four service lanes, real video proof and stories, a YouTube learning library, four production Dograh voice-agent embeds, a draggable daily transmission, a sticky-note whiteboard, movable desktop icons, music, Netlify Garage Mail, portrait poses, a visible SOS channel, and a responsive phone/tablet shell.
 
 ## Open locally
 
@@ -24,14 +24,16 @@ python3 -m http.server 4173
 - Press `Cmd/Ctrl + K` for command search.
 - Press `Escape` to close the active window.
 - On mobile, apps open as full-screen sheets.
+- Desktop icons, the Daily Transmission, and the Music Deck can be rearranged on larger screens and persist in the current browser.
+- Whiteboard notes can be added, edited, deleted, and rearranged; they also persist in the current browser.
 
 ## Art direction
 
-The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmospheric wallpaper, editorial typography, crisp OS chrome, a generated full-body Shreyas portrait, and one coherent family of ten generated pixel application icons. The Pokémon/GBA landscape, roaming sprite, hills, paths, grass, and mixed inventory-art direction were deliberately removed. Generated art is reserved for the portrait, icon family, and Voice Agent Lab surfaces.
+The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmospheric wallpaper, editorial typography, crisp OS chrome, a generated full-body Shreyas portrait, and one coherent family of generated pixel application icons. The Pokémon/GBA landscape, roaming character, running ambient figure, rocket cat, hills, paths, grass, and mixed inventory-art direction were deliberately removed. Generated art is reserved for Shreyas, the icon family, the Voice Agent Lab, and clearly identified case-study illustrations.
 
 ## Voice concierge
 
-`Talk to Shreyas.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. It also isolates four production Dograh widgets in a same-origin agent frame so their identical widget IDs cannot collide. The provider script/API origins are explicitly allowed by the production CSP. No private Gemini key is embedded in the static site.
+`AI Voice Agent.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. It also isolates four production Dograh widgets in a same-origin agent frame so their identical widget IDs cannot collide. The provider script/API origins are explicitly allowed by the production CSP. No private Gemini key is embedded in the static site.
 
 ## Video proof
 
@@ -39,7 +41,11 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 
 ## Games and music
 
-`Games.app` embeds local production copies of Viper Arena and Fangs.io. Viper Arena is the flagship single-player build with a persistent pilot name, top-ten local leaderboard, escalating mission goals, three boss waves, equipment loadouts, ASMR/Arcade/Mute sound modes, and responsive touch controls. Fangs.io stores a lighter local high-score table. Neon Drift remains a featured visual case file. `Music.app` and the desktop Sound Deck expose four user-supplied tracks with unmistakable play/pause controls, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
+The games remain available as secondary local apps but are intentionally removed from the primary desktop surface. Viper Arena keeps the persistent pilot name, local leaderboard, boss waves, equipment loadouts, sound modes, and touch controls. `Music.app` and the desktop Music Deck expose four user-supplied tracks with unmistakable play/pause controls, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
+
+## Search and field notes
+
+The site includes a static, crawlable `/blog/` library with original guides for AI specialists in India, AI specialists in Pune, and AI agencies in Pune. Every page has unique titles, descriptions, canonical URLs, author attribution, internal links, responsive typography, and `BlogPosting` structured data. `robots.txt`, `sitemap.xml`, and `llms.txt` expose the authoritative pages. The content deliberately avoids pretending that a self-published “number one” claim is an independent ranking.
 
 ## Netlify
 
@@ -49,4 +55,4 @@ The complete rebuild specification lives in [`RECREATE-PROMPT.md`](./RECREATE-PR
 
 ## Content guardrails
 
-The public metrics and case-study statuses are taken from Shreyas's source-backed portfolio material. Company revenue and unverified attribution claims stay private. Delivered, ongoing, demo, scoped, and pending-sign-off work are labeled separately; no fake company or revenue win is presented as real.
+The client-result cases use names and figures supplied by Shreyas. ₹80Cr+ and ₹50Cr are disclosed as founder/client-case reports describing pipeline or channelled property value—not independently audited realized revenue and not Shreyas OS company revenue. Delivered, ongoing, demo, scoped, and pending-sign-off work are labeled separately.

@@ -3,26 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Welcome to shreyasraj.com — the interactive AI operating-system portfolio of Shreyas Raj." />
+    <meta name="description" content="Shreyas Raj is an AI specialist in Pune, India building AI voice agents, revenue systems, premium websites, and applied AI deployments." />
     <meta name="theme-color" content="#f3b1be" />
-    <title>Shreyas Raj — AI OS</title>
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Shreyas Raj — AI Specialist in Pune, India" />
+    <meta property="og:description" content="Explore the interactive Shreyas OS: client case files, AI voice agents, websites, systems, proof, and practical AI field notes." />
+    <meta property="og:url" content="https://shreyasraj.com/" />
+    <meta property="og:image" content="https://shreyasraj.com/assets/case-studies/systems-map.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://shreyasraj.com/" />
+    <title>Shreyas Raj — AI Specialist in Pune, India</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./styles-v4.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://shreyasraj.com/#shreyas-raj",
+            "name": "Shreyas Raj",
+            "alternateName": ["Shreyasraj", "AI with Shreyas Raj"],
+            "url": "https://shreyasraj.com/",
+            "image": "https://shreyasraj.com/assets/raj-avatar.png",
+            "jobTitle": "AI Specialist and Founder",
+            "knowsAbout": ["Applied artificial intelligence", "AI voice agents", "AI automation", "AI websites", "Revenue systems"],
+            "sameAs": [
+              "https://www.youtube.com/@AIwithShreyasRaj",
+              "https://www.instagram.com/theshreyasraj9595/",
+              "https://x.com/TopR9595",
+              "https://github.com/TopR9595"
+            ]
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://shreyasraj.com/#professional-service",
+            "name": "Shreyas Raj AI Systems",
+            "url": "https://shreyasraj.com/",
+            "founder": {"@id": "https://shreyasraj.com/#shreyas-raj"},
+            "areaServed": [{"@type": "City", "name": "Pune"}, {"@type": "Country", "name": "India"}, {"@type": "Country", "name": "United Kingdom"}],
+            "serviceType": ["AI voice agents", "AI consulting", "AI automation", "Premium websites", "AI deployment"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://shreyasraj.com/#website",
+            "url": "https://shreyasraj.com/",
+            "name": "Shreyas OS",
+            "alternateName": "Shreyas Raj Portfolio",
+            "publisher": {"@id": "https://shreyasraj.com/#shreyas-raj"}
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <noscript>Shreyas Raj AI OS needs JavaScript enabled.</noscript>
 
     <div id="boot" class="boot" aria-live="polite">
       <button class="boot-skip os-button" type="button">SKIP BOOT ↗</button>
-      <div class="boot-mark">SR</div>
+      <div class="boot-mark sprite-mark"><img src="./assets/raj-front.png" alt="Shreyas Raj pixel character" /></div>
       <div class="boot-terminal">
         <p class="boot-line" style="--delay:.1s">LOADING THE PORTFOLIO OF SHREYAS RAJ...</p>
         <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, CASE STUDIES, PROOF, VOICE, AND MEDIA...</p>
-        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.1: <span>ONLINE</span></p>
+        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.2: <span>ONLINE</span></p>
         <div class="boot-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
       <p class="boot-title">welcome to Shreyas Raj.<br /><em>this is my AI operating system.</em></p>
@@ -31,7 +79,7 @@
     <main id="os" class="os" data-theme="day" aria-label="Shreyas Raj AI OS desktop">
       <header class="menubar">
         <button class="brand-menu" type="button" data-home>
-          <span class="brand-pixel">SR</span><strong>SHREYAS OS</strong>
+          <span class="brand-pixel sprite-brand"><img src="./assets/raj-front.png" alt="" /></span><strong>SHREYAS RAJ OS</strong>
         </button>
         <nav class="menu-links" aria-label="System menu">
           <button type="button" data-open="projects">Work</button>
@@ -59,10 +107,7 @@
         <div class="cloud cloud-b" aria-hidden="true"></div>
         <div class="cloud cloud-c" aria-hidden="true"></div>
         <div class="theme-orb" aria-hidden="true"><i></i></div>
-        <img class="ambient-character day-energy-runner" src="./assets/ambient/day-energy-runner.png" alt="" aria-hidden="true" />
-        <img class="ambient-character night-cat-rocket" src="./assets/ambient/space-cat-rocket.png" alt="" aria-hidden="true" />
-
-        <aside class="activity-stack motivation-stack" aria-label="Daily motivation">
+        <aside class="activity-stack motivation-stack" data-movable-widget="daily-transmission" aria-label="Daily motivation">
           <header><span>DAILY TRANSMISSION</span><i></i></header>
           <div class="motivation-card">
             <time data-motivation-date>TODAY</time>
@@ -75,6 +120,7 @@
           <p class="welcome-line">WELCOME TO SHREYASRAJ.COM</p>
           <p class="eyebrow">FOUNDER / OPERATOR / AI BUILDER</p>
           <h1>Shreyas<br /><em>Raj.</em></h1>
+          <p class="identity-morph" aria-live="polite"><span data-identity-morph>SHREYAS RAJ OS</span></p>
           <p>I build AI systems, revenue engines, and digital experiences that refuse to be ignored.</p>
           <div class="intro-actions">
             <button class="os-button primary" type="button" data-open="projects">ENTER THE PORTFOLIO</button>
@@ -109,11 +155,15 @@
           </button>
           <button class="desktop-app lab-app" type="button" data-open="voice" style="--app:#a9e1d2">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/voice.png" alt="" /></span>
-            <strong>Talk to Shreyas</strong><small>Voice + AI concierge</small>
+            <strong>AI Voice Agent</strong><small>Talk to the AI voice agent</small>
           </button>
           <button class="desktop-app" type="button" data-open="founder" style="--app:#e6e35f">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/founder.png" alt="" /></span>
             <strong>Founder.txt</strong><small>Read the note</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="whiteboard" style="--app:#fff8dc">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/premium-world/update-terminal.png" alt="" /></span>
+            <strong>Whiteboard</strong><small>Add + arrange notes</small>
           </button>
           <button class="desktop-app" type="button" data-open="browser" style="--app:#b9dfe8">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/browser.png" alt="" /></span>
@@ -123,19 +173,26 @@
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/contact.png" alt="" /></span>
             <strong>Leave a Message</strong><small>Open a channel</small>
           </button>
-          <button class="desktop-app" type="button" data-open="achievements" style="--app:#ffd95a">
+          <button class="desktop-app" type="button" data-open="files" style="--app:#ffd95a">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/premium-dock/proof.png" alt="" /></span>
-            <strong>Achievements</strong><small>6 unlocked</small>
+            <strong>Case Files</strong><small>Folders + client stories</small>
           </button>
-          <button class="desktop-app" type="button" data-open="games" style="--app:#8d78d8">
-            <span class="pixel-icon game-icon" aria-hidden="true"><img src="./assets/games/viper-arena.png" alt="" /></span>
-            <strong>Game Room</strong><small>2 games live</small>
+          <button class="desktop-app" type="button" data-open="blog" style="--app:#8d78d8">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/journey.png" alt="" /></span>
+            <strong>AI Field Notes</strong><small>Pune + India blog</small>
           </button>
         </section>
 
         <button class="desktop-sos" type="button" data-open="emergency" aria-label="Open emergency contact">
           <strong>SOS</strong><span>REACH SHREYAS NOW</span>
         </button>
+
+        <aside class="build-ribbon" aria-label="Build your own AI operating system">
+          <a href="https://calendly.com/shreyasrajsony11/30min" target="_blank" rel="noreferrer">
+            <span>BUILD THIS AI OS FOR YOURSELF</span>
+            <strong>BOOK A 30-MIN CALL ↗</strong>
+          </a>
+        </aside>
 
         <div class="learn-cluster" data-learn-cluster>
           <button class="learn-secret" type="button" data-open="learn">LEARN.APP<br /><small>YOUTUBE LIBRARY</small></button>
@@ -163,7 +220,7 @@
 
         <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
-        <section class="music-deck" data-music-deck aria-label="Music player">
+        <section class="music-deck" data-music-deck data-movable-widget="music-deck" aria-label="Music player">
           <button type="button" data-music-prev aria-label="Previous track">‹ PREV</button>
           <button class="music-play" type="button" data-music-play aria-pressed="false">▶ PLAY</button>
           <button type="button" data-music-next aria-label="Next track">NEXT ›</button>
@@ -180,10 +237,12 @@
           <button type="button" data-open="projects" aria-label="Open projects"><span class="dock-icon"><img src="./assets/icons-v4/projects.png" alt="" /></span><small>Projects</small></button>
           <button type="button" data-open="revenue" aria-label="Open public results"><span class="dock-icon"><img src="./assets/icons-v4/revenue.png" alt="" /></span><small>Results</small></button>
           <button type="button" data-open="journey" aria-label="Open journey"><span class="dock-icon"><img src="./assets/icons-v4/journey.png" alt="" /></span><small>Journey</small></button>
-          <button type="button" data-open="voice" aria-label="Talk to Shreyas"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>Talk to Shreyas</small></button>
+          <button type="button" data-open="voice" aria-label="Talk to the AI voice agent"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>AI Voice Agent</small></button>
           <button type="button" data-open="founder" aria-label="Open Founder.txt"><span class="dock-icon"><img src="./assets/icons-v4/founder.png" alt="" /></span><small>Founder.txt</small></button>
+          <button type="button" data-open="whiteboard" aria-label="Open sticky-note whiteboard"><span class="dock-icon"><img src="./assets/premium-world/update-terminal.png" alt="" /></span><small>Whiteboard</small></button>
           <button type="button" data-open="contact" aria-label="Open contact"><span class="dock-icon"><img src="./assets/icons-v4/contact.png" alt="" /></span><small>Contact</small></button>
-          <button type="button" data-open="games" aria-label="Open games"><span class="dock-icon"><img src="./assets/premium-world/data-modules.png" alt="" /></span><small>Games</small></button>
+          <button type="button" data-open="files" aria-label="Open case files"><span class="dock-icon"><img src="./assets/premium-world/data-modules.png" alt="" /></span><small>Case Files</small></button>
+          <button type="button" data-open="blog" aria-label="Open AI field notes"><span class="dock-icon"><img src="./assets/icons-v4/journey.png" alt="" /></span><small>Blog</small></button>
           <span class="dock-divider"></span>
           <button type="button" data-open="browser" aria-label="Open browser"><span class="dock-icon"><img src="./assets/icons-v4/browser.png" alt="" /></span><small>Browser</small></button>
         </nav>

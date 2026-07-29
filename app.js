@@ -1,10 +1,124 @@
 const proofVideos = [
-  { id: "Oe2s8j6JomQ", label: "AI Deployment", type: "Vertical testimonial", duration: "00:39", url: "https://youtube.com/shorts/Oe2s8j6JomQ" },
-  { id: "ktfwr3nOFeU", label: "ROI Consulting", type: "Vertical testimonial", duration: "00:59", url: "https://youtube.com/shorts/ktfwr3nOFeU" },
-  { id: "IIjhViAlMTA", label: "AI Services", type: "Vertical testimonial", duration: "01:05", url: "https://youtube.com/shorts/IIjhViAlMTA" },
-  { id: "9OCD3Udnfs8", label: "Client Voice 04", type: "Client testimonial", duration: "00:44", url: "https://youtu.be/9OCD3Udnfs8" },
-  { id: "mtmHkGaE0r0", label: "Client Voice 05", type: "Client testimonial", duration: "01:30", url: "https://youtu.be/mtmHkGaE0r0" },
+  { id: "Oe2s8j6JomQ", label: "AI Deployment", type: "Vertical testimonial", duration: "00:39", url: "https://youtube.com/shorts/Oe2s8j6JomQ", story: "A client describes the moment an AI deployment moved from a promising demo into a usable operating workflow." },
+  { id: "ktfwr3nOFeU", label: "ROI Consulting", type: "Vertical testimonial", duration: "00:59", url: "https://youtube.com/shorts/ktfwr3nOFeU", story: "A concise account of the strategy, decisions, and commercial thinking behind a consulting engagement." },
+  { id: "IIjhViAlMTA", label: "AI Services", type: "Vertical testimonial", duration: "01:05", url: "https://youtube.com/shorts/IIjhViAlMTA", story: "A client voice on delivery quality, responsiveness, and turning a requested AI service into something practical." },
+  { id: "9OCD3Udnfs8", label: "Client Voice 04", type: "Client testimonial", duration: "00:44", url: "https://youtu.be/9OCD3Udnfs8", story: "A first-person testimonial preserved as source evidence so visitors can judge the work in the client's own voice." },
+  { id: "mtmHkGaE0r0", label: "Client Voice 05", type: "Client testimonial", duration: "01:30", url: "https://youtu.be/mtmHkGaE0r0", story: "A longer client account of the engagement, outcome, and experience of working with the team." },
 ];
+
+const clientCases = [
+  {
+    id: "uk-realty",
+    company: "UK Realty",
+    sector: "REAL ESTATE / INDIA",
+    metric: "₹80Cr+",
+    metricLabel: "PIPELINE INFLUENCED IN ONE MONTH",
+    summary: "A real-estate growth engagement designed to help move premium inventory through a faster, more systematic sales pipeline.",
+    outcome: "Shreyas reports that the engagement influenced more than ₹80 crore of property pipeline in one month. This is presented as pipeline influenced—not audited realized revenue.",
+    image: "./assets/case-studies/uk-realty.png",
+    color: "#f3aaa8"
+  },
+  {
+    id: "investors-propmart",
+    company: "Investors Propmart",
+    sector: "PARTNER SALES / REAL ESTATE",
+    metric: "₹50Cr",
+    metricLabel: "PARTNER-CHANNEL PROPERTY PIPELINE",
+    summary: "A partner-led distribution system for routing high-value real-estate opportunities through a wider sales network.",
+    outcome: "Shreyas reports approximately ₹50 crore of flats were channelled through partner relationships. The figure is a client-case claim pending independent audit.",
+    image: "./assets/case-studies/investors-propmart.png",
+    color: "#b9dfe8"
+  },
+  {
+    id: "imperium-marketing",
+    company: "Imperium Marketing",
+    sector: "AI COLD CALLING / UNITED KINGDOM",
+    metric: "UK",
+    metricLabel: "LOCAL-NUMBER AI OUTBOUND",
+    summary: "An AI cold-calling deployment using UK phone numbers to reach, qualify, and route prospective leads.",
+    outcome: "The system generated lead conversations for the UK marketing operation. No invented lead count or revenue attribution is shown.",
+    image: "./assets/case-studies/imperium-marketing.png",
+    color: "#c7f36b"
+  }
+];
+
+const caseFileSystem = {
+  name: "Shreyas OS",
+  type: "folder",
+  children: [
+    {
+      name: "Case Studies",
+      type: "folder",
+      children: [
+        {
+          name: "Real Estate",
+          type: "folder",
+          children: clientCases.slice(0, 2).map(item => ({ name: `${item.company}.case`, type: "case", caseId: item.id }))
+        },
+        {
+          name: "Voice AI",
+          type: "folder",
+          children: [
+            { name: "Imperium Marketing.case", type: "case", caseId: "imperium-marketing" },
+            { name: "Pan-India CPaaS.case", type: "document", title: "Pan-India CPaaS Voice Layer", copy: "Delivered voice cloning and a multi-provider voice layer with Gemini and Cartesia integration, prompt hardening, voicemail handling, and dashboard work." },
+            { name: "Dental Voice Agent.case", type: "document", title: "Dental Voice Agent", copy: "A US-practice workflow demo built and iterated for appointment and enquiry handling. Final client sign-off remains pending." }
+          ]
+        },
+        {
+          name: "Websites",
+          type: "folder",
+          children: [
+            { name: "Kawsaypac Preview 3.case", type: "link", url: "https://toprmrproducer.github.io/kawsaypac-preview3/", copy: "Final cinematic commerce preview across a 17-product catalog." },
+            { name: "EXTNGO.case", type: "link", url: "https://extngo-cable-385.netlify.app", copy: "Shopify-backed product site for a retractable flat CAT6 cable." },
+            { name: "SimpliiGood.case", type: "link", url: "https://simpliigood-spirulina.netlify.app/simplii-green", copy: "Retail-first spirulina experience and education system." },
+            { name: "Pawd Store.case", type: "link", url: "https://pawdstore.com", copy: "Live pet-commerce storefront and Shopify implementation." },
+            { name: "Try Nokt.case", type: "link", url: "https://trynokt.com", copy: "Live product website from the RapidXAI web portfolio." },
+            { name: "Fastcreek AI Studio.case", type: "link", url: "https://fastcreek-creatives.vercel.app", copy: "AI-native creative studio website and conversion system." }
+          ]
+        },
+        {
+          name: "Consulting",
+          type: "folder",
+          children: [
+            { name: "Revenue System Audit.read", type: "document", title: "Revenue System Audit", copy: "Constraint discovery, leverage mapping, proof criteria, automation boundaries, and an executable build plan." },
+            { name: "Deployment Playbook.read", type: "document", title: "Deployment Playbook", copy: "A five-stage loop: find leverage, lock the system, build the sharp edge, test the full loop, then ship and measure." }
+          ]
+        }
+      ]
+    },
+    {
+      name: "Client Videos",
+      type: "folder",
+      children: proofVideos.map((video, index) => ({
+        name: `${String(index + 1).padStart(2, "0")} — ${video.label}.story`,
+        type: "video",
+        videoId: video.id,
+        title: video.label,
+        copy: video.story,
+        url: video.url
+      }))
+    },
+    {
+      name: "AI Field Notes",
+      type: "folder",
+      children: [
+        { name: "AI Specialist in India.article", type: "link", url: "./blog/ai-specialist-india.html", copy: "How to evaluate an applied AI specialist in India." },
+        { name: "AI Specialist in Pune.article", type: "link", url: "./blog/ai-specialist-pune.html", copy: "A local buyer's guide to applied AI delivery in Pune." },
+        { name: "AI Agency in Pune.article", type: "link", url: "./blog/ai-agency-pune.html", copy: "What separates a production AI agency from a demo shop." }
+      ]
+    },
+    {
+      name: "Services",
+      type: "folder",
+      children: [
+        { name: "AI Voice Agents.service", type: "document", title: "AI Voice Agents", copy: "Conversation design, telephony, prompts, voice, integrations, testing, analytics, and operational handoff." },
+        { name: "Premium Websites.service", type: "document", title: "Premium Websites", copy: "Distinctive, responsive systems that explain, convert, and remain maintainable after launch." },
+        { name: "AI Consulting.service", type: "document", title: "AI Consulting", copy: "Find the expensive business constraint and turn it into a testable implementation plan." },
+        { name: "Production Deployment.service", type: "document", title: "Production Deployment", copy: "Infrastructure, integrations, failure paths, monitoring, and the final mile from prototype to daily use." }
+      ]
+    }
+  ]
+};
 
 const learningVideos = [
   { id: "iuZeXR6bgGc", title: "Build & Sell Your Own AI OS With Claude Code (Free Full Build)", url: "https://www.youtube.com/watch?v=iuZeXR6bgGc" },
@@ -62,23 +176,23 @@ const apps = {
       </div>`,
   },
   revenue: {
-    title: "Results — Proof.app",
+    title: "Client Results — Proof.app",
     chrome: "#c7f36b",
-    subtitle: "PUBLIC EVIDENCE",
+    subtitle: "CLIENT-CASE OUTCOMES",
     render: () => `
-      <div class="app-content">
-        <span class="app-kicker">RECEIPTS, NOT VIBES</span>
-        <h2 class="app-heading">Visible work.<br><em>Playable proof.</em></h2>
-        <p class="app-deck">The public scoreboard behind the work. Internal company revenue stays private; this surface only shows evidence visitors can inspect.</p>
-        <div class="metric-grid">
-          ${metric("6","SHIPPED SYSTEMS","Selected public products, websites, and operating systems.","#d8efaf")}
-          ${metric("1.81M","YOUTUBE VIEWS","Across 315 published videos at the latest saved channel audit.","#c4e5ed")}
-          ${metric("100K+","BUILDER COMMUNITY","31.7K YouTube + 71.1K Instagram at the latest recorded check.","#f6c1d0")}
-          ${metric("5","PLAYABLE TESTIMONIALS","Real client videos embedded inside Proof.app.","#f8dfa2")}
-          ${metric("315","PUBLISHED VIDEOS","Recorded YouTube publishing archive at the latest saved audit.","#d1c5ee")}
-          ${metric("17","K_P3 PRODUCT FLOWS","The final Kawsaypac Preview 3 catalog experience.","#d9edc0")}
+      <div class="app-content client-results-app">
+        <span class="app-kicker">CLIENT RESULTS / COMMERCIAL CASE FILES</span>
+        <h2 class="app-heading">Outcomes for<br><em>the companies.</em></h2>
+        <p class="app-deck">These are client engagements, not Shreyas OS revenue. Every number is labelled by what it represents so pipeline, sales, leads, and public proof do not get mixed together.</p>
+        <div class="client-case-grid">
+          ${clientCases.map(renderClientCase).join("")}
         </div>
-        <p class="source-note">SYSTEM NOTE: company revenue and unverified attribution claims are intentionally private. Open Testimonials.app for the actual client videos.</p>
+        <section class="public-proof-strip" aria-label="Public portfolio evidence">
+          ${metric("10","SELECTED CASE FILES","AI voice, websites, operations, consulting, and deployment work.","#d8efaf")}
+          ${metric("5","PLAYABLE VIDEOS","Client testimonial videos with direct YouTube sources.","#f8dfa2")}
+          ${metric("1.81M","YOUTUBE VIEWS","Recorded channel reach at the latest saved audit.","#c4e5ed")}
+        </section>
+        <p class="source-note">DISCLOSURE: ₹80Cr+ and ₹50Cr are founder/client-case reports supplied for this portfolio. They describe pipeline or channelled property value, not independently audited realized revenue. Open Case Files for the complete wording.</p>
       </div>`,
   },
   process: {
@@ -170,6 +284,48 @@ const apps = {
         <p>The main folders on this desktop are Projects and Results. Start there. The rest explains how the machine works.</p>
         <blockquote>My word is iron. I do what I say, I say what I do.</blockquote>
         <footer>AVAILABLE FOR SELECT BUILDS · LAST PATCHED 29 JUL 2026</footer>
+      </div>`,
+  },
+  files: {
+    title: "Case Files — Finder",
+    chrome: "#a8d7e8",
+    subtitle: "NESTED FOLDERS / DOUBLE-CLICK",
+    render: () => renderFileExplorer(),
+  },
+  blog: {
+    title: "AI Field Notes — Blog.app",
+    chrome: "#b8a7e8",
+    subtitle: "PUNE · INDIA · APPLIED AI",
+    render: () => `
+      <div class="app-content blog-app">
+        <span class="app-kicker">SHREYAS RAJ / AI FIELD NOTES</span>
+        <h2 class="app-heading">Useful answers.<br><em>Built from the work.</em></h2>
+        <p class="app-deck">No one can honestly guarantee a “number one” Google ranking. This library targets the questions buyers actually ask and backs every claim with projects, methods, and clearly labelled case evidence.</p>
+        <div class="blog-card-grid">
+          ${blogCard("AI Specialist in India","A practical framework for evaluating an AI specialist in India—technical depth, deployment ownership, proof, and commercial outcomes.","./blog/ai-specialist-india.html","#f3aaa8")}
+          ${blogCard("AI Specialist in Pune","What Pune companies should look for in an applied AI partner, from discovery through voice, automation, integrations, and handoff.","./blog/ai-specialist-pune.html","#b9dfe8")}
+          ${blogCard("AI Agency in Pune","A buyer's guide to selecting an AI agency in Pune without confusing demos, automations, or vanity metrics for production systems.","./blog/ai-agency-pune.html","#c7f36b")}
+        </div>
+        <a class="blog-index-link" href="./blog/" target="_blank" rel="noreferrer">OPEN THE COMPLETE AI FIELD NOTES INDEX ↗</a>
+        <p class="source-note">SEO NOTE: the pages are static, crawlable, internally linked, authored by Shreyas Raj, and written for humans first. Search position still depends on authority, competition, technical health, and external corroboration.</p>
+      </div>`,
+  },
+  whiteboard: {
+    title: "Whiteboard — Notes.app",
+    chrome: "#fff8dc",
+    subtitle: "DRAG · WRITE · PERSIST",
+    render: () => `
+      <div class="whiteboard-app" data-whiteboard>
+        <header>
+          <div><span>SHREYAS OS WHITEBOARD</span><h2>Leave a<br><em>sticky note.</em></h2></div>
+          <form data-note-form>
+            <label for="sticky-note-copy">YOUR NOTE</label>
+            <textarea id="sticky-note-copy" data-note-input maxlength="180" rows="3" placeholder="What should Shreyas build, fix, or remember?" required></textarea>
+            <div><button type="submit">+ ADD STICKY</button><button type="button" data-reset-desktop>RESET DESKTOP ICONS</button></div>
+          </form>
+        </header>
+        <div class="whiteboard-canvas" data-note-board aria-label="Draggable sticky notes"></div>
+        <footer>NOTES AND ICON POSITIONS PERSIST IN THIS BROWSER · DRAG EACH NOTE BY ITS TOP BAR</footer>
       </div>`,
   },
   socials: {
@@ -290,14 +446,14 @@ const apps = {
       </div>`,
   },
   voice: {
-    title: "Talk to Shreyas — Concierge.app",
+    title: "Talk to the AI Voice Agent — Concierge.app",
     chrome: "#9fded4",
     subtitle: "BROWSER VOICE / ONLINE",
     render: () => `
       <div class="voice-agent">
         <header class="voice-agent-hero">
           <img src="./assets/premium-world/voice-lab.png" alt="" />
-          <div><span>SHREYAS AI CONCIERGE</span><h2>Talk to<br><em>Shreyas.</em></h2><p>Ask about projects, results, systems, testimonials, the journey, or starting a project.</p></div>
+          <div><span>SHREYAS AI CONCIERGE</span><h2>Talk to the<br><em>AI voice agent.</em></h2><p>Ask about projects, results, systems, testimonials, the journey, or starting a project.</p></div>
         </header>
         <div class="voice-console">
           <div class="voice-status"><i></i><span data-voice-status>READY FOR A COMMAND</span></div>
@@ -388,6 +544,9 @@ const apps = {
           <nav aria-label="Playable games">
             <button class="active" type="button" data-game-url="./games/viper-arena/" data-game-title="VIPER ARENA">VIPER ARENA</button>
             <button type="button" data-game-url="./games/fangs-io/" data-game-title="FANGS.IO">FANGS.IO</button>
+            <button type="button" data-game-all>ALL GAMES</button>
+            <button type="button" data-game-fullscreen>FULLSCREEN</button>
+            <button type="button" data-game-exit-fullscreen hidden>EXIT FULLSCREEN</button>
           </nav>
         </header>
         <div class="game-stage">
@@ -395,6 +554,8 @@ const apps = {
           <iframe data-game-frame src="./games/viper-arena/" title="VIPER ARENA game" loading="lazy" allow="autoplay; fullscreen"></iframe>
         </div>
         <div class="game-case-files">
+          <article><img src="./assets/games/viper-arena.png" alt="Viper Arena gameplay screenshot" /><div><strong>VIPER ARENA</strong><span>FLAGSHIP · BOSSES · LOADOUTS · ASMR · SCORES</span></div></article>
+          <article class="fangs-feature"><span class="fangs-art" aria-hidden="true">FANGS.IO</span><div><strong>FANGS.IO</strong><span>PLAYABLE · LOCAL HIGH SCORES</span></div></article>
           <article class="neon-feature"><img src="./assets/games/neon-drift.png" alt="Neon Drift gameplay screenshot" /><div><strong>NEON DRIFT</strong><span>FEATURED CASE FILE · PLAYABLE SOURCE RECOVERY NEXT</span></div></article>
         </div>
       </div>`,
@@ -531,6 +692,61 @@ function projectCard(index, title, category, copy, proofA, proofB, color, url) {
     <span class="open-project">${url ? "OPEN ↗" : "CASE FILE"}</span>
   </article>`;
 }
+function renderClientCase(item) {
+  return `<article class="client-case-card" style="--case:${item.color}" data-case-id="${item.id}">
+    <div class="client-case-art"><img src="${item.image}" alt="Editorial pixel-art illustration for the ${item.company} case study" loading="lazy" /></div>
+    <div class="client-case-copy">
+      <small>${item.sector}</small>
+      <h3>${item.company}</h3>
+      <div class="client-case-metric"><strong>${item.metric}</strong><span>${item.metricLabel}</span></div>
+      <p>${item.summary}</p>
+      <details><summary>READ THE OUTCOME</summary><p>${item.outcome}</p></details>
+    </div>
+  </article>`;
+}
+function blogCard(title, copy, url, color) {
+  return `<article class="blog-card" style="--blog:${color}">
+    <small>AI FIELD NOTE / SHREYAS RAJ</small>
+    <h3>${title}</h3>
+    <p>${copy}</p>
+    <a href="${url}" target="_blank" rel="noreferrer">READ ARTICLE ↗</a>
+  </article>`;
+}
+function renderFileExplorer() {
+  return `
+    <div class="file-explorer" data-file-explorer>
+      <header class="finder-toolbar">
+        <div class="finder-nav"><button type="button" data-finder-back aria-label="Back">‹</button><button type="button" data-finder-forward aria-label="Forward">›</button></div>
+        <strong data-finder-title>Shreyas OS</strong>
+        <div class="finder-views" aria-hidden="true"><span>▦</span><span>☷</span><span>▥</span></div>
+        <label><span>⌕</span><input type="search" data-finder-search placeholder="Search case files" aria-label="Search case files" /></label>
+      </header>
+      <div class="finder-shell">
+        <aside class="finder-sidebar">
+          <strong>FAVOURITES</strong>
+          <button type="button" data-finder-path="">⌂ All Files</button>
+          <button type="button" data-finder-path="Case Studies">▣ Case Studies</button>
+          <button type="button" data-finder-path="Client Videos">▶ Client Videos</button>
+          <button type="button" data-finder-path="AI Field Notes">✎ AI Field Notes</button>
+          <button type="button" data-finder-path="Services">◆ Services</button>
+          <strong>LOCATIONS</strong>
+          <button type="button" data-open="projects">◫ Projects</button>
+          <button type="button" data-open="revenue">▥ Client Results</button>
+        </aside>
+        <main class="finder-main">
+          <nav class="finder-breadcrumbs" data-finder-breadcrumbs aria-label="Current folder"></nav>
+          <div class="finder-list-head"><span>NAME</span><span>KIND</span><span>STATUS</span></div>
+          <div class="finder-list" data-finder-list></div>
+          <p class="finder-hint">DOUBLE-CLICK A FOLDER OR FILE · SINGLE-CLICK TO PREVIEW</p>
+        </main>
+        <aside class="finder-preview" data-finder-preview>
+          <span class="finder-preview-icon">▣</span>
+          <h3>Case Files</h3>
+          <p>Select a file to preview its story. Double-click to open folders, source links, videos, and articles.</p>
+        </aside>
+      </div>
+    </div>`;
+}
 function metric(value, label, copy, color) { return `<article class="metric-card" style="--metric:${color}"><strong>${value}</strong><span>${label}</span><p>${copy}</p></article>`; }
 function step(title, copy, color) { return `<article class="process-step" style="--step:${color}"><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
 function milestone(year, title, copy, color) { return `<article class="journey-entry" style="--milestone:${color}"><time>${year}</time><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
@@ -561,6 +777,10 @@ function renderProofTheater() {
           <button type="button" data-proof-expand aria-pressed="false">EXPAND THEATER</button>
           <a data-proof-external href="${first.url}" target="_blank" rel="noreferrer">OPEN ON YOUTUBE ↗</a>
         </div>
+        <div class="proof-story">
+          <small>THE STORY BEHIND THIS FILE</small>
+          <p data-proof-story>${first.story}</p>
+        </div>
       </div>
       <div class="proof-playlist" aria-label="Client testimonial videos">
         ${proofVideos.map((video, index) => `
@@ -571,6 +791,7 @@ function renderProofTheater() {
             data-proof-label="${video.label}"
             data-proof-duration="${video.duration}"
             data-proof-url="${video.url}"
+            data-proof-story="${video.story}"
             aria-pressed="${index === 0 ? "true" : "false"}"
           >
             <span class="proof-thumb">
@@ -767,6 +988,10 @@ function bindWindow(win) {
   if (voiceInput) bindVoiceAgent(win, voiceInput);
   const dograhLab = win.querySelector("[data-dograh-lab]");
   if (dograhLab) bindDograhLab(dograhLab);
+  const whiteboard = win.querySelector("[data-whiteboard]");
+  if (whiteboard) bindWhiteboard(whiteboard);
+  const fileExplorer = win.querySelector("[data-file-explorer]");
+  if (fileExplorer) bindFileExplorer(fileExplorer);
   const proofTheater = win.querySelector("[data-proof-theater]");
   if (proofTheater) bindProofTheater(win, proofTheater);
   const learnLibrary = win.querySelector("[data-learn-library]");
@@ -816,6 +1041,7 @@ function bindProofTheater(win, theater) {
   const nowPlaying = theater.querySelector("[data-proof-now]");
   const duration = theater.querySelector("[data-proof-duration]");
   const external = theater.querySelector("[data-proof-external]");
+  const story = theater.querySelector("[data-proof-story]");
   const expand = theater.querySelector("[data-proof-expand]");
   const cards = [...theater.querySelectorAll("[data-proof-video]")];
 
@@ -829,6 +1055,7 @@ function bindProofTheater(win, theater) {
     nowPlaying.textContent = card.dataset.proofLabel;
     duration.textContent = card.dataset.proofDuration;
     external.href = card.dataset.proofUrl;
+    if (story) story.textContent = card.dataset.proofStory;
     frame.title = `${card.dataset.proofLabel} client testimonial`;
     delete frame.dataset.restoreSrc;
     frame.src = `https://www.youtube-nocookie.com/embed/${card.dataset.proofVideo}?autoplay=1&rel=0&modestbranding=1`;
@@ -852,6 +1079,10 @@ function bindGameRoom(win) {
   const frame = win.querySelector("[data-game-frame]");
   const title = win.querySelector("[data-game-now]");
   const external = win.querySelector("[data-game-external]");
+  const enterFullscreen = win.querySelector("[data-game-fullscreen]");
+  const exitFullscreen = win.querySelector("[data-game-exit-fullscreen]");
+  const allGames = win.querySelector("[data-game-all]");
+  const gallery = win.querySelector(".game-case-files");
   win.querySelectorAll("[data-game-url]").forEach(button => button.addEventListener("click", () => {
     const url = button.dataset.gameUrl;
     frame.src = url;
@@ -862,6 +1093,273 @@ function bindGameRoom(win) {
     win.querySelectorAll("[data-game-url]").forEach(item => item.classList.toggle("active", item === button));
     toast("ARCADE LOADED", `${button.dataset.gameTitle} is ready.`);
   }));
+  const syncFullscreen = () => {
+    const active = document.fullscreenElement === win;
+    enterFullscreen.hidden = active;
+    exitFullscreen.hidden = !active;
+    win.classList.toggle("game-fullscreen", active);
+  };
+  enterFullscreen.addEventListener("click", async () => {
+    try {
+      await win.requestFullscreen();
+      syncFullscreen();
+    } catch {
+      toast("FULLSCREEN BLOCKED", "Use the green window control or open the game in a new tab.");
+    }
+  });
+  exitFullscreen.addEventListener("click", async () => {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    syncFullscreen();
+  });
+  allGames.addEventListener("click", () => gallery?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  document.addEventListener("fullscreenchange", syncFullscreen);
+}
+
+function bindFileExplorer(explorer) {
+  const list = explorer.querySelector("[data-finder-list]");
+  const preview = explorer.querySelector("[data-finder-preview]");
+  const breadcrumbs = explorer.querySelector("[data-finder-breadcrumbs]");
+  const title = explorer.querySelector("[data-finder-title]");
+  const search = explorer.querySelector("[data-finder-search]");
+  const back = explorer.querySelector("[data-finder-back]");
+  const forward = explorer.querySelector("[data-finder-forward]");
+  let path = [];
+  let backStack = [];
+  let forwardStack = [];
+
+  const findNode = nextPath => nextPath.reduce((node, segment) => node?.children?.find(item => item.name === segment), caseFileSystem);
+  const iconFor = node => node.type === "folder" ? "▣" : node.type === "video" ? "▶" : node.type === "link" ? "↗" : node.type === "case" ? "◆" : "▤";
+  const kindFor = node => ({
+    folder: "Folder",
+    case: "Client case file",
+    video: "Video story",
+    link: "Web link",
+    document: "Read-only document"
+  }[node.type] || "File");
+
+  const showPreview = node => {
+    const clientCase = node.caseId ? clientCases.find(item => item.id === node.caseId) : null;
+    preview.replaceChildren();
+    if (clientCase) {
+      const image = document.createElement("img");
+      image.src = clientCase.image;
+      image.alt = `${clientCase.company} case-study art`;
+      const heading = document.createElement("h3");
+      heading.textContent = clientCase.company;
+      const metric = document.createElement("strong");
+      metric.textContent = `${clientCase.metric} · ${clientCase.metricLabel}`;
+      const copy = document.createElement("p");
+      copy.textContent = clientCase.outcome;
+      preview.append(image, heading, metric, copy);
+      return;
+    }
+    const glyph = document.createElement("span");
+    glyph.className = "finder-preview-icon";
+    glyph.textContent = iconFor(node);
+    const heading = document.createElement("h3");
+    heading.textContent = node.title || node.name;
+    const copy = document.createElement("p");
+    copy.textContent = node.copy || (node.type === "folder" ? `${node.children?.length || 0} items inside this folder.` : "Double-click to open this file.");
+    preview.append(glyph, heading, copy);
+    if (node.type === "video") {
+      const image = document.createElement("img");
+      image.src = `https://i.ytimg.com/vi/${node.videoId}/hqdefault.jpg`;
+      image.alt = "";
+      preview.prepend(image);
+    }
+  };
+
+  const openNode = node => {
+    if (node.type === "folder") {
+      navigate([...path, node.name]);
+      return;
+    }
+    if (node.caseId) {
+      openApp("revenue");
+      toast("CASE FILE OPEN", `${node.name} is available in Client Results.`);
+      return;
+    }
+    if (node.url) {
+      window.open(node.url, "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (node.type === "video") {
+      window.open(node.url, "_blank", "noopener,noreferrer");
+      return;
+    }
+    showPreview(node);
+  };
+
+  const renderRows = (items, query = "") => {
+    const matches = items.filter(node => node.name.toLowerCase().includes(query.toLowerCase()));
+    list.replaceChildren();
+    matches.forEach(node => {
+      const row = document.createElement("button");
+      row.type = "button";
+      row.className = "finder-row";
+      row.innerHTML = `<span><i>${iconFor(node)}</i><strong>${node.name}</strong></span><span>${kindFor(node)}</span><span>${node.type === "folder" ? `${node.children?.length || 0} ITEMS` : "READY"}</span>`;
+      row.addEventListener("click", () => {
+        list.querySelectorAll(".finder-row").forEach(item => item.classList.toggle("selected", item === row));
+        showPreview(node);
+      });
+      row.addEventListener("dblclick", () => openNode(node));
+      list.append(row);
+    });
+    if (!matches.length) {
+      const empty = document.createElement("p");
+      empty.className = "finder-empty";
+      empty.textContent = "No files match this search.";
+      list.append(empty);
+    }
+  };
+
+  const render = () => {
+    const node = findNode(path) || caseFileSystem;
+    title.textContent = node.name;
+    breadcrumbs.replaceChildren();
+    ["Shreyas OS", ...path].forEach((segment, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = segment;
+      button.addEventListener("click", () => navigate(path.slice(0, index)));
+      breadcrumbs.append(button);
+    });
+    renderRows(node.children || [], search.value);
+    back.disabled = !backStack.length;
+    forward.disabled = !forwardStack.length;
+  };
+
+  function navigate(nextPath, record = true) {
+    if (!findNode(nextPath)) return;
+    if (record) {
+      backStack.push(path);
+      forwardStack = [];
+    }
+    path = nextPath;
+    search.value = "";
+    render();
+  }
+
+  back.addEventListener("click", () => {
+    if (!backStack.length) return;
+    forwardStack.push(path);
+    path = backStack.pop();
+    render();
+  });
+  forward.addEventListener("click", () => {
+    if (!forwardStack.length) return;
+    backStack.push(path);
+    path = forwardStack.pop();
+    render();
+  });
+  search.addEventListener("input", () => render());
+  explorer.querySelectorAll("[data-finder-path]").forEach(button => button.addEventListener("click", () => {
+    const next = button.dataset.finderPath ? [button.dataset.finderPath] : [];
+    navigate(next);
+  }));
+  render();
+}
+
+function bindWhiteboard(boardApp) {
+  const storageKey = "raj-os-whiteboard-v1";
+  const board = boardApp.querySelector("[data-note-board]");
+  const form = boardApp.querySelector("[data-note-form]");
+  const input = boardApp.querySelector("[data-note-input]");
+  const colors = ["#fff38a", "#f7b5cc", "#b9e4f0", "#c7f36b", "#d5c8f4"];
+  let notes;
+  try {
+    notes = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    if (!Array.isArray(notes)) notes = [];
+  } catch {
+    notes = [];
+  }
+
+  const save = () => localStorage.setItem(storageKey, JSON.stringify(notes.slice(0, 24)));
+  const render = () => {
+    board.replaceChildren();
+    notes.forEach(note => {
+      const card = document.createElement("article");
+      const grip = document.createElement("button");
+      const area = document.createElement("textarea");
+      const remove = document.createElement("button");
+      card.className = "board-note";
+      card.style.left = `${note.x}px`;
+      card.style.top = `${note.y}px`;
+      card.style.background = note.color;
+      card.style.transform = `rotate(${note.rotation}deg)`;
+      grip.type = "button";
+      grip.className = "note-grip";
+      grip.textContent = "DRAG NOTE";
+      grip.setAttribute("aria-label", "Drag sticky note");
+      area.value = note.text;
+      area.maxLength = 180;
+      area.setAttribute("aria-label", "Sticky note text");
+      remove.type = "button";
+      remove.className = "note-delete";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Delete sticky note");
+      card.append(grip, area, remove);
+      board.append(card);
+
+      area.addEventListener("input", () => {
+        note.text = area.value;
+        save();
+      });
+      remove.addEventListener("click", () => {
+        notes = notes.filter(item => item.id !== note.id);
+        save();
+        render();
+      });
+      grip.addEventListener("pointerdown", event => {
+        event.stopPropagation();
+        grip.setPointerCapture(event.pointerId);
+        const start = { x: event.clientX, y: event.clientY, left: note.x, top: note.y };
+        const move = moveEvent => {
+          const maxX = Math.max(0, board.clientWidth - card.offsetWidth);
+          const maxY = Math.max(0, board.clientHeight - card.offsetHeight);
+          note.x = Math.max(0, Math.min(maxX, start.left + moveEvent.clientX - start.x));
+          note.y = Math.max(0, Math.min(maxY, start.top + moveEvent.clientY - start.y));
+          card.style.left = `${note.x}px`;
+          card.style.top = `${note.y}px`;
+        };
+        const end = () => {
+          grip.removeEventListener("pointermove", move);
+          save();
+        };
+        grip.addEventListener("pointermove", move);
+        grip.addEventListener("pointerup", end, { once: true });
+        grip.addEventListener("pointercancel", end, { once: true });
+      });
+    });
+  };
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    const index = notes.length;
+    notes.push({
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      text,
+      x: 18 + (index % 4) * 155,
+      y: 18 + (index % 3) * 128,
+      color: colors[index % colors.length],
+      rotation: [-2, 1, -1, 2][index % 4],
+    });
+    input.value = "";
+    save();
+    render();
+  });
+
+  boardApp.querySelector("[data-reset-desktop]").addEventListener("click", () => {
+    localStorage.removeItem("raj-os-desktop-layout-v1");
+    document.querySelectorAll(".desktop-app").forEach(button => {
+      button.style.removeProperty("transform");
+      button.classList.remove("arranged");
+    });
+    toast("DESKTOP RESET", "Application icons returned to their original grid.");
+  });
+  render();
 }
 
 function encodeForm(form) {
@@ -1295,6 +1793,117 @@ function setDailyMotivation() {
   if (date) date.textContent = new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short" }).format(today).toUpperCase();
 }
 
+function bindIdentityMorph() {
+  const label = document.querySelector("[data-identity-morph]");
+  if (!label) return;
+  const identities = ["SHREYAS RAJ OS", "AI SYSTEMS OPERATOR", "VOICE + WEB BUILDER", "SHREYAS RAJ OS"];
+  let index = 0;
+  window.setInterval(() => {
+    label.classList.remove("spring-in");
+    label.classList.add("spring-out");
+    window.setTimeout(() => {
+      index = (index + 1) % identities.length;
+      label.textContent = identities[index];
+      label.classList.remove("spring-out");
+      label.classList.add("spring-in");
+    }, 220);
+  }, 3200);
+}
+
+function bindDesktopArrangement() {
+  const storageKey = "raj-os-desktop-layout-v1";
+  let layout;
+  try {
+    layout = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    if (!layout || typeof layout !== "object") layout = {};
+  } catch {
+    layout = {};
+  }
+  const save = () => localStorage.setItem(storageKey, JSON.stringify(layout));
+  document.querySelectorAll(".desktop-app[data-open]").forEach(button => {
+    const id = button.dataset.open;
+    const saved = layout[id];
+    if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+      button.style.transform = `translate3d(${saved.x}px, ${saved.y}px, 0)`;
+      button.classList.add("arranged");
+    }
+    let drag = null;
+    let suppressClick = false;
+    button.addEventListener("pointerdown", event => {
+      if (window.innerWidth <= 760 || event.button !== 0) return;
+      const current = layout[id] || { x: 0, y: 0 };
+      drag = { startX: event.clientX, startY: event.clientY, x: current.x, y: current.y, moved: false };
+      button.setPointerCapture(event.pointerId);
+    });
+    button.addEventListener("pointermove", event => {
+      if (!drag) return;
+      const dx = event.clientX - drag.startX;
+      const dy = event.clientY - drag.startY;
+      if (Math.abs(dx) + Math.abs(dy) < 7 && !drag.moved) return;
+      drag.moved = true;
+      const x = Math.max(-520, Math.min(520, drag.x + dx));
+      const y = Math.max(-280, Math.min(470, drag.y + dy));
+      layout[id] = { x, y };
+      button.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      button.classList.add("arranged", "dragging");
+    });
+    const end = () => {
+      if (!drag) return;
+      suppressClick = drag.moved;
+      button.classList.remove("dragging");
+      if (drag.moved) save();
+      drag = null;
+      setTimeout(() => { suppressClick = false; }, 0);
+    };
+    button.addEventListener("pointerup", end);
+    button.addEventListener("pointercancel", end);
+    button.addEventListener("click", event => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }, true);
+  });
+}
+
+function bindMovableWidgets() {
+  const storageKey = "raj-os-widget-layout-v1";
+  let layout;
+  try {
+    layout = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    if (!layout || typeof layout !== "object") layout = {};
+  } catch {
+    layout = {};
+  }
+  document.querySelectorAll("[data-movable-widget]").forEach(widget => {
+    const id = widget.dataset.movableWidget;
+    const saved = layout[id];
+    if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) widget.style.translate = `${saved.x}px ${saved.y}px`;
+    let drag = null;
+    widget.addEventListener("pointerdown", event => {
+      if (window.innerWidth <= 900 || event.button !== 0 || event.target.closest("button,a,input,textarea")) return;
+      const current = layout[id] || { x: 0, y: 0 };
+      drag = { x: event.clientX, y: event.clientY, left: current.x, top: current.y };
+      widget.setPointerCapture(event.pointerId);
+      widget.classList.add("widget-dragging");
+    });
+    widget.addEventListener("pointermove", event => {
+      if (!drag) return;
+      const x = Math.max(-700, Math.min(700, drag.left + event.clientX - drag.x));
+      const y = Math.max(-500, Math.min(500, drag.top + event.clientY - drag.y));
+      layout[id] = { x, y };
+      widget.style.translate = `${x}px ${y}px`;
+    });
+    const stop = () => {
+      if (!drag) return;
+      drag = null;
+      widget.classList.remove("widget-dragging");
+      localStorage.setItem(storageKey, JSON.stringify(layout));
+    };
+    widget.addEventListener("pointerup", stop);
+    widget.addEventListener("pointercancel", stop);
+  });
+}
+
 if (musicDeck && musicAudio) {
   const playButton = musicDeck.querySelector("[data-music-play]");
   const progress = musicDeck.querySelector("[data-music-progress]");
@@ -1343,6 +1952,9 @@ learnSticky?.addEventListener("pointermove", event => {
 });
 learnSticky?.addEventListener("pointerup", () => { stickyDrag = null; });
 setDailyMotivation();
+bindIdentityMorph();
+bindDesktopArrangement();
+bindMovableWidgets();
 
 document.addEventListener("click", event => {
   const opener = event.target.closest("[data-open]");
