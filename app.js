@@ -98,7 +98,7 @@ const apps = {
         <h2 class="app-heading">Do not trust me.<br><em>Press play.</em></h2>
         <p class="app-deck">Five real RapidXAI client testimonial videos with their actual voices. Choose a card to play it here, expand the theater, or open the canonical YouTube upload.</p>
         ${renderProofTheater()}
-        <p class="source-note">No invented client names, companies, titles, or outcomes. Playback comes directly from YouTube and starts only after your interaction.</p>
+        <p class="source-note">No invented client names, companies, or outcomes. The clean service labels are navigation categories; playback and source titles come directly from YouTube.</p>
       </div>`,
   },
   journey: {
