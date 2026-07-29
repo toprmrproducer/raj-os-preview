@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen, pixel-art personal operating system for Shreyas Raj. It combines an interactive desktop wallpaper and movable Raj sprite with draggable applications, a working mini-browser, verified proof, real testimonial links, project files, emergency contact, socials, and a public changelog.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 4 restores the original editorial desktop composition: Shreyas's portrait, professional generated application icons, draggable applications, a working mini-browser, verified proof, real testimonial links, project files, voice agent, socials, Founder.txt, Journey.app, and honest activity notifications.
 
 ## Open locally
 
@@ -16,9 +16,7 @@ python3 -m http.server 4173
 
 ## Controls
 
-- Raj automatically patrols the desktop and changes direction as he moves.
-- Click or keyboard-activate Raj to make him wave.
-- Click the sun or moon to toggle the complete day/night world.
+- Choose Day, Night, or Dark from the menu bar. The preference persists.
 - Click a desktop app, menu item, or dock icon to open its OS window.
 - Drag windows by their title bars on desktop.
 - Double-click a title bar to maximize.
@@ -29,7 +27,7 @@ python3 -m http.server 4173
 
 ## Art direction
 
-The interface uses a bespoke 16-bit operating-system world rather than stock iconography. Generated assets include directional Shreyas sprites, a Hardik companion sprite, fitness and systems scenes, gamified social-channel icons, interactive buildings, shipped crates, an update terminal, and matching world props. Desktop and dock launchers deliberately use restrained Mac-like tiles. The desktop also includes a custom pixel cursor, drifting clouds, day/night themes, and a grounded Voice Agent Lab.
+The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmospheric wallpaper, editorial typography, crisp OS chrome, a generated full-body Shreyas portrait, and one coherent family of ten generated pixel application icons. The Pokémon/GBA landscape, roaming sprite, hills, paths, grass, and mixed inventory-art direction were deliberately removed. Generated art is reserved for the portrait, icon family, and Voice Agent Lab surfaces.
 
 ## Voice concierge
 
@@ -37,4 +35,4 @@ The interface uses a bespoke 16-bit operating-system world rather than stock ico
 
 ## Content guardrails
 
-The public metrics are taken from Shreyas's source-backed portfolio brief. The unverified `$1.2M+` attribution claim is intentionally excluded from the headline until underlying proof and client permission are confirmed.
+The public metrics are taken from Shreyas's source-backed portfolio brief. Activity notifications use verified project and proof events; no fake company or revenue win is presented as real. The unverified `$1.2M+` attribution claim is intentionally excluded from the headline until underlying proof and client permission are confirmed.

@@ -99,25 +99,36 @@ const apps = {
         <p class="source-note">Every card opens the canonical YouTube upload. No invented names, titles, or results.</p>
       </div>`,
   },
-  team: {
-    title: "Team — People.app",
+  journey: {
+    title: "Journey — Timeline.app",
     chrome: "#b8a7e8",
-    subtitle: "HUMANS IN THE LOOP",
+    subtitle: "2015 → NOW",
     render: () => `
       <div class="app-content">
-        <span class="app-kicker">THE PEOPLE LAYER</span>
-        <h2 class="app-heading">Two people.<br><em>Conquering the world.</em></h2>
-        <p class="app-deck">A two-person operating team built around commercial leverage and deep technical execution.</p>
-        <div class="team-party">
-          <figure><img src="./assets/raj-front.png" alt=""><figcaption>PLAYER 01 · SHREYAS</figcaption></figure>
-          <b>+</b>
-          <figure><img src="./assets/hardik-front.png" alt=""><figcaption>PLAYER 02 · HARDIK</figcaption></figure>
+        <span class="app-kicker">MY JOURNEY / PUBLIC FILE</span>
+        <h2 class="app-heading">Built in chapters.<br><em>Still becoming.</em></h2>
+        <p class="app-deck">A deliberately honest public timeline. Where the archive is incomplete, it says so instead of inventing a cleaner story.</p>
+        <div class="journey-list">
+          ${milestone("2015","THE FIRST CHAPTER","The public journey file begins here. The exact early archive is still being reconstructed.","#f5d56e")}
+          ${milestone("2024","RAPIDXAI / OPERATOR MODE","AI systems, automations, voice infrastructure, and commercial delivery became the operating focus.","#f5a39c")}
+          ${milestone("2025","100K+ COMMUNITY","The recorded YouTube and Instagram audience crossed six figures across the saved channel audit.","#a8d7e8")}
+          ${milestone("2026","SHREYAS OS ONLINE","Six selected systems, five client videos, and the operating playbook became one interactive public portfolio.","#c7f36b")}
+          ${milestone("NEXT","THE UNREASONABLE TARGET","Keep shipping real businesses, durable systems, and work that produces measurable leverage.","#b8a7e8")}
         </div>
-        <div class="team-grid">
-          ${team("SR","Shreyas Raj","Founder / Strategy / Product","Owns the business outcome, product direction, commercial system, and final quality bar.","#f5a39c")}
-          ${team("HA","Hardik Agarwal","Engineering / Infrastructure","Builds and operates technical systems across voice, agent products, telephony, infrastructure, and deployment.","#a8d7e8")}
-        </div>
-        <div class="quote">Strategy × engineering. Two people. One unreasonable target.</div>
+      </div>`,
+  },
+  founder: {
+    title: "Founder.txt — Notepad",
+    chrome: "#e6e35f",
+    subtitle: "PLAIN TEXT / READ ONLY",
+    render: () => `
+      <div class="notepad-app">
+        <header><span>FOUNDER.TXT</span><small>SHREYASRAJ.COM</small></header>
+        <p class="notepad-lead">Building systems<br>that make money<br>while I sleep.</p>
+        <p>I am Shreyas Raj—founder, operator, and AI builder. I care about commercially useful systems: products that ship, automations that remove expensive work, and interfaces people remember.</p>
+        <p>The main folders on this desktop are Projects and Revenue. Start there. The rest explains how the machine works.</p>
+        <blockquote>My word is iron. I do what I say, I say what I do.</blockquote>
+        <footer>AVAILABLE FOR SELECT BUILDS · LAST PATCHED 29 JUL 2026</footer>
       </div>`,
   },
   socials: {
@@ -136,19 +147,25 @@ const apps = {
           ${social("X","X / Twitter","Daily experiments and operator notes","https://x.com/TopR9595","#b9dfe8")}
           ${social("GH","GitHub","Products, experiments, and shipped code","https://github.com/TopR9595","#d4c7ed")}
         </div>
+        <div class="social-garden" aria-hidden="true">
+          <img src="./assets/premium-world/potted-plant.png" alt="">
+          <span><i></i><i></i><i></i><i></i><i></i></span>
+          <p>DISTRIBUTION GARDEN · GROWING AGAIN</p>
+        </div>
       </div>`,
   },
   updates: {
     title: "Updates — Changelog.app",
     chrome: "#9ec58f",
-        subtitle: "LIVE OS / v3.2.0",
+    subtitle: "LIVE OS / v4.0.0",
     render: () => `
       <div class="app-content">
         <span class="app-kicker">PUBLIC CHANGELOG</span>
         <h2 class="app-heading">A portfolio that<br><em>keeps shipping.</em></h2>
         <p class="app-deck">RAJ OS gets patched as the business changes. Projects, proof, lessons, and experiments become visible updates instead of stale résumé bullets.</p>
         <div class="process-list">
-          ${step("v3.2.0 · Night + Voice","Day/night world toggle, autonomous Raj, custom cursor, restrained Mac-like app chrome, safe browser-native voice concierge, and grounded Voice Agent Lab.","#a9e1d2")}
+          ${step("v4.0.0 · Homepage Mode","Restored the original desktop composition, removed the game world, added Day/Night/Dark themes, professional iconography, honest activity, Founder.txt, and Journey.app.","#f5a39c")}
+          ${step("v3.2.0 · Night + Voice","Added a safe browser-native voice concierge and appearance controls.","#a9e1d2")}
           ${step("v3.0.0 · Desktop Mode","One-screen desktop, working browser, emergency channel, movable windows, and a moving Raj.","#c7f36b")}
           ${step("v1.2.0 · Proof Vault","Source-backed metrics and five canonical client testimonial links added.","#ffd95a")}
           ${step("v1.0.0 · First Boot","Desktop OS, draggable windows, command search, projects, revenue, process, achievements, socials, and contact.","#f5a39c")}
@@ -215,7 +232,7 @@ const apps = {
       <div class="voice-agent">
         <header class="voice-agent-hero">
           <img src="./assets/premium-world/voice-lab.png" alt="" />
-          <div><span>RAPIDXAI VOICE CONCIERGE</span><h2>Talk to<br><em>RAJ OS.</em></h2><p>Ask about projects, results, systems, testimonials, the team, socials, or starting a project.</p></div>
+          <div><span>RAPIDXAI VOICE CONCIERGE</span><h2>Talk to<br><em>RAJ OS.</em></h2><p>Ask about projects, results, systems, testimonials, the journey, socials, or starting a project.</p></div>
         </header>
         <div class="voice-console">
           <div class="voice-status"><i></i><span data-voice-status>READY FOR A COMMAND</span></div>
@@ -296,9 +313,9 @@ const commandInput = document.querySelector("#command-input");
 const commandResults = document.querySelector("#command-results");
 const worldScroll = document.querySelector("#world-scroll");
 const worldPlayer = document.querySelector("#world-player");
-const playerSprite = worldPlayer.querySelector("img");
+const playerSprite = worldPlayer?.querySelector("img");
 const playerLabel = document.querySelector("#player-label");
-const themeToggle = document.querySelector("[data-theme-toggle]");
+const themeButtons = [...document.querySelectorAll("[data-theme-choice]")];
 const spriteSources = {
   down: "./assets/raj-front.png",
   up: "./assets/raj-back.png",
@@ -315,17 +332,20 @@ let playerState = { x: 0, y: 0, direction: "down", waypoint: -1, paused: false }
 let walkTimer;
 
 function applyTheme(theme) {
-  const night = theme === "night";
-  os.classList.toggle("night-mode", night);
-  themeToggle.setAttribute("aria-label", night ? "Switch to day mode" : "Switch to night mode");
-  themeToggle.setAttribute("aria-pressed", String(night));
-  localStorage.setItem("raj-os-theme", night ? "night" : "day");
+  const safeTheme = ["day", "night", "dark"].includes(theme) ? theme : "day";
+  os.dataset.theme = safeTheme;
+  os.classList.toggle("night-mode", safeTheme === "night");
+  os.classList.toggle("dark-mode", safeTheme === "dark");
+  themeButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.themeChoice === safeTheme)));
+  localStorage.setItem("raj-os-theme", safeTheme);
 }
 
 function toggleTheme() {
-  const next = os.classList.contains("night-mode") ? "day" : "night";
+  const sequence = ["day", "night", "dark"];
+  const current = sequence.indexOf(os.dataset.theme || "day");
+  const next = sequence[(current + 1) % sequence.length];
   applyTheme(next);
-  toast(next === "night" ? "NIGHT MODE" : "DAY MODE", next === "night" ? "Moonlight shift complete. The night desk is online." : "Sunrise restored. Day operations resumed.");
+  toast(`${next.toUpperCase()} MODE`, next === "night" ? "The night desk is online." : next === "dark" ? "Distraction-free dark workstation enabled." : "Day operations resumed.");
 }
 
 function projectCard(index, title, category, copy, proofA, proofB, color, url) {
@@ -338,6 +358,7 @@ function projectCard(index, title, category, copy, proofA, proofB, color, url) {
 }
 function metric(value, label, copy, color) { return `<article class="metric-card" style="--metric:${color}"><strong>${value}</strong><span>${label}</span><p>${copy}</p></article>`; }
 function step(title, copy, color) { return `<article class="process-step" style="--step:${color}"><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
+function milestone(year, title, copy, color) { return `<article class="journey-entry" style="--milestone:${color}"><time>${year}</time><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
 function badge(glyph, title, copy, color) { return `<article class="badge-card" style="--badge:${color}"><span class="badge-glyph">${glyph}</span><h3>${title}</h3><p>${copy}</p></article>`; }
 function team(initials, name, role, copy, color) { return `<article class="team-card" style="--team:${color}"><span class="team-avatar">${initials}</span><h3>${name}</h3><strong>${role}</strong><p>${copy}</p></article>`; }
 function social(mark, name, copy, url, color) {
@@ -356,7 +377,7 @@ function finishBoot() {
   boot.classList.add("done");
   os.classList.add("ready");
   setTimeout(() => {
-    toast("SYSTEM ONLINE", "RAJ OS loaded. Open an app, click Raj, or press ⌘K.");
+    toast("SYSTEM ONLINE", "Shreyas OS loaded. Open an app or press ⌘K.");
   }, 680);
 }
 
@@ -481,7 +502,7 @@ function bindVoiceAgent(win, voiceInput) {
     }
     addLine("YOU", clean);
     const q = clean.toLowerCase();
-    let response = "I can open projects, results, systems, testimonials, team, socials, browser, or the emergency contact channel.";
+    let response = "I can open projects, results, systems, testimonials, the journey, Founder.txt, socials, browser, or the emergency contact channel.";
     let target;
     if (/project|kawsay|ship|work/.test(q)) {
       response = "Opening the shipped project files. Kawsaypac Preview 3 is the final commerce preview.";
@@ -495,9 +516,12 @@ function bindVoiceAgent(win, voiceInput) {
     } else if (/testimonial|client|voice.*proof/.test(q)) {
       response = "Opening five canonical client testimonial videos.";
       target = "testimonials";
-    } else if (/team|hardik|who/.test(q)) {
-      response = "The operating party is Shreyas Raj and Hardik Agarwal. Opening the team file.";
-      target = "team";
+    } else if (/journey|timeline|2015|milestone/.test(q)) {
+      response = "Opening Shreyas's public journey and milestone file.";
+      target = "journey";
+    } else if (/founder|note|who.*shreyas|about/.test(q)) {
+      response = "Opening Founder dot text—the plain-language note behind the operating system.";
+      target = "founder";
     } else if (/instagram|social|youtube|github|twitter|\\bx\\b/.test(q)) {
       response = "Opening the live social channels. LinkedIn is intentionally not listed.";
       target = "socials";
@@ -598,10 +622,11 @@ function jumpTo(id) {
   const section = document.querySelector(`#${id}`);
   if (!section) return;
   section.scrollIntoView({ behavior: "smooth", block: "start" });
-  playerLabel.textContent = districtLabels[id] || "RAJ · ONLINE";
+  if (playerLabel) playerLabel.textContent = districtLabels[id] || "RAJ · ONLINE";
 }
 
 function renderPlayer() {
+  if (!worldPlayer || !playerSprite) return;
   const scale = window.innerWidth <= 760 ? .78 : 1;
   worldPlayer.style.transform = `translate3d(${playerState.x}px, ${playerState.y}px, 0) scale(${scale})`;
   playerSprite.src = spriteSources[playerState.direction];
@@ -612,7 +637,7 @@ function renderPlayer() {
 }
 
 function syncWorld() {
-  playerLabel.textContent = "RAJ · HOME BASE";
+  if (playerLabel) playerLabel.textContent = "RAJ · HOME BASE";
 }
 
 function patrolWaypoints() {
@@ -636,6 +661,7 @@ function patrolWaypoints() {
 }
 
 function autoPatrol() {
+  if (!worldPlayer || !playerSprite) return;
   if (playerState.paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const waypoints = patrolWaypoints();
   playerState.waypoint = (playerState.waypoint + 1) % waypoints.length;
@@ -652,6 +678,7 @@ function autoPatrol() {
 }
 
 function waveHello() {
+  if (!worldPlayer || !playerSprite) return;
   playerState.paused = true;
   worldPlayer.classList.remove("walking");
   worldPlayer.classList.add("waving");
@@ -708,7 +735,7 @@ function renderCommands(query) {
   const commands = [
     ...Object.entries(apps).map(([id, app]) => ({ id, label: `Open ${app.title}`, hint: "APP" })),
     { id: "desktop", label: "Show desktop", hint: "SYSTEM" },
-    { id: "theme", label: "Toggle day / night", hint: "SYSTEM" },
+    { id: "theme", label: "Cycle day / night / dark", hint: "SYSTEM" },
     { id: "email", label: "Copy Shreyas's email", hint: "ACTION" },
   ].filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
   commandResults.innerHTML = commands.map((item, index) => `<button class="command-result ${index === 0 ? "active" : ""}" type="button" data-command-id="${item.id}"><strong>${item.label}</strong><small>${item.hint}</small></button>`).join("");
@@ -731,7 +758,10 @@ document.addEventListener("click", event => {
   if (event.target.closest("[data-command]")) openPalette();
 });
 document.querySelector(".boot-skip").addEventListener("click", finishBoot);
-themeToggle.addEventListener("click", toggleTheme);
+themeButtons.forEach(button => button.addEventListener("click", () => {
+  applyTheme(button.dataset.themeChoice);
+  toast(`${button.dataset.themeChoice.toUpperCase()} MODE`, "Appearance updated and saved.");
+}));
 document.querySelector(".palette-backdrop").addEventListener("click", closePalette);
 commandInput.addEventListener("input", event => renderCommands(event.target.value));
 commandInput.addEventListener("keydown", event => {
@@ -744,11 +774,11 @@ document.addEventListener("keydown", event => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); openPalette(); }
   if (event.key === "Escape") { palette.classList.contains("open") ? closePalette() : closeFocused(); }
 });
-document.querySelector(".sticky").addEventListener("keydown", event => {
+document.querySelector(".sticky")?.addEventListener("keydown", event => {
   if (event.key === "Enter" || event.key === " ") openApp(event.currentTarget.dataset.open);
 });
-worldPlayer.addEventListener("click", event => { event.stopPropagation(); waveHello(); });
-worldPlayer.addEventListener("keydown", event => {
+worldPlayer?.addEventListener("click", event => { event.stopPropagation(); waveHello(); });
+worldPlayer?.addEventListener("keydown", event => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     waveHello();
@@ -771,5 +801,3 @@ applyTheme(localStorage.getItem("raj-os-theme") || "day");
 syncWorld();
 setInterval(updateClock, 30000);
 setTimeout(finishBoot, 2450);
-setTimeout(autoPatrol, 3300);
-setInterval(autoPatrol, 4700);
