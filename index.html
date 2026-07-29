@@ -6,6 +6,7 @@
     <meta name="description" content="Welcome to shreyasraj.com — the interactive AI operating-system portfolio of Shreyas Raj." />
     <meta name="theme-color" content="#f3b1be" />
     <title>Shreyas Raj — AI OS</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet" />
@@ -19,9 +20,9 @@
       <button class="boot-skip os-button" type="button">SKIP BOOT ↗</button>
       <div class="boot-mark">SR</div>
       <div class="boot-terminal">
-        <p class="boot-line" style="--delay:.1s">SHREYASRAJ.COM / AI OS v5.0</p>
-        <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, PROOF, ARCADE, MUSIC, AND HIDDEN FILES...</p>
-        <p class="boot-line" style="--delay:.75s">HOMEPAGE STATUS: <span>ONLINE</span></p>
+        <p class="boot-line" style="--delay:.1s">LOADING THE PORTFOLIO OF SHREYAS RAJ...</p>
+        <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, CASE STUDIES, PROOF, VOICE, AND MEDIA...</p>
+        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.1: <span>ONLINE</span></p>
         <div class="boot-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
       <p class="boot-title">welcome to Shreyas Raj.<br /><em>this is my AI operating system.</em></p>
@@ -61,17 +62,13 @@
         <img class="ambient-character day-energy-runner" src="./assets/ambient/day-energy-runner.png" alt="" aria-hidden="true" />
         <img class="ambient-character night-cat-rocket" src="./assets/ambient/space-cat-rocket.png" alt="" aria-hidden="true" />
 
-        <aside class="activity-stack" aria-label="Recent verified activity">
-          <header><span>LIVE ACTIVITY</span><i></i></header>
-          <button type="button" data-open="projects">
-            <time>TODAY</time><strong>Kawsaypac Preview 3 shipped</strong><small>PROJECT FILE UPDATED ↗</small>
-          </button>
-          <button type="button" data-open="revenue">
-            <time>PUBLIC</time><strong>1.81M YouTube views indexed</strong><small>RECORDED CHANNEL AUDIT ↗</small>
-          </button>
-          <button type="button" data-open="testimonials">
-            <time>INDEXED</time><strong>5 client videos in the proof vault</strong><small>CANONICAL YOUTUBE LINKS ↗</small>
-          </button>
+        <aside class="activity-stack motivation-stack" aria-label="Daily motivation">
+          <header><span>DAILY TRANSMISSION</span><i></i></header>
+          <div class="motivation-card">
+            <time data-motivation-date>TODAY</time>
+            <blockquote data-motivation-quote>BUILD THE THING YOU KEEP WISHING EXISTED.</blockquote>
+            <small>SHREYAS OS / DAILY MOTIVATION</small>
+          </div>
         </aside>
 
         <div class="desktop-intro">
@@ -88,7 +85,7 @@
         <section class="app-grid" aria-label="Desktop applications">
           <button class="desktop-app featured-app" type="button" data-open="projects" style="--app:#f5a39c">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/projects.png" alt="" /></span>
-            <strong>Projects</strong><small>6 shipped systems</small><b>MAIN DRIVE</b>
+            <strong>Projects</strong><small>10 selected case files</small><b>MAIN DRIVE</b>
           </button>
           <button class="desktop-app featured-app" type="button" data-open="revenue" style="--app:#c7f36b">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/revenue.png" alt="" /></span>
@@ -112,7 +109,7 @@
           </button>
           <button class="desktop-app lab-app" type="button" data-open="voice" style="--app:#a9e1d2">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/voice.png" alt="" /></span>
-            <strong>Agent Lab</strong><small>Talk to RAJ OS</small>
+            <strong>Talk to Shreyas</strong><small>Voice + AI concierge</small>
           </button>
           <button class="desktop-app" type="button" data-open="founder" style="--app:#e6e35f">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/founder.png" alt="" /></span>
@@ -124,7 +121,7 @@
           </button>
           <button class="desktop-app" type="button" data-open="contact" style="--app:#e9d19d">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/contact.png" alt="" /></span>
-            <strong>Contact</strong><small>Open a channel</small>
+            <strong>Leave a Message</strong><small>Open a channel</small>
           </button>
           <button class="desktop-app" type="button" data-open="achievements" style="--app:#ffd95a">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/premium-dock/proof.png" alt="" /></span>
@@ -141,9 +138,9 @@
         </button>
 
         <div class="learn-cluster" data-learn-cluster>
-          <button class="learn-secret" type="button" data-open="learn">LEARN.APP<br /><small>FIELD MANUAL</small></button>
+          <button class="learn-secret" type="button" data-open="learn">LEARN.APP<br /><small>YOUTUBE LIBRARY</small></button>
           <button class="learn-sticky" type="button" data-learn-sticky aria-label="Move sticky note to reveal Learn app">
-            <span>MOVE ME</span><strong>There is a field manual under this note.</strong><small>DRAG OR TAP ↗</small>
+            <span>MOVE ME</span><strong>There is a video library under this note.</strong><small>DRAG OR TAP ↗</small>
           </button>
         </div>
 
@@ -167,9 +164,9 @@
         <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
         <section class="music-deck" data-music-deck aria-label="Music player">
-          <button type="button" data-music-prev aria-label="Previous track">PREV</button>
-          <button class="music-play" type="button" data-music-play aria-pressed="false">PLAY</button>
-          <button type="button" data-music-next aria-label="Next track">NEXT</button>
+          <button type="button" data-music-prev aria-label="Previous track">‹ PREV</button>
+          <button class="music-play" type="button" data-music-play aria-pressed="false">▶ PLAY</button>
+          <button type="button" data-music-next aria-label="Next track">NEXT ›</button>
           <button class="music-copy" type="button" data-music-open>
             <strong data-music-title>Tomb of Death</strong><small data-music-artist>Braiz · Super Slowed</small>
           </button>
@@ -183,7 +180,7 @@
           <button type="button" data-open="projects" aria-label="Open projects"><span class="dock-icon"><img src="./assets/icons-v4/projects.png" alt="" /></span><small>Projects</small></button>
           <button type="button" data-open="revenue" aria-label="Open public results"><span class="dock-icon"><img src="./assets/icons-v4/revenue.png" alt="" /></span><small>Results</small></button>
           <button type="button" data-open="journey" aria-label="Open journey"><span class="dock-icon"><img src="./assets/icons-v4/journey.png" alt="" /></span><small>Journey</small></button>
-          <button type="button" data-open="voice" aria-label="Open voice agent"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>Agent Lab</small></button>
+          <button type="button" data-open="voice" aria-label="Talk to Shreyas"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>Talk to Shreyas</small></button>
           <button type="button" data-open="founder" aria-label="Open Founder.txt"><span class="dock-icon"><img src="./assets/icons-v4/founder.png" alt="" /></span><small>Founder.txt</small></button>
           <button type="button" data-open="contact" aria-label="Open contact"><span class="dock-icon"><img src="./assets/icons-v4/contact.png" alt="" /></span><small>Contact</small></button>
           <button type="button" data-open="games" aria-label="Open games"><span class="dock-icon"><img src="./assets/premium-world/data-modules.png" alt="" /></span><small>Games</small></button>

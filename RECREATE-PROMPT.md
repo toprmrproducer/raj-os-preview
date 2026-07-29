@@ -21,7 +21,7 @@ The homepage is `shreyasraj.com`. The owner is **Shreyas Raj**, founder, operato
 ## Desktop
 
 - Menu bar: SR mark, Shreyas OS, Work, Proof, Journey, Search, Day/Night/Dark controls, live local date/time/timezone.
-- Left: verified activity panel; large “Shreyas Raj” identity; short founder line; Enter Portfolio and Start Project.
+- Left: date-driven Daily Transmission / motivational quote panel; large “Shreyas Raj” identity; short founder line; Enter Portfolio and Start Project.
 - Right: professional application icons for Projects, Results, Systems, Proof, Journey, Socials, Agent Lab, Founder.txt, Browser, Contact, Achievements, Game Room.
 - Bottom-right: full-body illustrated Shreyas in red T-shirt, burgundy trousers, sunglasses, white sneakers. Clicking cycles Founder/Wave/Builder poses and reveals a hidden `DO_NOT_OPEN` folder.
 - Visible red SOS control opens WhatsApp `+91 93075 12816`, phone call, and Calendly.
@@ -31,7 +31,7 @@ The homepage is `shreyasraj.com`. The owner is **Shreyas Raj**, founder, operato
 
 ## Required apps
 
-1. **Projects — Finder:** six real systems with links and honest proof chips: RapidX Voice Studio, Kawsaypac Preview 3, EXTNGO, RapidX AI Voice, Shreyas OS, SimpliiGood.
+1. **Projects — Finder:** ten evidence-aware case files across consulting, websites, AI voice, and deployment. Label delivered, ongoing, demo, scoped, and pending-sign-off work distinctly. Include a generated systems-map visual; never link dead hosts.
 2. **Results — Proof.app:** 6 shipped systems, 1.81M YouTube views, 100K+ builder community, 5 playable testimonials, 315 published videos, 17 Kawsaypac flows. No company revenue.
 3. **Systems.app:** five-stage RapidXAI operating loop plus fitness/systems illustrations.
 4. **Achievements:** six unlocked milestones and the “My word is iron” quote.
@@ -45,11 +45,11 @@ The homepage is `shreyasraj.com`. The owner is **Shreyas Raj**, founder, operato
 7. **Socials:** YouTube, new Instagram `@theshreyasraj9595`, X, GitHub; state that the previous 70K Instagram was banned; no LinkedIn.
 8. **Founder.txt:** plain-language founder note.
 9. **Garage Mail / Contact:** email, Calendly, RapidXAI, plus two Netlify Forms: Message Raj and Video Suggestion. Include static hidden form blueprints for Netlify detection, AJAX URL-encoded submission, honeypot, validation, success/error state, and mailto fallback.
-10. **Voice Agent:** browser-native speech recognition/synthesis plus typed fallback. Never expose Gemini/API keys in the static client.
+10. **Talk to Shreyas / Voice Agent:** browser-native speech recognition/synthesis plus typed fallback and four isolated production Dograh widgets selectable inside a same-origin frame. Never expose private Gemini/API keys in the static client.
 11. **Browser — RajNet:** URL input, bookmarks, iframe with external-tab fallback.
 12. **Music.app / SoundDeck:** four opt-in local tracks, previous/play/next/progress/volume, no autoplay, local volume persistence, music and testimonials pause each other.
-13. **Game Room:** live iframes for `https://toprmrproducer.github.io/viper-arena/` and `https://toprmrproducer.github.io/fangs-io/`; preview-only case files for Neon Drift and Shotr.io.
-14. **Learn.app:** five useful lessons on leverage, proof, failure visibility, distribution, and honest evidence.
+13. **Game Room:** same-origin local Viper Arena and Fangs.io. Viper is single-player with persisted callsign, top-ten local scores, escalating missions, boss waves, visible equipment/loadouts, ASMR/Arcade/Mute audio, and touch controls. Fangs.io stores a lighter local leaderboard. Neon Drift is the featured preview case file.
+14. **Learn.app:** a selectable, embedded library of six real videos from `youtube.com/@AIwithShreyasRaj`, with canonical YouTube links and no invented titles.
 15. **Secret.folder:** three explicit confirmations, then open `https://www.youtube.com/watch?v=dQw4w9WgXcQ` in a new tab. Never trap the browser, force fullscreen, or autoplay. Include `API_KEYS.env` containing only obvious `DEMO_KEY_NOT_REAL` values.
 
 ## Interaction contract

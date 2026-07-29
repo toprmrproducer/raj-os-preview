@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5 preserves the original editorial desktop composition and adds real video proof, a music deck, two playable games, Netlify Garage Mail, video suggestions, portrait poses, original day/night ambient characters, hidden Learn and prank folders, and a visible SOS channel.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.1 preserves the original editorial desktop composition and makes the portfolio the core product: ten evidence-aware case files, four service lanes, a generated systems map, real video proof, a YouTube learning library, four production Dograh voice-agent embeds, daily motivation, music, two upgraded playable games, Netlify Garage Mail, video suggestions, portrait poses, ambient characters, hidden folders, and a visible SOS channel.
 
 ## Open locally
 
@@ -31,7 +31,7 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 
 ## Voice concierge
 
-`Voice Agent.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. No private Gemini key is embedded in the static site. A Gemini-backed conversational model would require a server-side proxy.
+`Talk to Shreyas.app` uses browser speech recognition and speech synthesis, plus a typed fallback, to answer portfolio questions and open the relevant OS apps. It also isolates four production Dograh widgets in a same-origin agent frame so their identical widget IDs cannot collide. The provider script/API origins are explicitly allowed by the production CSP. No private Gemini key is embedded in the static site.
 
 ## Video proof
 
@@ -39,7 +39,7 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 
 ## Games and music
 
-`Games.app` embeds the real Viper Arena and Fangs.io deployments, with archive cards for Neon Drift and Shotr.io. `Music.app` and the desktop Sound Deck expose four user-supplied tracks with explicit play/pause, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
+`Games.app` embeds local production copies of Viper Arena and Fangs.io. Viper Arena is the flagship single-player build with a persistent pilot name, top-ten local leaderboard, escalating mission goals, three boss waves, equipment loadouts, ASMR/Arcade/Mute sound modes, and responsive touch controls. Fangs.io stores a lighter local high-score table. Neon Drift remains a featured visual case file. `Music.app` and the desktop Sound Deck expose four user-supplied tracks with unmistakable play/pause controls, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
 
 ## Netlify
 
@@ -49,4 +49,4 @@ The complete rebuild specification lives in [`RECREATE-PROMPT.md`](./RECREATE-PR
 
 ## Content guardrails
 
-The public metrics are taken from Shreyas's source-backed portfolio brief. Company revenue and unverified attribution claims stay private. Activity notifications use inspectable project, audience, and proof events; no fake company or revenue win is presented as real.
+The public metrics and case-study statuses are taken from Shreyas's source-backed portfolio material. Company revenue and unverified attribution claims stay private. Delivered, ongoing, demo, scoped, and pending-sign-off work are labeled separately; no fake company or revenue win is presented as real.

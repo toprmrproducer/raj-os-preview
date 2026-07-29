@@ -5,3 +5,12 @@ assets/ambient/*-source.png
 assets/icons-v4/icon-atlas*.png
 assets/raj-fitness.png
 assets/raj-systems.png
+games/fangs-io/.gitignore
+games/fangs-io/.nojekyll
+games/fangs-io/CLAUDE.md
+games/fangs-io/README.md
+games/fangs-io/SPEC.md
+games/fangs-io/_archive-multiplayer/
+games/fangs-io/ads.txt
+games/fangs-io/package.json
+games/fangs-io/tools/

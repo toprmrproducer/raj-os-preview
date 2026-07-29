@@ -6,6 +6,15 @@ const proofVideos = [
   { id: "mtmHkGaE0r0", label: "Client Voice 05", type: "Client testimonial", duration: "01:30", url: "https://youtu.be/mtmHkGaE0r0" },
 ];
 
+const learningVideos = [
+  { id: "iuZeXR6bgGc", title: "Build & Sell Your Own AI OS With Claude Code (Free Full Build)", url: "https://www.youtube.com/watch?v=iuZeXR6bgGc" },
+  { id: "P9A8a9-fZ48", title: "Vapi Made Me Broke. This Made It Free.", url: "https://www.youtube.com/watch?v=P9A8a9-fZ48" },
+  { id: "k8F-jAggcBA", title: "I Copied Top AI Gurus' Personal Brand Playbook", url: "https://www.youtube.com/watch?v=k8F-jAggcBA" },
+  { id: "lWiesgoPekU", title: "I'm 17 and I Charge $5,000 a Project. Here's How.", url: "https://www.youtube.com/watch?v=lWiesgoPekU" },
+  { id: "4IWr1Orc0tQ", title: "Get Your First Client in 14 Days With This AI Website System", url: "https://www.youtube.com/watch?v=4IWr1Orc0tQ" },
+  { id: "4HJRVXCg2Wc", title: "How I Got My First Client with 3,600 Cold Calls | AI Agency Uncut Ep. 01", url: "https://www.youtube.com/watch?v=4HJRVXCg2Wc" },
+];
+
 const musicTracks = [
   { title: "Tomb of Death", artist: "Braiz · Super Slowed", duration: "1:53", src: "./assets/music/tomb-of-death-super-slowed.mp3" },
   { title: "Encanto", artist: "KIT", duration: "2:08", src: "./assets/music/encanto-kit.mp3" },
@@ -23,19 +32,32 @@ const apps = {
   projects: {
     title: "Projects — Finder",
     chrome: "#f5a39c",
-    subtitle: "6 SELECTED SYSTEMS",
+    subtitle: "10 SELECTED CASE FILES",
     render: () => `
-      <div class="app-content">
+      <div class="app-content projects-app">
         <span class="app-kicker">SELECTED WORK / 2024—2026</span>
         <h2 class="app-heading">Things that<br><em>actually shipped.</em></h2>
-        <p class="app-deck">AI products, revenue infrastructure, and digital experiences built to survive contact with real users. Click a project to open the case file.</p>
+        <p class="app-deck">The portfolio is the point of this operating system: consulting, websites, AI voice infrastructure, operational platforms, and the proof behind them.</p>
+        <section class="case-study-overview">
+          <img src="./assets/case-studies/systems-map.png" alt="Pixel-art systems map connecting consulting, websites, AI voice agents, deployment infrastructure, and analytics" />
+          <div class="service-matrix">
+            <article><span>01</span><strong>CONSULTING</strong><p>Find the expensive constraint and turn it into an executable system.</p></article>
+            <article><span>02</span><strong>WEBSITES</strong><p>Premium interfaces built to explain, convert, and survive real users.</p></article>
+            <article><span>03</span><strong>AI VOICE</strong><p>Voice agents, cloning, telephony, prompts, analytics, and operational handoff.</p></article>
+            <article><span>04</span><strong>DEPLOYMENT</strong><p>Infrastructure, integrations, monitoring, and the last mile from demo to use.</p></article>
+          </div>
+        </section>
         <div class="project-list">
-          ${projectCard("01","RapidX Voice Studio","AI Voice Product","A live studio for building personas, testing conversations, generating speech, and launching outbound calls.","LIVE SYSTEM","VOICE INFRASTRUCTURE","#b9dfe8","http://168.144.22.217")}
+          ${projectCard("01","RapidX Voice Studio","AI Voice Product","A studio for building personas, testing conversations, generating speech, and launching outbound calls. The former public host is offline, so this opens as a documented case file instead of a dead link.","ARCHIVED HOST","VOICE INFRASTRUCTURE","#b9dfe8","")}
           ${projectCard("02","Kawsaypac Preview 3","Premium Commerce","The final cinematic Shopify preview, moving from Cotopaxi to the living forest across a 17-product catalog.","FINAL PREVIEW 3","17 PRODUCT FLOWS","#e3b5a3","https://toprmrproducer.github.io/kawsaypac-preview3/")}
           ${projectCard("03","EXTNGO","Headless Commerce","A Shopify-backed storefront for a retractable flat CAT6 cable, from product states through purchasing flow.","SHOPIFY BACKED","LIVE DEPLOYMENT","#c7f36b","https://extngo-cable-385.netlify.app")}
-          ${projectCard("04","RapidX AI Voice","White-label Voice SaaS","Agent creation, analytics, call storage, telephony, and Gemini integrations under one RapidXAI system.","FULL REBRAND","AUTH + CALL LOGS","#c2b2e9","")}
-          ${projectCard("05","Shreyas OS","Personal Operating System","A private local command surface for tasks, focus, calendar, activity, and recent workspaces.","LOCAL FIRST","REAL TASK WRITE-BACK","#ffd95a","")}
-          ${projectCard("06","SimpliiGood","Consumer Brand","A retail-first spirulina experience rebuilt around product education and cinematic storytelling.","BRAND-BIBLE BUILD","MOBILE QA","#a9e1d2","https://simpliigood-spirulina.netlify.app/simplii-green")}
+          ${projectCard("04","Pan-India CPaaS Voice Layer","Delivered AI Voice Infrastructure","Delivered voice cloning and a multi-provider AI voice layer: Gemini and Cartesia integration, prompt hardening, voicemail handling, and dashboard work.","DELIVERED + PAID","ANONYMIZED CASE","#c2b2e9","")}
+          ${projectCard("05","V2U Stocks Operations","Platform Infrastructure","Operate and maintain backend infrastructure for a stocks-research platform on an ongoing retainer; its public dashboard expansion is scoped, not claimed as shipped.","ONGOING RETAINER","STATUS: OPERATING","#ffd95a","")}
+          ${projectCard("06","Dental Voice Agent","US Practice Workflow Demo","Built and iterated a dental voice-agent demo for a US practice workflow; final client sign-off remains pending.","LIVE DEMO","SIGN-OFF PENDING","#a8d7e8","https://voicedemo.rapidx-ai.org")}
+          ${projectCard("07","SimpliiGood","Consumer Brand Website","A retail-first spirulina experience rebuilt around product education and cinematic storytelling.","LIVE WEBSITE","MOBILE QA","#a9e1d2","https://simpliigood-spirulina.netlify.app/simplii-green")}
+          ${projectCard("08","Pawd Store","Commerce Website","A live pet-commerce storefront and Shopify implementation from the RapidXAI web portfolio.","LIVE STORE","SHOPIFY BUILD","#f5c5a9","https://pawdstore.com")}
+          ${projectCard("09","Try Nokt","Product Website","A live product website shipped inside the RapidXAI web portfolio.","LIVE WEBSITE","PUBLIC BUILD","#d9edc0","https://trynokt.com")}
+          ${projectCard("10","Fastcreek AI Studio","Creative AI Website","A live creative-studio web experience combining conversion structure with a distinctive AI-native visual system.","LIVE WEBSITE","PUBLIC BUILD","#f6c1d0","https://fastcreek-creatives.vercel.app")}
         </div>
       </div>`,
   },
@@ -119,10 +141,14 @@ const apps = {
     chrome: "#b8a7e8",
     subtitle: "2015 → NOW",
     render: () => `
-      <div class="app-content">
+      <div class="app-content journey-app">
         <span class="app-kicker">MY JOURNEY / PUBLIC FILE</span>
         <h2 class="app-heading">Built in chapters.<br><em>Still becoming.</em></h2>
         <p class="app-deck">A deliberately honest public timeline. Where the archive is incomplete, it says so instead of inventing a cleaner story.</p>
+        <figure class="journey-map">
+          <img src="./assets/case-studies/systems-map.png" alt="Pixel-art map connecting consulting, websites, AI voice agents, deployment infrastructure, and analytics" />
+          <figcaption>THE SYSTEMS MAP / CONSULTING → BUILD → DEPLOY → PROVE</figcaption>
+        </figure>
         <div class="journey-list">
           ${milestone("2015","THE FIRST CHAPTER","The public journey file begins here. The exact early archive is still being reconstructed.","#f5d56e")}
           ${milestone("2024","RAPIDXAI / OPERATOR MODE","AI systems, automations, voice infrastructure, and commercial delivery became the operating focus.","#f5a39c")}
@@ -264,14 +290,14 @@ const apps = {
       </div>`,
   },
   voice: {
-    title: "Voice Agent — Concierge.app",
+    title: "Talk to Shreyas — Concierge.app",
     chrome: "#9fded4",
     subtitle: "BROWSER VOICE / ONLINE",
     render: () => `
       <div class="voice-agent">
         <header class="voice-agent-hero">
           <img src="./assets/premium-world/voice-lab.png" alt="" />
-          <div><span>RAPIDXAI VOICE CONCIERGE</span><h2>Talk to<br><em>RAJ OS.</em></h2><p>Ask about projects, results, systems, testimonials, the journey, socials, or starting a project.</p></div>
+          <div><span>SHREYAS AI CONCIERGE</span><h2>Talk to<br><em>Shreyas.</em></h2><p>Ask about projects, results, systems, testimonials, the journey, or starting a project.</p></div>
         </header>
         <div class="voice-console">
           <div class="voice-status"><i></i><span data-voice-status>READY FOR A COMMAND</span></div>
@@ -287,6 +313,17 @@ const apps = {
             <button type="button" data-voice-prompt="What results have you generated?">RESULTS</button>
             <button type="button" data-voice-prompt="How can I contact Shreyas?">CONTACT</button>
           </div>
+        </div>
+        <div class="voice-embed-slot" data-dograh-lab>
+          <header><div><span>LIVE VOICE AGENT EMBEDS</span><strong>DOGRAH CLOUD / PRODUCTION</strong></div><small data-dograh-status>AGENT 01 SELECTED</small></header>
+          <nav aria-label="Voice agent selection">
+            <button class="active" type="button" data-dograh-agent="1">AGENT 01</button>
+            <button type="button" data-dograh-agent="2">AGENT 02</button>
+            <button type="button" data-dograh-agent="3">AGENT 03</button>
+            <button type="button" data-dograh-agent="4">AGENT 04</button>
+          </nav>
+          <iframe data-dograh-frame src="./voice-agents/?agent=1" title="Shreyas production voice agent 01" loading="lazy" allow="microphone"></iframe>
+          <p>Each agent runs in an isolated frame so the provider widgets cannot collide. Dograh Cloud is currently under maintenance; the local RAJ OS concierge above remains available.</p>
         </div>
         <p class="source-note">PRIVACY: this version uses the browser's speech recognition and speech synthesis. No Gemini or other private API key is exposed in the static site.</p>
       </div>`,
@@ -343,42 +380,35 @@ const apps = {
   games: {
     title: "Games — Arcade.app",
     chrome: "#8d78d8",
-    subtitle: "2 LIVE / 2 CASE FILES",
+    subtitle: "2 LIVE / LOCAL LEADERBOARDS",
     render: () => `
       <div class="game-room">
         <header>
           <div><span>SHREYAS BUILT THESE</span><h2>Game<br><em>Room.</em></h2></div>
           <nav aria-label="Playable games">
-            <button class="active" type="button" data-game-url="https://toprmrproducer.github.io/viper-arena/" data-game-title="VIPER ARENA">VIPER ARENA</button>
-            <button type="button" data-game-url="https://toprmrproducer.github.io/fangs-io/" data-game-title="FANGS.IO">FANGS.IO</button>
+            <button class="active" type="button" data-game-url="./games/viper-arena/" data-game-title="VIPER ARENA">VIPER ARENA</button>
+            <button type="button" data-game-url="./games/fangs-io/" data-game-title="FANGS.IO">FANGS.IO</button>
           </nav>
         </header>
         <div class="game-stage">
-          <div class="game-stage-bar"><strong data-game-now>VIPER ARENA</strong><span>CLICK THE GAME TO UNLOCK AUDIO</span><a href="https://toprmrproducer.github.io/viper-arena/" data-game-external target="_blank" rel="noreferrer">OPEN FULLSCREEN ↗</a></div>
-          <iframe data-game-frame src="https://toprmrproducer.github.io/viper-arena/" title="VIPER ARENA game" loading="lazy" allow="autoplay; fullscreen"></iframe>
+          <div class="game-stage-bar"><strong data-game-now>VIPER ARENA</strong><span>USERNAME · LOADOUT · BOSSES · LOCAL LEADERBOARD · ASMR</span><a href="./games/viper-arena/" data-game-external target="_blank" rel="noreferrer">OPEN FULLSCREEN ↗</a></div>
+          <iframe data-game-frame src="./games/viper-arena/" title="VIPER ARENA game" loading="lazy" allow="autoplay; fullscreen"></iframe>
         </div>
         <div class="game-case-files">
-          <article><img src="./assets/games/neon-drift.png" alt="Neon Drift gameplay screenshot" /><div><strong>NEON DRIFT</strong><span>CASE FILE · SOURCE RECOVERY PENDING</span></div></article>
-          <article><img src="./assets/games/shotr.png" alt="Shotr.io gameplay screenshot" /><div><strong>SHOTR.IO</strong><span>SERVER OFFLINE · MULTIPLAYER ARCHIVE</span></div></article>
+          <article class="neon-feature"><img src="./assets/games/neon-drift.png" alt="Neon Drift gameplay screenshot" /><div><strong>NEON DRIFT</strong><span>FEATURED CASE FILE · PLAYABLE SOURCE RECOVERY NEXT</span></div></article>
         </div>
       </div>`,
   },
   learn: {
-    title: "Learn — FieldManual.app",
+    title: "Learn — YouTube.library",
     chrome: "#e6e35f",
-    subtitle: "HIDDEN UNDER THE NOTE",
+    subtitle: "6 VIDEOS / REAL LIBRARY",
     render: () => `
       <div class="app-content learn-app">
-        <span class="app-kicker">THE FIELD MANUAL</span>
-        <h2 class="app-heading">Steal the system.<br><em>Not the aesthetic.</em></h2>
-        <p class="app-deck">Five short lessons behind the builds. Each one is meant to change what you do next, not fill another bookmarks folder.</p>
-        <div class="learn-grid">
-          ${step("01 · Start with leverage","Find the expensive constraint before choosing the tool. AI is not the strategy; the bottleneck is.","#f5a39c")}
-          ${step("02 · Proof before polish","Ship the riskiest interaction first. A beautiful shell around a weak core is expensive theatre.","#ffd95a")}
-          ${step("03 · Make failure visible","Every automation needs a clear failure path, notification, owner, and recovery move.","#a8d7e8")}
-          ${step("04 · Distribution is a system","One build should create a case study, a video, a reusable component, and a sharper sales story.","#c7f36b")}
-          ${step("05 · Protect the signal","Do not publish private revenue or borrowed credibility. Playable evidence is stronger than inflated copy.","#b8a7e8")}
-        </div>
+        <span class="app-kicker">SHREYAS RAJ / VIDEO LIBRARY</span>
+        <h2 class="app-heading">Learn from the<br><em>actual uploads.</em></h2>
+        <p class="app-deck">A direct library of practical builds, agency lessons, voice infrastructure, client acquisition, and personal-brand systems from my YouTube channel.</p>
+        ${renderLearningLibrary()}
       </div>`,
   },
   keys: {
@@ -558,6 +588,38 @@ function renderProofTheater() {
       </div>
     </section>`;
 }
+
+function renderLearningLibrary() {
+  const first = learningVideos[0];
+  return `
+    <section class="learn-library" data-learn-library>
+      <div class="learn-player">
+        <iframe
+          data-learn-frame
+          src="https://www.youtube-nocookie.com/embed/${first.id}?rel=0&modestbranding=1"
+          title="${first.title}"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+        <div>
+          <strong data-learn-now>${first.title}</strong>
+          <a data-learn-external href="${first.url}" target="_blank" rel="noreferrer">OPEN ON YOUTUBE ↗</a>
+        </div>
+      </div>
+      <div class="learn-video-grid">
+        ${learningVideos.map((video, index) => `
+          <button class="${index === 0 ? "active" : ""}" type="button" data-learn-video="${video.id}" data-learn-title="${video.title}" data-learn-url="${video.url}" aria-pressed="${index === 0 ? "true" : "false"}">
+            <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg" alt="" loading="lazy" />
+            <span><small>${String(index + 1).padStart(2, "0")} / VIDEO</small><strong>${video.title}</strong></span>
+          </button>
+        `).join("")}
+      </div>
+      <a class="youtube-library-link" href="https://www.youtube.com/@AIwithShreyasRaj/videos" target="_blank" rel="noreferrer">OPEN THE FULL YOUTUBE LIBRARY ↗</a>
+    </section>`;
+}
+
 function social(mark, name, copy, url, color) {
   const sprite = {
     YT: "./assets/premium-dock/voices.png",
@@ -581,7 +643,7 @@ function finishBoot() {
 function openApp(id, options = {}) {
   const app = apps[id];
   if (!app) return;
-  if (id === "testimonials" || id === "games") pauseMusic();
+  if (id === "testimonials" || id === "games" || id === "learn") pauseMusic();
   if (openWindows.has(id)) {
     const existing = openWindows.get(id);
     existing.classList.remove("minimized");
@@ -703,13 +765,49 @@ function bindWindow(win) {
   }
   const voiceInput = win.querySelector("[data-voice-input]");
   if (voiceInput) bindVoiceAgent(win, voiceInput);
+  const dograhLab = win.querySelector("[data-dograh-lab]");
+  if (dograhLab) bindDograhLab(dograhLab);
   const proofTheater = win.querySelector("[data-proof-theater]");
   if (proofTheater) bindProofTheater(win, proofTheater);
+  const learnLibrary = win.querySelector("[data-learn-library]");
+  if (learnLibrary) bindLearningLibrary(learnLibrary);
   if (win.querySelector("[data-game-frame]")) bindGameRoom(win);
   if (win.querySelector("[data-ajax-form]")) bindAjaxForms(win);
   if (win.querySelector("[data-prank-app]")) bindPrank(win);
   win.querySelectorAll("[data-music-track]").forEach(button => button.addEventListener("click", () => {
     selectMusicTrack(Number(button.dataset.musicTrack), true);
+  }));
+}
+
+function bindDograhLab(lab) {
+  const frame = lab.querySelector("[data-dograh-frame]");
+  const status = lab.querySelector("[data-dograh-status]");
+  const buttons = [...lab.querySelectorAll("[data-dograh-agent]")];
+  buttons.forEach(button => button.addEventListener("click", () => {
+    const agent = button.dataset.dograhAgent;
+    buttons.forEach(item => item.classList.toggle("active", item === button));
+    frame.src = `./voice-agents/?agent=${agent}`;
+    frame.title = `Shreyas production voice agent ${agent.padStart(2, "0")}`;
+    status.textContent = `AGENT ${agent.padStart(2, "0")} SELECTED`;
+  }));
+}
+
+function bindLearningLibrary(library) {
+  const frame = library.querySelector("[data-learn-frame]");
+  const now = library.querySelector("[data-learn-now]");
+  const external = library.querySelector("[data-learn-external]");
+  const videos = [...library.querySelectorAll("[data-learn-video]")];
+  videos.forEach(button => button.addEventListener("click", () => {
+    pauseMusic();
+    videos.forEach(item => {
+      const selected = item === button;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+    frame.src = `https://www.youtube-nocookie.com/embed/${button.dataset.learnVideo}?autoplay=1&rel=0&modestbranding=1`;
+    frame.title = button.dataset.learnTitle;
+    now.textContent = button.dataset.learnTitle;
+    external.href = button.dataset.learnUrl;
   }));
 }
 
@@ -840,7 +938,7 @@ function updateMusicDeck() {
   const track = musicTracks[musicIndex];
   musicDeck.querySelector("[data-music-title]").textContent = track.title;
   musicDeck.querySelector("[data-music-artist]").textContent = track.artist;
-  musicDeck.querySelector("[data-music-play]").textContent = musicAudio.paused ? "PLAY" : "PAUSE";
+  musicDeck.querySelector("[data-music-play]").textContent = musicAudio.paused ? "▶ PLAY" : "❚❚ PAUSE";
   musicDeck.querySelector("[data-music-play]").setAttribute("aria-pressed", String(!musicAudio.paused));
   document.querySelectorAll("[data-music-track]").forEach(button => button.classList.toggle("active", Number(button.dataset.musicTrack) === musicIndex));
 }
@@ -1179,6 +1277,24 @@ function revealLearn() {
   toast("HIDDEN FILE FOUND", "Learn.app was underneath the sticky note.");
 }
 
+function setDailyMotivation() {
+  const quotes = [
+    "BUILD THE THING YOU KEEP WISHING EXISTED.",
+    "YOUR NEXT CLIENT NEEDS PROOF, NOT ANOTHER PROMISE.",
+    "SHIP THE HARD PART FIRST. POLISH WHAT SURVIVES.",
+    "LEVERAGE BEGINS WHERE REPETITIVE WORK ENDS.",
+    "MAKE THE SYSTEM STRONG ENOUGH TO WORK WITHOUT YOU.",
+    "THE PORTFOLIO IS THE RECEIPT. KEEP SHIPPING.",
+    "CONSISTENCY LOOKS BORING UNTIL IT BECOMES UNFAIR.",
+  ];
+  const today = new Date();
+  const index = Math.floor(today.getTime() / 86400000) % quotes.length;
+  const quote = document.querySelector("[data-motivation-quote]");
+  const date = document.querySelector("[data-motivation-date]");
+  if (quote) quote.textContent = quotes[index];
+  if (date) date.textContent = new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short" }).format(today).toUpperCase();
+}
+
 if (musicDeck && musicAudio) {
   const playButton = musicDeck.querySelector("[data-music-play]");
   const progress = musicDeck.querySelector("[data-music-progress]");
@@ -1226,6 +1342,7 @@ learnSticky?.addEventListener("pointermove", event => {
   if (Math.abs(dx) + Math.abs(dy) > 38) revealLearn();
 });
 learnSticky?.addEventListener("pointerup", () => { stickyDrag = null; });
+setDailyMotivation();
 
 document.addEventListener("click", event => {
   const opener = event.target.closest("[data-open]");
