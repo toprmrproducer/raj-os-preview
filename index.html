@@ -8,7 +8,7 @@
     <title>Shreyas Raj — AI OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./styles-v4.css" />
   </head>
@@ -19,8 +19,8 @@
       <button class="boot-skip os-button" type="button">SKIP BOOT ↗</button>
       <div class="boot-mark">SR</div>
       <div class="boot-terminal">
-        <p class="boot-line" style="--delay:.1s">SHREYASRAJ.COM / AI OS v4.1</p>
-        <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, RESULTS, VIDEO PROOF, AND FOUNDER FILES...</p>
+        <p class="boot-line" style="--delay:.1s">SHREYASRAJ.COM / AI OS v5.0</p>
+        <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, PROOF, ARCADE, MUSIC, AND HIDDEN FILES...</p>
         <p class="boot-line" style="--delay:.75s">HOMEPAGE STATUS: <span>ONLINE</span></p>
         <div class="boot-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
@@ -58,6 +58,8 @@
         <div class="cloud cloud-b" aria-hidden="true"></div>
         <div class="cloud cloud-c" aria-hidden="true"></div>
         <div class="theme-orb" aria-hidden="true"><i></i></div>
+        <img class="ambient-character day-energy-runner" src="./assets/ambient/day-energy-runner.png" alt="" aria-hidden="true" />
+        <img class="ambient-character night-cat-rocket" src="./assets/ambient/space-cat-rocket.png" alt="" aria-hidden="true" />
 
         <aside class="activity-stack" aria-label="Recent verified activity">
           <header><span>LIVE ACTIVITY</span><i></i></header>
@@ -124,11 +126,34 @@
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/contact.png" alt="" /></span>
             <strong>Contact</strong><small>Open a channel</small>
           </button>
+          <button class="desktop-app" type="button" data-open="achievements" style="--app:#ffd95a">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/premium-dock/proof.png" alt="" /></span>
+            <strong>Achievements</strong><small>6 unlocked</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="games" style="--app:#8d78d8">
+            <span class="pixel-icon game-icon" aria-hidden="true"><img src="./assets/games/viper-arena.png" alt="" /></span>
+            <strong>Game Room</strong><small>2 games live</small>
+          </button>
         </section>
 
-        <button class="portrait-zone" type="button" data-open="about" aria-label="Open Shreyas Raj profile">
-          <span>PLAYER 01 / SHREYAS RAJ</span>
-          <img src="./assets/raj-avatar.png" alt="Full-body portrait of Shreyas Raj wearing a red T-shirt" />
+        <button class="desktop-sos" type="button" data-open="emergency" aria-label="Open emergency contact">
+          <strong>SOS</strong><span>REACH SHREYAS NOW</span>
+        </button>
+
+        <div class="learn-cluster" data-learn-cluster>
+          <button class="learn-secret" type="button" data-open="learn">LEARN.APP<br /><small>FIELD MANUAL</small></button>
+          <button class="learn-sticky" type="button" data-learn-sticky aria-label="Move sticky note to reveal Learn app">
+            <span>MOVE ME</span><strong>There is a field manual under this note.</strong><small>DRAG OR TAP ↗</small>
+          </button>
+        </div>
+
+        <button class="secret-folder" type="button" data-secret-folder data-open="prank" aria-label="Open hidden do not open folder">
+          <span></span><strong>DO_NOT_OPEN</strong><small>YOU WILL REGRET THIS</small>
+        </button>
+
+        <button class="portrait-zone" type="button" data-portrait aria-label="Change Shreyas Raj portrait pose and reveal hidden file">
+          <span>PLAYER 01 / FOUNDER MODE</span>
+          <img data-portrait-img src="./assets/raj-avatar.png" alt="Full-body illustrated portrait of Shreyas Raj wearing a red T-shirt" />
           <i aria-hidden="true"></i>
         </button>
 
@@ -141,6 +166,18 @@
 
         <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
+        <section class="music-deck" data-music-deck aria-label="Music player">
+          <button type="button" data-music-prev aria-label="Previous track">PREV</button>
+          <button class="music-play" type="button" data-music-play aria-pressed="false">PLAY</button>
+          <button type="button" data-music-next aria-label="Next track">NEXT</button>
+          <button class="music-copy" type="button" data-music-open>
+            <strong data-music-title>Tomb of Death</strong><small data-music-artist>Braiz · Super Slowed</small>
+          </button>
+          <input data-music-progress type="range" min="0" max="1000" value="0" aria-label="Track progress" />
+          <input data-music-volume type="range" min="0" max="1" step=".05" value=".72" aria-label="Music volume" />
+        </section>
+        <audio id="music-audio" preload="metadata"></audio>
+
         <nav class="dock" aria-label="Application dock">
           <button type="button" data-home aria-label="Show desktop"><span class="dock-icon home-glyph"></span><small>Desktop</small></button>
           <button type="button" data-open="projects" aria-label="Open projects"><span class="dock-icon"><img src="./assets/icons-v4/projects.png" alt="" /></span><small>Projects</small></button>
@@ -149,11 +186,23 @@
           <button type="button" data-open="voice" aria-label="Open voice agent"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>Agent Lab</small></button>
           <button type="button" data-open="founder" aria-label="Open Founder.txt"><span class="dock-icon"><img src="./assets/icons-v4/founder.png" alt="" /></span><small>Founder.txt</small></button>
           <button type="button" data-open="contact" aria-label="Open contact"><span class="dock-icon"><img src="./assets/icons-v4/contact.png" alt="" /></span><small>Contact</small></button>
+          <button type="button" data-open="games" aria-label="Open games"><span class="dock-icon"><img src="./assets/premium-world/data-modules.png" alt="" /></span><small>Games</small></button>
           <span class="dock-divider"></span>
           <button type="button" data-open="browser" aria-label="Open browser"><span class="dock-icon"><img src="./assets/icons-v4/browser.png" alt="" /></span><small>Browser</small></button>
         </nav>
       </section>
     </main>
+
+    <div class="netlify-form-blueprints" aria-hidden="true">
+      <form name="garage-mail" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="garage-mail" />
+        <input name="bot-field" /><input name="name" /><input name="email" type="email" /><textarea name="message"></textarea>
+      </form>
+      <form name="video-suggestion" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="video-suggestion" />
+        <input name="bot-field" /><input name="name" /><input name="email" type="email" /><textarea name="suggestion"></textarea>
+      </form>
+    </div>
 
     <div id="command-palette" class="command-palette" aria-hidden="true">
       <button class="palette-backdrop" type="button" aria-label="Close command palette"></button>

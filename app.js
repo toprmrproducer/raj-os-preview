@@ -6,6 +6,19 @@ const proofVideos = [
   { id: "mtmHkGaE0r0", label: "Client Voice 05", type: "Client testimonial", duration: "01:30", url: "https://youtu.be/mtmHkGaE0r0" },
 ];
 
+const musicTracks = [
+  { title: "Tomb of Death", artist: "Braiz · Super Slowed", duration: "1:53", src: "./assets/music/tomb-of-death-super-slowed.mp3" },
+  { title: "Encanto", artist: "KIT", duration: "2:08", src: "./assets/music/encanto-kit.mp3" },
+  { title: "Lina Colina", artist: "blueberry · DJ KHRLP", duration: "1:40", src: "./assets/music/lina-colina-blueberry.mp3" },
+  { title: "Flutuar", artist: "Sped Up", duration: "2:15", src: "./assets/music/flutuar-sped-up.mp3" },
+];
+
+const portraitPoses = [
+  { src: "./assets/raj-avatar.png", label: "FOUNDER MODE" },
+  { src: "./assets/raj-wave.png", label: "HELLO MODE" },
+  { src: "./assets/raj-builder.png", label: "BUILDER MODE" },
+];
+
 const apps = {
   projects: {
     title: "Projects — Finder",
@@ -17,7 +30,7 @@ const apps = {
         <h2 class="app-heading">Things that<br><em>actually shipped.</em></h2>
         <p class="app-deck">AI products, revenue infrastructure, and digital experiences built to survive contact with real users. Click a project to open the case file.</p>
         <div class="project-list">
-          ${projectCard("01","RapidX Voice Studio","AI Voice Product","A live studio for building personas, testing conversations, generating speech, and launching outbound calls.","LIVE SYSTEM","78–86% MODELLED MARGIN","#b9dfe8","http://168.144.22.217")}
+          ${projectCard("01","RapidX Voice Studio","AI Voice Product","A live studio for building personas, testing conversations, generating speech, and launching outbound calls.","LIVE SYSTEM","VOICE INFRASTRUCTURE","#b9dfe8","http://168.144.22.217")}
           ${projectCard("02","Kawsaypac Preview 3","Premium Commerce","The final cinematic Shopify preview, moving from Cotopaxi to the living forest across a 17-product catalog.","FINAL PREVIEW 3","17 PRODUCT FLOWS","#e3b5a3","https://toprmrproducer.github.io/kawsaypac-preview3/")}
           ${projectCard("03","EXTNGO","Headless Commerce","A Shopify-backed storefront for a retractable flat CAT6 cable, from product states through purchasing flow.","SHOPIFY BACKED","LIVE DEPLOYMENT","#c7f36b","https://extngo-cable-385.netlify.app")}
           ${projectCard("04","RapidX AI Voice","White-label Voice SaaS","Agent creation, analytics, call storage, telephony, and Gemini integrations under one RapidXAI system.","FULL REBRAND","AUTH + CALL LOGS","#c2b2e9","")}
@@ -159,13 +172,14 @@ const apps = {
   updates: {
     title: "Updates — Changelog.app",
     chrome: "#9ec58f",
-    subtitle: "LIVE OS / v4.1.0",
+    subtitle: "LIVE OS / v5.0.0",
     render: () => `
       <div class="app-content">
         <span class="app-kicker">PUBLIC CHANGELOG</span>
         <h2 class="app-heading">A portfolio that<br><em>keeps shipping.</em></h2>
         <p class="app-deck">RAJ OS gets patched as the business changes. Projects, proof, lessons, and experiments become visible updates instead of stale résumé bullets.</p>
         <div class="process-list">
+          ${step("v5.0.0 · Personal World","Added Music Deck, Garage Mail, video suggestions, Game Room, hidden Learn and prank folders, portrait pose switching, a visible SOS channel, and original day/night ambient events.","#f4b6cf")}
           ${step("v4.1.0 · Video Proof","Embedded five real YouTube testimonials with actual audio, thumbnails, playlist selection, cinema expansion, and direct source fallbacks.","#ffd95a")}
           ${step("v4.0.0 · Homepage Mode","Restored the original desktop composition, removed the game world, added Day/Night/Dark themes, professional iconography, honest activity, Founder.txt, and Journey.app.","#f5a39c")}
           ${step("v3.2.0 · Night + Voice","Added a safe browser-native voice concierge and appearance controls.","#a9e1d2")}
@@ -225,6 +239,28 @@ const apps = {
             <p class="source-note">BEST INPUT: the constraint, current cost, desired outcome, and deadline.</p>
           </aside>
         </div>
+        <div class="garage-mail-grid">
+          <form class="garage-mail" name="garage-mail" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-ajax-form>
+            <input type="hidden" name="form-name" value="garage-mail" />
+            <input class="form-trap" name="bot-field" tabindex="-1" autocomplete="off" />
+            <header><span>GARAGE MAIL</span><small>DIRECT TO RAJ</small></header>
+            <label>Your name<input name="name" type="text" maxlength="80" required autocomplete="name" /></label>
+            <label>Your email<input name="email" type="email" maxlength="160" required autocomplete="email" /></label>
+            <label>What should we build?<textarea name="message" rows="4" maxlength="1600" required></textarea></label>
+            <button type="submit">SEND MESSAGE ↗</button>
+            <p class="form-status" data-form-status aria-live="polite">NETLIFY DELIVERY · EMAIL FALLBACK READY</p>
+          </form>
+          <form class="garage-mail suggestion-mail" name="video-suggestion" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-ajax-form>
+            <input type="hidden" name="form-name" value="video-suggestion" />
+            <input class="form-trap" name="bot-field" tabindex="-1" autocomplete="off" />
+            <header><span>VIDEO SUGGESTION</span><small>CONTENT QUEUE</small></header>
+            <label>Your name<input name="name" type="text" maxlength="80" required autocomplete="name" /></label>
+            <label>Reply email<input name="email" type="email" maxlength="160" required autocomplete="email" /></label>
+            <label>What should Shreyas make?<textarea name="suggestion" rows="4" maxlength="1000" required></textarea></label>
+            <button type="submit">QUEUE THE IDEA ↗</button>
+            <p class="form-status" data-form-status aria-live="polite">GOOD IDEAS BECOME PUBLIC BUILDS</p>
+          </form>
+        </div>
       </div>`,
   },
   voice: {
@@ -282,6 +318,104 @@ const apps = {
         <iframe class="browser-frame" title="RajNet browser page" hidden></iframe>
       </div>`,
   },
+  music: {
+    title: "Music — SoundDeck.app",
+    chrome: "#f4b6cf",
+    subtitle: "4 TRACKS / MANUAL PLAY",
+    render: () => `
+      <div class="app-content music-app">
+        <span class="app-kicker">SHREYAS'S CURRENT ROTATION</span>
+        <h2 class="app-heading">Sound on.<br><em>Build mode.</em></h2>
+        <p class="app-deck">The player never autostarts. Pick a track here or use the compact deck on the desktop.</p>
+        <div class="music-library">
+          ${musicTracks.map((track, index) => `
+            <button type="button" data-music-track="${index}">
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <strong>${track.title}</strong>
+              <small>${track.artist}</small>
+              <time>${track.duration}</time>
+            </button>
+          `).join("")}
+        </div>
+        <p class="source-note">MEDIA NOTE: public deployment requires web-distribution permission for every track. Playback is opt-in and local to this browser tab.</p>
+      </div>`,
+  },
+  games: {
+    title: "Games — Arcade.app",
+    chrome: "#8d78d8",
+    subtitle: "2 LIVE / 2 CASE FILES",
+    render: () => `
+      <div class="game-room">
+        <header>
+          <div><span>SHREYAS BUILT THESE</span><h2>Game<br><em>Room.</em></h2></div>
+          <nav aria-label="Playable games">
+            <button class="active" type="button" data-game-url="https://toprmrproducer.github.io/viper-arena/" data-game-title="VIPER ARENA">VIPER ARENA</button>
+            <button type="button" data-game-url="https://toprmrproducer.github.io/fangs-io/" data-game-title="FANGS.IO">FANGS.IO</button>
+          </nav>
+        </header>
+        <div class="game-stage">
+          <div class="game-stage-bar"><strong data-game-now>VIPER ARENA</strong><span>CLICK THE GAME TO UNLOCK AUDIO</span><a href="https://toprmrproducer.github.io/viper-arena/" data-game-external target="_blank" rel="noreferrer">OPEN FULLSCREEN ↗</a></div>
+          <iframe data-game-frame src="https://toprmrproducer.github.io/viper-arena/" title="VIPER ARENA game" loading="lazy" allow="autoplay; fullscreen"></iframe>
+        </div>
+        <div class="game-case-files">
+          <article><img src="./assets/games/neon-drift.png" alt="Neon Drift gameplay screenshot" /><div><strong>NEON DRIFT</strong><span>CASE FILE · SOURCE RECOVERY PENDING</span></div></article>
+          <article><img src="./assets/games/shotr.png" alt="Shotr.io gameplay screenshot" /><div><strong>SHOTR.IO</strong><span>SERVER OFFLINE · MULTIPLAYER ARCHIVE</span></div></article>
+        </div>
+      </div>`,
+  },
+  learn: {
+    title: "Learn — FieldManual.app",
+    chrome: "#e6e35f",
+    subtitle: "HIDDEN UNDER THE NOTE",
+    render: () => `
+      <div class="app-content learn-app">
+        <span class="app-kicker">THE FIELD MANUAL</span>
+        <h2 class="app-heading">Steal the system.<br><em>Not the aesthetic.</em></h2>
+        <p class="app-deck">Five short lessons behind the builds. Each one is meant to change what you do next, not fill another bookmarks folder.</p>
+        <div class="learn-grid">
+          ${step("01 · Start with leverage","Find the expensive constraint before choosing the tool. AI is not the strategy; the bottleneck is.","#f5a39c")}
+          ${step("02 · Proof before polish","Ship the riskiest interaction first. A beautiful shell around a weak core is expensive theatre.","#ffd95a")}
+          ${step("03 · Make failure visible","Every automation needs a clear failure path, notification, owner, and recovery move.","#a8d7e8")}
+          ${step("04 · Distribution is a system","One build should create a case study, a video, a reusable component, and a sharper sales story.","#c7f36b")}
+          ${step("05 · Protect the signal","Do not publish private revenue or borrowed credibility. Playable evidence is stronger than inflated copy.","#b8a7e8")}
+        </div>
+      </div>`,
+  },
+  keys: {
+    title: "API_KEYS.env — TextEdit",
+    chrome: "#a9e1d2",
+    subtitle: "DEMO FILE / NOT REAL",
+    render: () => `
+      <div class="fake-keys">
+        <header><span>API_KEYS.env</span><strong>SAFE DEMO</strong></header>
+        <pre><code># If you found this, congratulations.
+# Every value below is intentionally fake.
+
+OPENAI_API_KEY=DEMO_KEY_NOT_REAL
+GEMINI_API_KEY=DEMO_KEY_NOT_REAL
+STRIPE_SECRET_KEY=DEMO_KEY_NOT_REAL
+SUPABASE_SERVICE_ROLE=DEMO_KEY_NOT_REAL
+
+MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
+        <button type="button" data-open="learn">FINE. TEACH ME SOMETHING ↗</button>
+      </div>`,
+  },
+  prank: {
+    title: "DO_NOT_OPEN — Secret.folder",
+    chrome: "#ff6b63",
+    subtitle: "YOU WERE WARNED",
+    render: () => `
+      <div class="prank-app" data-prank-app>
+        <span class="app-kicker">HIDDEN FILE / 00</span>
+        <h2 class="app-heading" data-prank-title>Do not<br><em>open this.</em></h2>
+        <p class="app-deck" data-prank-copy>This folder was behind the portrait for a reason. Exit now and your professional reputation remains intact.</p>
+        <div class="prank-actions">
+          <button type="button" data-prank-next>OPEN IT ANYWAY</button>
+          <button type="button" data-prank-exit>CLOSE FOLDER</button>
+        </div>
+        <button class="api-decoy" type="button" data-open="keys">API_KEYS.env · DEFINITELY SECRET</button>
+      </div>`,
+  },
   emergency: {
     title: "Emergency — Hotline.app",
     chrome: "#ff6b63",
@@ -319,6 +453,14 @@ const worldPlayer = document.querySelector("#world-player");
 const playerSprite = worldPlayer?.querySelector("img");
 const playerLabel = document.querySelector("#player-label");
 const themeButtons = [...document.querySelectorAll("[data-theme-choice]")];
+const musicAudio = document.querySelector("#music-audio");
+const musicDeck = document.querySelector("[data-music-deck]");
+const portraitButton = document.querySelector("[data-portrait]");
+const portraitImage = document.querySelector("[data-portrait-img]");
+const learnSticky = document.querySelector("[data-learn-sticky]");
+let musicIndex = 0;
+let portraitIndex = 0;
+let stickyDrag = null;
 const spriteSources = {
   down: "./assets/raj-front.png",
   up: "./assets/raj-back.png",
@@ -439,10 +581,12 @@ function finishBoot() {
 function openApp(id, options = {}) {
   const app = apps[id];
   if (!app) return;
+  if (id === "testimonials" || id === "games") pauseMusic();
   if (openWindows.has(id)) {
     const existing = openWindows.get(id);
     existing.classList.remove("minimized");
     resumeProofMedia(existing);
+    resumeGameMedia(existing);
     focusWindow(existing);
     existing.focus({ preventScroll: true });
     return;
@@ -502,6 +646,20 @@ function resumeProofMedia(win) {
   delete frame.dataset.restoreSrc;
 }
 
+function pauseGameMedia(win) {
+  const frame = win.querySelector("[data-game-frame]");
+  if (!frame || frame.src === "about:blank") return;
+  frame.dataset.restoreSrc = frame.src;
+  frame.src = "about:blank";
+}
+
+function resumeGameMedia(win) {
+  const frame = win.querySelector("[data-game-frame]");
+  if (!frame?.dataset.restoreSrc) return;
+  frame.src = frame.dataset.restoreSrc;
+  delete frame.dataset.restoreSrc;
+}
+
 function bindWindow(win) {
   const bar = win.querySelector(".window-titlebar");
   win.addEventListener("pointerdown", () => focusWindow(win));
@@ -509,6 +667,7 @@ function bindWindow(win) {
   win.querySelector(".min").addEventListener("click", (event) => {
     event.stopPropagation();
     pauseProofMedia(win);
+    pauseGameMedia(win);
     win.classList.add("minimized");
   });
   win.querySelector(".max").addEventListener("click", (event) => { event.stopPropagation(); win.classList.toggle("maximized"); });
@@ -546,6 +705,12 @@ function bindWindow(win) {
   if (voiceInput) bindVoiceAgent(win, voiceInput);
   const proofTheater = win.querySelector("[data-proof-theater]");
   if (proofTheater) bindProofTheater(win, proofTheater);
+  if (win.querySelector("[data-game-frame]")) bindGameRoom(win);
+  if (win.querySelector("[data-ajax-form]")) bindAjaxForms(win);
+  if (win.querySelector("[data-prank-app]")) bindPrank(win);
+  win.querySelectorAll("[data-music-track]").forEach(button => button.addEventListener("click", () => {
+    selectMusicTrack(Number(button.dataset.musicTrack), true);
+  }));
 }
 
 function bindProofTheater(win, theater) {
@@ -557,6 +722,7 @@ function bindProofTheater(win, theater) {
   const cards = [...theater.querySelectorAll("[data-proof-video]")];
 
   const selectVideo = card => {
+    pauseMusic();
     cards.forEach(item => {
       const selected = item === card;
       item.classList.toggle("active", selected);
@@ -582,6 +748,132 @@ function bindProofTheater(win, theater) {
     expand.textContent = expanded ? "EXIT THEATER" : "EXPAND THEATER";
     expand.setAttribute("aria-pressed", String(expanded));
   });
+}
+
+function bindGameRoom(win) {
+  const frame = win.querySelector("[data-game-frame]");
+  const title = win.querySelector("[data-game-now]");
+  const external = win.querySelector("[data-game-external]");
+  win.querySelectorAll("[data-game-url]").forEach(button => button.addEventListener("click", () => {
+    const url = button.dataset.gameUrl;
+    frame.src = url;
+    delete frame.dataset.restoreSrc;
+    frame.title = `${button.dataset.gameTitle} game`;
+    title.textContent = button.dataset.gameTitle;
+    external.href = url;
+    win.querySelectorAll("[data-game-url]").forEach(item => item.classList.toggle("active", item === button));
+    toast("ARCADE LOADED", `${button.dataset.gameTitle} is ready.`);
+  }));
+}
+
+function encodeForm(form) {
+  return new URLSearchParams(new FormData(form)).toString();
+}
+
+function mailFallback(form) {
+  const data = Object.fromEntries(new FormData(form));
+  const subject = data["form-name"] === "video-suggestion" ? "Video suggestion for Shreyas" : "Garage Mail for Shreyas";
+  const message = data.message || data.suggestion || "";
+  return `mailto:shreyas@rapid-xai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`${message}\n\nFrom: ${data.name || ""} <${data.email || ""}>`)}`;
+}
+
+function bindAjaxForms(win) {
+  win.querySelectorAll("[data-ajax-form]").forEach(form => form.addEventListener("submit", async event => {
+    event.preventDefault();
+    const status = form.querySelector("[data-form-status]");
+    const submit = form.querySelector('button[type="submit"]');
+    if (!form.reportValidity()) return;
+    status.textContent = "TRANSMITTING…";
+    submit.disabled = true;
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeForm(form),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const formName = form.querySelector('[name="form-name"]').value;
+      status.textContent = formName === "video-suggestion" ? "IDEA QUEUED. THANK YOU." : "MESSAGE DELIVERED TO RAJ.";
+      toast("GARAGE MAIL", "Transmission received. Shreyas has your note.");
+      form.reset();
+    } catch {
+      status.textContent = "NETLIFY IS NOT ACTIVE HERE. ";
+      const fallback = document.createElement("a");
+      fallback.href = mailFallback(form);
+      fallback.textContent = "SEND BY EMAIL ↗";
+      status.appendChild(fallback);
+    } finally {
+      submit.disabled = false;
+    }
+  }));
+}
+
+function bindPrank(win) {
+  const root = win.querySelector("[data-prank-app]");
+  const title = root.querySelector("[data-prank-title]");
+  const copy = root.querySelector("[data-prank-copy]");
+  const next = root.querySelector("[data-prank-next]");
+  const exit = root.querySelector("[data-prank-exit]");
+  const steps = [
+    ["Still opening it?", "You had one job. There is still time to leave.", "YES, I AM SURE"],
+    ["Last warning.", "The file is labelled definitely_not_a_rickroll.mov. That seems trustworthy.", "PLAY THE VERY NORMAL VIDEO"],
+    ["You chose this.", "The prank opens in a new tab. Nothing autoplays, traps your browser, or steals focus.", "TAKE ME TO THE VIDEO ↗"],
+  ];
+  let stepIndex = 0;
+  next.addEventListener("click", () => {
+    if (stepIndex < steps.length) {
+      const [heading, body, label] = steps[stepIndex];
+      title.innerHTML = `${heading.split(" ")[0]}<br><em>${heading.split(" ").slice(1).join(" ")}</em>`;
+      copy.textContent = body;
+      next.textContent = label;
+      stepIndex += 1;
+      return;
+    }
+    window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", "noopener,noreferrer");
+    toast("PRANK COMPLETE", "You were warned three separate times.");
+  });
+  exit.addEventListener("click", () => closeWindow(win));
+}
+
+function updateMusicDeck() {
+  if (!musicDeck || !musicAudio) return;
+  const track = musicTracks[musicIndex];
+  musicDeck.querySelector("[data-music-title]").textContent = track.title;
+  musicDeck.querySelector("[data-music-artist]").textContent = track.artist;
+  musicDeck.querySelector("[data-music-play]").textContent = musicAudio.paused ? "PLAY" : "PAUSE";
+  musicDeck.querySelector("[data-music-play]").setAttribute("aria-pressed", String(!musicAudio.paused));
+  document.querySelectorAll("[data-music-track]").forEach(button => button.classList.toggle("active", Number(button.dataset.musicTrack) === musicIndex));
+}
+
+function selectMusicTrack(index, shouldPlay = false) {
+  if (!musicAudio) return;
+  musicIndex = (index + musicTracks.length) % musicTracks.length;
+  const track = musicTracks[musicIndex];
+  musicAudio.src = track.src;
+  musicAudio.load();
+  updateMusicDeck();
+  if (shouldPlay) playMusic();
+}
+
+function playMusic() {
+  if (!musicAudio) return;
+  openWindows.forEach(win => pauseProofMedia(win));
+  if (!musicAudio.src) selectMusicTrack(musicIndex);
+  musicAudio.play().then(() => {
+    updateMusicDeck();
+    toast("SOUND DECK", `${musicTracks[musicIndex].title} is playing.`);
+  }).catch(() => toast("AUDIO BLOCKED", "Tap PLAY again to allow audio in this browser."));
+}
+
+function pauseMusic() {
+  if (!musicAudio) return;
+  musicAudio.pause();
+  updateMusicDeck();
+}
+
+function toggleMusic() {
+  if (!musicAudio) return;
+  musicAudio.paused ? playMusic() : pauseMusic();
 }
 
 function bindVoiceAgent(win, voiceInput) {
@@ -734,6 +1026,7 @@ function closeFocused() {
 function showDesktop() {
   openWindows.forEach(win => {
     pauseProofMedia(win);
+    pauseGameMedia(win);
     win.classList.add("minimized");
   });
   toast("SHOW DESKTOP", "All windows minimized. Click an open app to restore it.");
@@ -869,6 +1162,70 @@ function runCommand(id) {
   else if (id === "theme") toggleTheme();
   else if (id === "email") copyText("shreyas@rapid-xai.com");
 }
+
+function cyclePortrait() {
+  if (!portraitButton || !portraitImage) return;
+  portraitIndex = (portraitIndex + 1) % portraitPoses.length;
+  const pose = portraitPoses[portraitIndex];
+  portraitImage.src = pose.src;
+  portraitButton.querySelector("span").textContent = `PLAYER 01 / ${pose.label}`;
+  portraitButton.classList.add("secret-revealed");
+  document.querySelector("[data-secret-folder]")?.classList.add("revealed");
+  toast("POSE CHANGED", `${pose.label}. A hidden file moved into view.`);
+}
+
+function revealLearn() {
+  document.querySelector("[data-learn-cluster]")?.classList.add("revealed");
+  toast("HIDDEN FILE FOUND", "Learn.app was underneath the sticky note.");
+}
+
+if (musicDeck && musicAudio) {
+  const playButton = musicDeck.querySelector("[data-music-play]");
+  const progress = musicDeck.querySelector("[data-music-progress]");
+  const volume = musicDeck.querySelector("[data-music-volume]");
+  const savedVolume = Number(localStorage.getItem("raj-os-volume") || ".72");
+  musicAudio.volume = Number.isFinite(savedVolume) ? Math.max(0, Math.min(1, savedVolume)) : .72;
+  volume.value = String(musicAudio.volume);
+  playButton.addEventListener("click", toggleMusic);
+  musicDeck.querySelector("[data-music-prev]").addEventListener("click", () => selectMusicTrack(musicIndex - 1, true));
+  musicDeck.querySelector("[data-music-next]").addEventListener("click", () => selectMusicTrack(musicIndex + 1, true));
+  musicDeck.querySelector("[data-music-open]").addEventListener("click", () => openApp("music"));
+  progress.addEventListener("input", () => {
+    if (musicAudio.duration) musicAudio.currentTime = (Number(progress.value) / 1000) * musicAudio.duration;
+  });
+  volume.addEventListener("input", () => {
+    musicAudio.volume = Number(volume.value);
+    localStorage.setItem("raj-os-volume", String(musicAudio.volume));
+  });
+  musicAudio.addEventListener("timeupdate", () => {
+    progress.value = musicAudio.duration ? String(Math.round((musicAudio.currentTime / musicAudio.duration) * 1000)) : "0";
+  });
+  musicAudio.addEventListener("play", updateMusicDeck);
+  musicAudio.addEventListener("pause", updateMusicDeck);
+  musicAudio.addEventListener("ended", () => selectMusicTrack(musicIndex + 1, true));
+  selectMusicTrack(0);
+}
+
+portraitButton?.addEventListener("click", event => {
+  event.stopPropagation();
+  cyclePortrait();
+});
+
+learnSticky?.addEventListener("click", revealLearn);
+learnSticky?.addEventListener("pointerdown", event => {
+  stickyDrag = { x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY };
+  learnSticky.setPointerCapture(event.pointerId);
+});
+learnSticky?.addEventListener("pointermove", event => {
+  if (!stickyDrag) return;
+  stickyDrag.x = event.clientX;
+  stickyDrag.y = event.clientY;
+  const dx = Math.max(-70, Math.min(95, event.clientX - stickyDrag.startX));
+  const dy = Math.max(-45, Math.min(85, event.clientY - stickyDrag.startY));
+  learnSticky.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(-3deg)`;
+  if (Math.abs(dx) + Math.abs(dy) > 38) revealLearn();
+});
+learnSticky?.addEventListener("pointerup", () => { stickyDrag = null; });
 
 document.addEventListener("click", event => {
   const opener = event.target.closest("[data-open]");

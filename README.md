@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 4 restores the original editorial desktop composition: Shreyas's portrait, professional generated application icons, draggable applications, a working mini-browser, verified proof, real testimonial links, project files, voice agent, socials, Founder.txt, Journey.app, and honest activity notifications.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5 preserves the original editorial desktop composition and adds real video proof, a music deck, two playable games, Netlify Garage Mail, video suggestions, portrait poses, original day/night ambient characters, hidden Learn and prank folders, and a visible SOS channel.
 
 ## Open locally
 
@@ -36,6 +36,16 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 ## Video proof
 
 `Testimonials.app` contains five real YouTube testimonial videos with their original audio, thumbnails, durations, a selectable in-window player, cinema expansion, and canonical YouTube fallbacks. Only one privacy-enhanced YouTube iframe is mounted at a time. Playback never autostarts on page load and is stopped when the proof window is minimized.
+
+## Games and music
+
+`Games.app` embeds the real Viper Arena and Fangs.io deployments, with archive cards for Neon Drift and Shotr.io. `Music.app` and the desktop Sound Deck expose four user-supplied tracks with explicit play/pause, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
+
+## Netlify
+
+The repository contains `netlify.toml` and two Netlify Forms (`garage-mail` and `video-suggestion`). Import the GitHub repository with a blank build command and publish directory `.`. Enable Form Detection after the first deploy, then add an email or webhook notification in Netlify. The GitHub Pages `CNAME` is intentionally removed while Netlify becomes the domain owner.
+
+The complete rebuild specification lives in [`RECREATE-PROMPT.md`](./RECREATE-PROMPT.md).
 
 ## Content guardrails
 
