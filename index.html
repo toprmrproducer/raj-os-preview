@@ -18,8 +18,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=5.3.1" />
-    <link rel="stylesheet" href="./styles-v4.css?v=5.3.1" />
+    <link rel="stylesheet" href="./styles.css?v=5.4" />
+    <link rel="stylesheet" href="./styles-v4.css?v=5.4" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -70,7 +70,7 @@
       <div class="boot-terminal">
         <p class="boot-line" style="--delay:.1s">LOADING THE PORTFOLIO OF SHREYAS RAJ...</p>
         <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, CASE STUDIES, PROOF, VOICE, AND MEDIA...</p>
-        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.3: <span>ONLINE</span></p>
+        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.4: <span>ONLINE</span></p>
         <div class="boot-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
       <p class="boot-title">welcome to Shreyas Raj.<br /><em>this is my AI operating system.</em></p>
@@ -221,7 +221,7 @@
 
         <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
-        <section class="music-deck" data-music-deck data-movable-widget="music-deck" aria-label="Music player">
+        <section id="music-deck" class="music-deck" data-music-deck data-movable-widget="music-deck" aria-label="Music player" hidden>
           <button type="button" data-music-prev aria-label="Previous track">‹ PREV</button>
           <button class="music-play" type="button" data-music-play aria-pressed="false">▶ PLAY</button>
           <button type="button" data-music-next aria-label="Next track">NEXT ›</button>
@@ -230,6 +230,7 @@
           </button>
           <input data-music-progress type="range" min="0" max="1000" value="0" aria-label="Track progress" />
           <input data-music-volume type="range" min="0" max="1" step=".05" value=".72" aria-label="Music volume" />
+          <button class="music-deck-close" type="button" data-music-close aria-label="Close music player">×</button>
         </section>
         <audio id="music-audio" preload="metadata"></audio>
 
@@ -239,6 +240,10 @@
           <button type="button" data-open="revenue" aria-label="Open public results"><span class="dock-icon"><img src="./assets/icons-v4/revenue.png" alt="" /></span><small>Results</small></button>
           <button type="button" data-open="journey" aria-label="Open journey"><span class="dock-icon"><img src="./assets/icons-v4/journey.png" alt="" /></span><small>Journey</small></button>
           <button type="button" data-open="voice" aria-label="Talk to the AI voice agent"><span class="dock-icon"><img src="./assets/icons-v4/voice.png" alt="" /></span><small>AI Voice Agent</small></button>
+          <button class="dock-music-button" type="button" data-music-toggle aria-expanded="false" aria-controls="music-deck" aria-label="Open music player">
+            <span class="dock-icon music-dock-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+            <small data-music-launcher-label>Music</small>
+          </button>
           <button type="button" data-open="founder" aria-label="Open Founder.txt"><span class="dock-icon"><img src="./assets/icons-v4/founder.png" alt="" /></span><small>Founder.txt</small></button>
           <button type="button" data-open="whiteboard" aria-label="Open sticky-note whiteboard"><span class="dock-icon"><img src="./assets/premium-world/update-terminal.png" alt="" /></span><small>Whiteboard</small></button>
           <button type="button" data-open="contact" aria-label="Open contact"><span class="dock-icon"><img src="./assets/icons-v4/contact.png" alt="" /></span><small>Contact</small></button>
@@ -271,6 +276,6 @@
     </div>
 
     <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
-    <script src="./app.js?v=5.3.1"></script>
+    <script src="./app.js?v=5.4"></script>
   </body>
 </html>

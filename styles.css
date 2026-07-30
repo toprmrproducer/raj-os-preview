@@ -2270,8 +2270,7 @@ button:active, .dock button:active, .world-app:active { transform: translate(2px
   .portrait-zone,
   .learn-cluster,
   .secret-folder,
-  .desktop-sos,
-  .ambient-character { display: none; }
+  .desktop-sos { display: none; }
   .proof-rail { display: grid; grid-template-columns: repeat(4,1fr); margin-top: 10px; }
   .proof-rail button { min-width: 0; }
   .music-deck { position: fixed; bottom: 80px; left: 10px; transform: none; width: calc(100% - 20px); z-index: 5600; }
@@ -2406,7 +2405,6 @@ button:active, .dock button:active, .world-app:active { transform: translate(2px
   image-rendering: pixelated;
   transform: scale(1.28);
 }
-.ambient-character { display: none !important; }
 .identity-morph {
   width: max-content;
   min-height: 39px;

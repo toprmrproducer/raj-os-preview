@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.3 preserves the original desktop composition, enforces readable typography across desktop/tablet/phone, and makes the portfolio the core product: client-result case files with generated visuals, ten selected project files, a nested Finder-style case archive, four service lanes, real video proof and stories, a YouTube learning library, four production Dograh voice-agent embeds, a draggable daily transmission, a persistent sticky-note whiteboard, movable desktop icons, music, Netlify Garage Mail, portrait poses, a visible SOS channel, and a responsive phone/tablet shell.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.4 preserves the original desktop composition, enforces readable typography across desktop/tablet/phone, and makes the portfolio the core product: client-result case files with generated visuals, ten selected project files, a nested Finder-style case archive, four service lanes, real video proof and stories, a YouTube learning library, four production Dograh voice-agent embeds, a draggable daily transmission, a persistent sticky-note whiteboard, movable desktop icons, opt-in music, Netlify Garage Mail, portrait poses, a visible SOS channel, and a responsive phone/tablet shell.
 
 ## Open locally
 
@@ -24,7 +24,7 @@ python3 -m http.server 4173
 - Press `Cmd/Ctrl + K` for command search.
 - Press `Escape` to close the active window.
 - On mobile, apps open as full-screen sheets.
-- Desktop icons, the Daily Transmission, and the Music Deck can be rearranged on larger screens and persist in the current browser.
+- Desktop icons, the Daily Transmission, and the expanded Music Deck can be rearranged on larger screens and persist in the current browser.
 - Whiteboard notes can be added, edited, deleted, and rearranged; they also persist in the current browser.
 
 ## Art direction
@@ -41,7 +41,7 @@ The desktop follows the clean RAJ OS v1 reference: blush-to-ivory-to-blue atmosp
 
 ## Games and music
 
-The games remain available as secondary local apps but are intentionally removed from the primary desktop surface. Viper Arena keeps the persistent pilot name, local leaderboard, boss waves, equipment loadouts, sound modes, and touch controls. `Music.app` and the desktop Music Deck expose four user-supplied tracks with unmistakable play/pause controls, progress, volume, and no autoplay. Confirm web-distribution permission for every audio file before using the production domain.
+The games remain available as secondary local apps but are intentionally removed from the primary desktop surface. Viper Arena keeps the persistent pilot name, local leaderboard, boss waves, equipment loadouts, sound modes, and touch controls. `Music.app` exposes four user-supplied tracks; the desktop shows only a compact MUSIC launcher until the listener opens the full previous/play-pause/next/progress/volume deck. Nothing autoplays. Confirm web-distribution permission for every audio file before using the production domain.
 
 ## Search and field notes
 

@@ -574,31 +574,6 @@
 .proof-theater.cinema-mode .proof-video-card { grid-template-columns: 92px 1fr; grid-template-rows: 1fr; }
 .proof-theater.cinema-mode .proof-thumb { height: 100%; min-height: 74px; border-right: 2px solid var(--ink); border-bottom: 0; }
 
-/* v5 personal world */
-.ambient-character {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  object-fit: contain;
-  image-rendering: pixelated;
-  opacity: 0;
-  will-change: transform, opacity;
-}
-.day-energy-runner {
-  width: clamp(110px, 12vw, 190px);
-  top: 49%;
-  left: -210px;
-  animation: dayRunnerFlyby 24s linear infinite;
-}
-.night-cat-rocket {
-  width: clamp(130px, 15vw, 240px);
-  top: 30%;
-  left: -260px;
-}
-#os[data-theme="night"] .night-cat-rocket { animation: nightCatFlyby 28s linear infinite; }
-#os[data-theme="night"] .day-energy-runner,
-#os[data-theme="dark"] .day-energy-runner { display: none; }
-
 .desktop-sos {
   position: absolute;
   z-index: 9;
@@ -923,19 +898,6 @@
 .prank-actions [data-prank-exit] { background: #fffdf4; }
 .api-decoy { background: #a8d7e8; }
 
-@keyframes dayRunnerFlyby {
-  0%, 72% { opacity: 0; transform: translate3d(-50px,20px,0) rotate(-4deg); }
-  75% { opacity: .92; }
-  92% { opacity: .92; }
-  96%, 100% { opacity: 0; transform: translate3d(calc(100vw + 400px),-110px,0) rotate(-9deg); }
-}
-@keyframes nightCatFlyby {
-  0%, 62% { opacity: 0; transform: translate3d(-120px,190px,0) rotate(8deg); }
-  65% { opacity: .96; }
-  88% { opacity: .96; }
-  94%, 100% { opacity: 0; transform: translate3d(calc(100vw + 520px),-260px,0) rotate(8deg); }
-}
-
 /* Night: atmospheric indigo, same desktop */
 #os[data-theme="night"] { --desktop-ink: #fff6db; --desktop-paper: #1a1d3c; --desktop-wine: #ff96b5; }
 #os[data-theme="night"] .menubar { color: #fff8dc; background: rgba(14,17,39,.94); border-color: #f4e9c8; }
@@ -1077,7 +1039,6 @@
   .learn-cluster { top: 113px; left: 8px; width: 132px; height: 76px; transform: scale(.72); transform-origin: top left; }
   .secret-folder { right: 9px; bottom: 118px; width: 100px; min-height: 62px; }
   .portrait-zone.secret-revealed { transform: translateX(-48px); }
-  .ambient-character { display: none !important; }
   .music-deck {
     left: 5px;
     right: 5px;
@@ -1151,7 +1112,6 @@
 @media (prefers-reduced-motion: reduce) {
   .portrait-zone img,
   .cloud { animation: none !important; }
-  .ambient-character { display: none !important; }
 }
 
 /* SHREYAS OS 5.3 — final legibility and responsive desktop lock */
@@ -1419,8 +1379,7 @@
   .portrait-zone,
   .learn-cluster,
   .secret-folder,
-  .desktop-sos,
-  .ambient-character {
+  .desktop-sos {
     display: none !important;
   }
 
@@ -1710,5 +1669,222 @@
   .whiteboard-app form button {
     min-height: 52px;
     font-size: 13px;
+  }
+}
+
+/* OS 5.4 — opt-in sound deck and collision-free controls */
+
+[hidden] {
+  display: none !important;
+}
+
+.music-dock-glyph {
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  padding: 7px 8px;
+  background: #fff8dc;
+}
+
+.music-dock-glyph i {
+  width: 4px;
+  height: 9px;
+  display: block;
+  background: var(--wine);
+}
+
+.music-dock-glyph i:nth-child(2) {
+  height: 18px;
+}
+
+.music-dock-glyph i:nth-child(3) {
+  height: 13px;
+}
+
+.dock-music-button.is-playing .music-dock-glyph i {
+  animation: musicMeter .65s steps(3, end) infinite alternate;
+}
+
+.dock-music-button.is-playing .music-dock-glyph i:nth-child(2) {
+  animation-delay: -.24s;
+}
+
+.dock-music-button.is-playing .music-dock-glyph i:nth-child(3) {
+  animation-delay: -.41s;
+}
+
+.music-deck {
+  position: fixed;
+  z-index: 7003;
+  width: min(780px, calc(100vw - 40px));
+  grid-template-columns: 68px 94px 68px minmax(190px, 1fr) minmax(100px, 1fr) 90px 38px;
+  padding: 9px;
+}
+
+.music-deck > .music-deck-close {
+  position: relative;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+  align-self: center;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  background: #fffdf4;
+  color: var(--ink);
+  font: 22px/1 var(--mono);
+}
+
+@keyframes musicMeter {
+  from { height: 6px; }
+  to { height: 20px; }
+}
+
+@media (min-width: 901px) {
+  .proof-rail {
+    left: 24px;
+    bottom: 18px;
+    gap: 6px;
+  }
+
+  .proof-rail button {
+    width: 82px;
+    min-height: 72px;
+    padding: 9px 8px;
+  }
+
+  .proof-rail strong {
+    font-size: 25px;
+  }
+
+  .proof-rail span {
+    margin-top: 7px;
+    font-size: 9px;
+  }
+
+  .dock {
+    left: auto;
+    right: 190px;
+    transform: none;
+  }
+
+  .build-ribbon,
+  .build-ribbon:hover {
+    width: 160px;
+    height: 160px;
+  }
+
+  .build-ribbon::after {
+    inset: 7px 0 0 7px;
+  }
+
+  .build-ribbon a {
+    right: -16px;
+    bottom: 31px;
+    width: 158px;
+    min-height: 52px;
+    padding: 8px 18px;
+  }
+
+  .build-ribbon span {
+    font-size: 9px;
+  }
+
+  .build-ribbon strong {
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .intro-actions {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .dock {
+    right: 185px;
+    height: 62px;
+    padding: 6px 8px;
+    gap: 2px;
+  }
+
+  .dock button {
+    width: 38px;
+    height: 46px;
+  }
+
+  .dock-icon {
+    left: 2px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 950px) {
+  .desktop-intro {
+    top: clamp(205px, 26vh, 230px);
+  }
+}
+
+@media (max-width: 900px) {
+  .build-ribbon,
+  .build-ribbon:hover {
+    max-width: 330px;
+    margin: 0 0 36px auto;
+  }
+
+  .build-ribbon a {
+    min-height: 64px;
+    padding: 13px 15px;
+  }
+}
+
+@media (max-width: 620px) {
+  .desktop {
+    padding-bottom: 190px;
+  }
+
+  .build-ribbon,
+  .build-ribbon:hover {
+    max-width: 300px;
+    margin-left: auto;
+  }
+
+  .build-ribbon a {
+    min-height: 62px;
+    gap: 10px;
+  }
+
+  .build-ribbon span {
+    font-size: 10px;
+  }
+
+  .build-ribbon strong {
+    font-size: 11px;
+  }
+
+  .intro-actions .os-button {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .music-deck {
+    grid-template-columns: 50px 76px 50px minmax(0, 1fr) 38px;
+    padding: 8px;
+  }
+
+  .music-deck > .music-deck-close {
+    width: 36px;
+    min-width: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-dock-glyph i {
+    animation: none !important;
   }
 }

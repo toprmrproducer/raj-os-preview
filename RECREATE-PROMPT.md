@@ -13,7 +13,7 @@ The homepage is `shreyasraj.com`. The owner is **Shreyas Raj**, founder, operato
 - Wallpaper: luminous blush → ivory → powder-blue, restrained grid, tiny clouds, atmospheric glow.
 - Night mode: indigo space, stars, moon, and a rare original pixel-art cat-in-a-rocket flyby.
 - Dark mode: near-black professional workstation.
-- Day mode: rare original anime-inspired energy-runner flyby. Do not copy Goku, Dragon Ball, Pokémon, or any existing character.
+- Day mode: warm, quiet workstation atmosphere with no fly-by characters or mascots.
 - Warm ivory window surfaces, near-black ink, burgundy and electric-lime accents, hard 2–3 px borders and offset shadows.
 - Typography: Instrument Serif for editorial display; DM Mono for UI/body; Silkscreen for labels and OS chrome.
 - Use original/generated pixel assets only. Avoid emoji icons, generic gradients, excessive pills, glassmorphism, game terrain, or mixed visual styles.

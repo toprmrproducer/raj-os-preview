@@ -646,6 +646,8 @@ const playerLabel = document.querySelector("#player-label");
 const themeButtons = [...document.querySelectorAll("[data-theme-choice]")];
 const musicAudio = document.querySelector("#music-audio");
 const musicDeck = document.querySelector("[data-music-deck]");
+const musicToggle = document.querySelector("[data-music-toggle]");
+const musicClose = document.querySelector("[data-music-close]");
 const portraitButton = document.querySelector("[data-portrait]");
 const portraitImage = document.querySelector("[data-portrait-img]");
 const learnSticky = document.querySelector("[data-learn-sticky]");
@@ -1438,7 +1440,18 @@ function updateMusicDeck() {
   musicDeck.querySelector("[data-music-artist]").textContent = track.artist;
   musicDeck.querySelector("[data-music-play]").textContent = musicAudio.paused ? "▶ PLAY" : "❚❚ PAUSE";
   musicDeck.querySelector("[data-music-play]").setAttribute("aria-pressed", String(!musicAudio.paused));
+  musicToggle?.classList.toggle("is-playing", !musicAudio.paused);
+  const launcherLabel = musicToggle?.querySelector("[data-music-launcher-label]");
+  if (launcherLabel) launcherLabel.textContent = musicAudio.paused ? "MUSIC" : "PLAYING";
   document.querySelectorAll("[data-music-track]").forEach(button => button.classList.toggle("active", Number(button.dataset.musicTrack) === musicIndex));
+}
+
+function setMusicDeckOpen(isOpen) {
+  if (!musicDeck || !musicToggle) return;
+  musicDeck.hidden = !isOpen;
+  musicToggle.classList.toggle("is-open", isOpen);
+  musicToggle.setAttribute("aria-expanded", String(isOpen));
+  if (isOpen) musicDeck.querySelector("[data-music-play]")?.focus({ preventScroll: true });
 }
 
 function selectMusicTrack(index, shouldPlay = false) {
@@ -1928,7 +1941,10 @@ if (musicDeck && musicAudio) {
   musicAudio.addEventListener("play", updateMusicDeck);
   musicAudio.addEventListener("pause", updateMusicDeck);
   musicAudio.addEventListener("ended", () => selectMusicTrack(musicIndex + 1, true));
+  musicToggle?.addEventListener("click", () => setMusicDeckOpen(true));
+  musicClose?.addEventListener("click", () => setMusicDeckOpen(false));
   selectMusicTrack(0);
+  setMusicDeckOpen(false);
 }
 
 portraitButton?.addEventListener("click", event => {
