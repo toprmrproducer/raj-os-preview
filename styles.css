@@ -2482,3 +2482,554 @@ button:active, .dock button:active, .world-app:active { transform: translate(2px
   .build-ribbon span { font-size: 7px; }
   .build-ribbon strong { font-size: 8px; }
 }
+
+/* RAJ OS 5.3 — hard readability floor + folded-corner call tab */
+
+html,
+body,
+.os {
+  min-height: 100dvh;
+  background: #dbeaf0;
+}
+
+.menubar {
+  height: 50px;
+  min-height: 50px;
+  gap: 24px;
+  padding-inline: 18px;
+}
+
+.desktop {
+  height: calc(100dvh - 50px);
+  min-height: calc(100dvh - 50px);
+}
+
+.brand-menu strong,
+.menu-links button,
+.system-status,
+.theme-switch button {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.brand-pixel {
+  width: 28px;
+  height: 28px;
+}
+
+.activity-stack header,
+.motivation-card time,
+.motivation-card small,
+.desktop-intro .eyebrow,
+.desktop-intro .welcome-line,
+.app-kicker,
+.proof-rail span {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.motivation-card blockquote {
+  font-size: clamp(30px, 2.3vw, 42px);
+  line-height: .95;
+}
+
+.identity-morph {
+  min-height: 50px;
+  padding: 12px 16px;
+}
+
+.identity-morph span {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.desktop-intro > p {
+  font-size: 18px;
+  line-height: 1.58;
+}
+
+.os-button {
+  min-height: 54px;
+  padding: 15px 19px;
+  font-size: 12px;
+}
+
+.app-grid {
+  top: 45px;
+  grid-template-columns: repeat(5, 132px);
+  gap: 24px 12px;
+}
+
+.desktop-app {
+  width: 132px;
+  min-height: 154px;
+  gap: 7px;
+}
+
+.desktop-app .pixel-icon {
+  width: 76px;
+  height: 76px;
+}
+
+.desktop-app strong {
+  max-width: 130px;
+  padding: 6px 7px;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.desktop-app small {
+  max-width: 130px;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.desktop-app > b {
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.window-titlebar {
+  min-height: 54px;
+}
+
+.window-title {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.window-meta {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.app-deck,
+.source-note,
+.project-card strong,
+.project-card p,
+.metric-card p,
+.process-step p,
+.journey-entry p,
+.badge-card p,
+.contact-option,
+.social-link small,
+.social-link strong {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.proof-chips span,
+.project-index,
+.open-project,
+.client-case-copy > small,
+.client-case-metric span,
+.client-case-copy summary,
+.proof-story small,
+.blog-card small,
+.blog-card a,
+.blog-index-link {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.music-deck {
+  min-height: 78px;
+  grid-template-columns: 78px 104px 78px minmax(240px, 1fr) minmax(110px, 1fr) 110px;
+  padding: 10px;
+}
+
+.music-deck > button,
+.music-deck .music-play {
+  min-height: 56px;
+  font-size: 12px;
+}
+
+.music-copy strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.music-copy small {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.dock button small {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+/* The call prompt belongs to the operating-system corner, not on a banner. */
+.build-ribbon,
+.build-ribbon:hover {
+  position: fixed;
+  z-index: 5480;
+  right: 0;
+  bottom: 0;
+  width: 244px;
+  height: 244px;
+  overflow: hidden;
+  transform: none;
+  filter: none;
+  pointer-events: none;
+}
+
+.build-ribbon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.build-ribbon::after {
+  content: "";
+  position: absolute;
+  inset: 9px 0 0 9px;
+  background: var(--wine);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.build-ribbon a {
+  position: absolute;
+  z-index: 2;
+  right: -18px;
+  bottom: 52px;
+  width: 238px;
+  min-height: 74px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transform: rotate(-45deg);
+  pointer-events: auto;
+}
+
+.build-ribbon span {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.build-ribbon strong {
+  margin-top: 7px;
+  color: var(--lime);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.build-ribbon a:hover strong {
+  color: white;
+}
+
+@media (max-width: 1180px) {
+  .app-grid {
+    right: 18px;
+    grid-template-columns: repeat(4, 122px);
+    gap: 22px 10px;
+  }
+
+  .desktop-app {
+    width: 122px;
+    min-height: 152px;
+  }
+
+  .desktop-app strong,
+  .desktop-app small {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 900px) {
+  .menubar {
+    height: 64px;
+    min-height: 64px;
+  }
+
+  .desktop {
+    inset: 64px 0 0;
+    height: calc(100dvh - 64px);
+    min-height: calc(100dvh - 64px);
+  }
+
+  .desktop-glow,
+  .ambient-grid,
+  .night-stars {
+    inset: 64px 0 0;
+  }
+
+  .brand-menu strong,
+  .menu-links button,
+  .theme-switch button {
+    font-size: 12px;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px 12px;
+  }
+
+  .desktop-app {
+    width: 100%;
+    min-height: 158px;
+  }
+
+  .desktop-app strong {
+    font-size: 13px;
+  }
+
+  .desktop-app small {
+    font-size: 14px;
+  }
+
+  .window-layer {
+    inset: 64px 0 158px;
+  }
+
+  .build-ribbon,
+  .build-ribbon:hover {
+    right: 12px;
+    bottom: 158px;
+    width: 290px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .build-ribbon::before,
+  .build-ribbon::after {
+    display: none;
+  }
+
+  .build-ribbon a {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: 68px;
+    padding: 12px 16px;
+    border: 3px solid var(--ink);
+    background: var(--wine);
+    box-shadow: 5px 5px 0 var(--lime);
+    transform: none;
+  }
+
+  .build-ribbon span {
+    font-size: 11px;
+  }
+
+  .build-ribbon strong {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 620px) {
+  .menubar {
+    padding-inline: 10px;
+  }
+
+  .brand-menu strong {
+    font-size: 11px;
+  }
+
+  .theme-switch button {
+    min-width: 48px;
+    font-size: 10px;
+  }
+
+  .desktop-intro .eyebrow,
+  .desktop-intro .welcome-line,
+  .motivation-card time,
+  .motivation-card small {
+    font-size: 12px;
+  }
+
+  .identity-morph span {
+    font-size: 14px;
+  }
+
+  .desktop-intro > p {
+    font-size: 18px;
+  }
+
+  .os-button {
+    font-size: 12px;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 10px;
+  }
+
+  .desktop-app {
+    min-height: 178px;
+    padding-block: 12px;
+  }
+
+  .desktop-app .pixel-icon {
+    width: 82px;
+    height: 82px;
+  }
+
+  .desktop-app strong {
+    font-size: 14px;
+  }
+
+  .desktop-app small {
+    font-size: 15px;
+  }
+
+  .proof-rail span {
+    font-size: 11px;
+  }
+
+  .music-deck {
+    min-height: 84px;
+    grid-template-columns: 64px 90px 64px minmax(0, 1fr);
+  }
+
+  .music-deck > button,
+  .music-deck .music-play {
+    font-size: 11px;
+  }
+
+  .music-copy strong {
+    font-size: 13px;
+  }
+
+  .music-copy small {
+    font-size: 12px;
+  }
+
+  .window-title {
+    font-size: 12px;
+  }
+
+  .app-kicker,
+  .source-note {
+    font-size: 14px;
+  }
+
+  .app-deck,
+  .project-card strong,
+  .project-card p,
+  .metric-card p,
+  .process-step p,
+  .journey-entry p,
+  .badge-card p,
+  .contact-option,
+  .social-link small,
+  .social-link strong {
+    font-size: 16px;
+  }
+
+  .build-ribbon,
+  .build-ribbon:hover {
+    right: 10px;
+    bottom: 160px;
+    width: calc(100% - 20px);
+  }
+
+  .build-ribbon a {
+    min-height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .build-ribbon span {
+    font-size: 11px;
+  }
+
+  .build-ribbon strong {
+    margin-top: 0;
+    font-size: 12px;
+    text-align: right;
+  }
+}
+
+/* RAJ OS 5.3.1 — edge-to-edge desktop and visitor notes */
+
+.os {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.desktop {
+  position: absolute;
+  inset: 50px 0 0;
+  width: auto;
+  height: auto;
+  min-height: 0;
+}
+
+.motivation-stack {
+  top: 18px;
+  left: 24px;
+}
+
+.desktop-intro h1 {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-style: normal;
+  line-height: .82;
+  letter-spacing: -.075em;
+}
+
+.desktop-intro h1 em {
+  font-style: normal;
+}
+
+.quick-sticky-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 18px;
+  padding: 10px 12px;
+  border: 2px solid var(--ink);
+  background: var(--lime);
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font: 11px/1.35 var(--pixel);
+  text-align: left;
+}
+
+.quick-sticky-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+@media (max-width: 900px) {
+  .desktop {
+    position: absolute;
+    inset: 64px 0 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .motivation-stack {
+    inset: auto;
+  }
+
+  .quick-sticky-button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 620px) {
+  .desktop-intro h1 {
+    font-size: clamp(67px, 22vw, 104px);
+    letter-spacing: -.085em;
+  }
+
+  .quick-sticky-button {
+    min-height: 50px;
+    font-size: 12px;
+  }
+}

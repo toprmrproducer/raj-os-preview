@@ -1153,3 +1153,562 @@
   .cloud { animation: none !important; }
   .ambient-character { display: none !important; }
 }
+
+/* SHREYAS OS 5.3 — final legibility and responsive desktop lock */
+
+.os {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.menubar {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 50px;
+  min-height: 50px;
+  gap: 22px;
+  padding-inline: 18px;
+}
+
+.brand-menu strong,
+.menu-links button,
+.system-status,
+.theme-switch button {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.brand-pixel {
+  width: 28px;
+  height: 28px;
+}
+
+.desktop {
+  position: absolute;
+  inset: 50px 0 0;
+  width: auto;
+  height: auto;
+  min-height: 0;
+}
+
+.activity-stack {
+  top: 20px;
+  left: 24px;
+  width: 280px;
+}
+
+.activity-stack header {
+  height: 38px;
+  font-size: 11px;
+}
+
+.motivation-card {
+  min-height: 210px;
+  padding: 20px;
+}
+
+.motivation-card time,
+.motivation-card small {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.motivation-card blockquote {
+  font-size: 33px;
+  line-height: .96;
+}
+
+.desktop-intro h1 {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-style: normal;
+  line-height: .82;
+  letter-spacing: -.075em;
+}
+
+.desktop-intro h1 em {
+  font-style: normal;
+}
+
+.welcome-line,
+.desktop-intro .eyebrow,
+.identity-morph span {
+  font-size: 12px !important;
+  line-height: 1.35;
+}
+
+.identity-morph {
+  min-height: 48px;
+  padding: 12px 15px;
+}
+
+.desktop-intro > p:not(.eyebrow):not(.welcome-line) {
+  font-size: 18px;
+  line-height: 1.58;
+}
+
+.os-button {
+  min-height: 52px;
+  padding: 14px 17px;
+  font-size: 12px;
+}
+
+.app-grid {
+  top: 44px;
+  right: clamp(160px, 12vw, 220px);
+  grid-template-columns: repeat(5, 126px);
+  gap: 22px 10px;
+}
+
+.desktop-app {
+  width: 126px;
+  min-height: 150px;
+  gap: 7px;
+}
+
+.desktop-app .pixel-icon,
+.featured-app .pixel-icon {
+  width: 76px;
+  height: 76px;
+}
+
+.desktop-app strong {
+  max-width: 124px;
+  padding: 6px 7px;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.desktop-app small {
+  display: block;
+  max-width: 124px;
+  font-size: 13px;
+  line-height: 1.38;
+}
+
+.desktop-app > b {
+  font-size: 9px;
+}
+
+.proof-rail span {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.music-deck {
+  min-height: 76px;
+  width: min(820px, calc(100vw - 650px));
+  grid-template-columns: 76px 100px 76px minmax(230px,1fr) minmax(100px,1fr) 105px;
+  padding: 9px;
+}
+
+.music-deck > button,
+.music-deck .music-play {
+  min-height: 54px;
+  font-size: 11px;
+}
+
+.music-copy strong {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.music-copy small {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.quick-sticky-button {
+  min-height: 46px;
+  font-size: 11px;
+}
+
+@media (max-width: 1380px) {
+  .app-grid {
+    right: 125px;
+    grid-template-columns: repeat(4, 118px);
+  }
+
+  .desktop-app {
+    width: 118px;
+  }
+}
+
+@media (max-width: 900px) {
+  .menubar {
+    height: 64px;
+    min-height: 64px;
+  }
+
+  .desktop {
+    inset: 64px 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 24px 18px 230px;
+  }
+
+  .desktop-glow,
+  .ambient-grid,
+  .night-stars {
+    position: fixed;
+    inset: 64px 0 0;
+  }
+
+  .system-status {
+    display: none;
+  }
+
+  .activity-stack,
+  .desktop-intro,
+  .app-grid,
+  .proof-rail,
+  .build-ribbon {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .activity-stack {
+    margin: 0 0 34px;
+    transform: none !important;
+  }
+
+  .motivation-card {
+    min-height: 200px;
+  }
+
+  .desktop-intro {
+    max-width: none;
+    margin: 0 0 38px;
+  }
+
+  .desktop-intro h1 {
+    font-size: clamp(80px, 16vw, 132px);
+  }
+
+  .desktop-intro > p:not(.eyebrow):not(.welcome-line) {
+    max-width: 680px;
+    font-size: 18px;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 12px;
+    margin: 0 0 38px;
+  }
+
+  .desktop-app {
+    width: 100%;
+    min-height: 164px;
+  }
+
+  .desktop-app strong {
+    max-width: 100%;
+    font-size: 13px;
+  }
+
+  .desktop-app small {
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  .theme-orb,
+  .portrait-zone,
+  .learn-cluster,
+  .secret-folder,
+  .desktop-sos,
+  .ambient-character {
+    display: none !important;
+  }
+
+  .proof-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 36px;
+  }
+
+  .proof-rail button {
+    width: 100%;
+    min-height: 90px;
+  }
+
+  .build-ribbon,
+  .build-ribbon:hover {
+    height: auto;
+    margin: 0 0 36px;
+    overflow: visible;
+    transform: none;
+    filter: none;
+  }
+
+  .build-ribbon::before,
+  .build-ribbon::after {
+    display: none;
+  }
+
+  .build-ribbon a {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: 76px;
+    padding: 16px 18px;
+    border: 3px solid var(--ink);
+    background: var(--wine);
+    box-shadow: 6px 6px 0 var(--lime);
+    transform: none;
+  }
+
+  .build-ribbon span {
+    font-size: 12px;
+  }
+
+  .build-ribbon strong {
+    font-size: 14px;
+  }
+
+  .music-deck {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 78px;
+    width: auto;
+    min-width: 0;
+    transform: none;
+  }
+
+  .dock {
+    width: calc(100% - 20px);
+    min-width: 0;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .window-layer {
+    inset: 64px 0 160px;
+  }
+}
+
+@media (max-width: 620px) {
+  .menubar {
+    padding-inline: 10px;
+  }
+
+  .brand-menu strong {
+    display: inline;
+    font-size: 13px;
+  }
+
+  .menu-links {
+    display: none;
+  }
+
+  .theme-switch {
+    margin-left: auto;
+  }
+
+  .theme-switch button {
+    min-width: 46px;
+    min-height: 36px;
+    font-size: 11px;
+  }
+
+  .desktop {
+    padding: 18px 12px 236px;
+  }
+
+  .activity-stack header,
+  .motivation-card time,
+  .motivation-card small,
+  .welcome-line,
+  .desktop-intro .eyebrow,
+  .identity-morph span {
+    font-size: 13px !important;
+  }
+
+  .motivation-card blockquote {
+    font-size: 32px;
+  }
+
+  .quick-sticky-button {
+    min-height: 50px;
+    font-size: 13px;
+  }
+
+  .desktop-intro h1 {
+    font-size: clamp(66px, 21vw, 104px);
+    letter-spacing: -.085em;
+  }
+
+  .desktop-intro > p:not(.eyebrow):not(.welcome-line) {
+    font-size: 18px;
+  }
+
+  .intro-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .os-button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 10px;
+  }
+
+  .desktop-app {
+    min-height: 182px;
+    padding-block: 12px;
+  }
+
+  .desktop-app .pixel-icon,
+  .featured-app .pixel-icon {
+    width: 82px;
+    height: 82px;
+  }
+
+  .desktop-app strong {
+    font-size: 14px;
+  }
+
+  .desktop-app small {
+    display: block;
+    font-size: 15px;
+  }
+
+  .desktop-app > b {
+    display: block;
+    font-size: 9px;
+  }
+
+  .proof-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .proof-rail button {
+    min-height: 98px;
+  }
+
+  .proof-rail strong {
+    font-size: 34px;
+  }
+
+  .proof-rail span {
+    font-size: 11px;
+  }
+
+  .build-ribbon a {
+    min-height: 78px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .build-ribbon strong {
+    margin-top: 0;
+    text-align: right;
+  }
+
+  .music-deck {
+    min-height: 82px;
+    grid-template-columns: 58px 86px 58px minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .music-deck > button,
+  .music-deck .music-play {
+    min-height: 56px;
+    font-size: 12px;
+  }
+
+  .music-deck input {
+    display: none;
+  }
+
+  .music-copy strong {
+    font-size: 13px;
+  }
+
+  .music-copy small {
+    display: block;
+    font-size: 12px;
+  }
+
+  .dock {
+    bottom: 7px;
+    height: 66px;
+  }
+
+  .dock button {
+    min-width: 58px;
+    width: 58px;
+    height: 56px;
+  }
+}
+
+/* Window text must remain readable after an app opens. */
+.window-title {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.window-meta {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.app-kicker,
+.proof-chips span,
+.project-index,
+.open-project,
+.client-case-copy > small,
+.client-case-metric span,
+.client-case-copy summary,
+.proof-story small,
+.blog-card small,
+.blog-card a,
+.blog-index-link {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.source-note,
+.whiteboard-app header > div > span,
+.whiteboard-app label,
+.whiteboard-app footer {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.whiteboard-app form button,
+.note-grip {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+@media (max-width: 620px) {
+  .window-title {
+    font-size: 13px;
+  }
+
+  .app-kicker,
+  .source-note,
+  .whiteboard-app header > div > span,
+  .whiteboard-app label,
+  .whiteboard-app footer {
+    font-size: 14px;
+  }
+
+  .whiteboard-app form button {
+    min-height: 52px;
+    font-size: 13px;
+  }
+}
