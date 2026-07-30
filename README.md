@@ -1,6 +1,6 @@
 # RAJ OS
 
-A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.2 preserves the original editorial desktop composition and makes the portfolio the core product: client-result case files with generated visuals, ten selected project files, a nested Finder-style case archive, four service lanes, real video proof and stories, a YouTube learning library, four production Dograh voice-agent embeds, a draggable daily transmission, a sticky-note whiteboard, movable desktop icons, music, Netlify Garage Mail, portrait poses, a visible SOS channel, and a responsive phone/tablet shell.
+A one-screen personal AI operating system for Shreyas Raj and the homepage of `shreyasraj.com`. Version 5.3 preserves the original desktop composition, enforces readable typography across desktop/tablet/phone, and makes the portfolio the core product: client-result case files with generated visuals, ten selected project files, a nested Finder-style case archive, four service lanes, real video proof and stories, a YouTube learning library, four production Dograh voice-agent embeds, a draggable daily transmission, a persistent sticky-note whiteboard, movable desktop icons, music, Netlify Garage Mail, portrait poses, a visible SOS channel, and a responsive phone/tablet shell.
 
 ## Open locally
 
@@ -51,7 +51,7 @@ The site includes a static, crawlable `/blog/` library with original guides for 
 
 The repository contains `netlify.toml` and two Netlify Forms (`garage-mail` and `video-suggestion`). Import the GitHub repository with a blank build command and publish directory `.`. Enable Form Detection after the first deploy, then add an email or webhook notification in Netlify. The GitHub Pages `CNAME` is intentionally removed while Netlify becomes the domain owner.
 
-The complete rebuild specification lives in [`RECREATE-PROMPT.md`](./RECREATE-PROMPT.md).
+The reusable personalization and rebuild system lives in [`AI_OS_MASTER_REBUILD_PROMPT.md`](./AI_OS_MASTER_REBUILD_PROMPT.md). It contains the full onboarding interview, owner data contract, 50-part component specification, responsive and accessibility standards, deployment sequence, test plan, and copy-paste execution block. The earlier implementation-specific notes remain in [`RECREATE-PROMPT.md`](./RECREATE-PROMPT.md).
 
 ## Content guardrails
 
