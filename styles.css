@@ -312,6 +312,14 @@ button:focus-visible, [tabindex]:focus-visible, a:focus-visible {
 }
 .os-window.focused { box-shadow: 10px 10px 0 rgba(23,19,27,.31); }
 .os-window.maximized { inset: 12px 14px 0 !important; width: auto !important; height: auto !important; transform: none !important; }
+.resize-handle { position: absolute; z-index: 30; }
+.resize-handle.rh-e { top: 38px; right: 0; bottom: 0; width: 7px; cursor: ew-resize; }
+.resize-handle.rh-w { top: 38px; left: 0; bottom: 0; width: 7px; cursor: ew-resize; }
+.resize-handle.rh-s { left: 0; right: 0; bottom: 0; height: 7px; cursor: ns-resize; }
+.resize-handle.rh-se { right: 0; bottom: 0; width: 16px; height: 16px; cursor: nwse-resize; }
+.resize-handle.rh-sw { left: 0; bottom: 0; width: 16px; height: 16px; cursor: nesw-resize; }
+.os-window.maximized .resize-handle { display: none; }
+@media (max-width: 760px) { .resize-handle { display: none; } }
 .os-window.minimized { transform: translateY(90vh) scale(.35); opacity: 0; pointer-events: none; transition: transform .28s ease, opacity .2s ease; }
 .window-titlebar {
   flex: 0 0 38px; display: flex; align-items: center;

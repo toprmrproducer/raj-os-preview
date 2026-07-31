@@ -906,7 +906,12 @@ function openApp(id, options = {}) {
       <strong class="window-title" id="window-title-${id}">${app.title}</strong>
       <span class="window-meta">${app.subtitle}</span>
     </header>
-    <div class="window-body">${app.render()}</div>`;
+    <div class="window-body">${app.render()}</div>
+    <i class="resize-handle rh-w" data-resize="w"></i>
+    <i class="resize-handle rh-e" data-resize="e"></i>
+    <i class="resize-handle rh-s" data-resize="s"></i>
+    <i class="resize-handle rh-sw" data-resize="sw"></i>
+    <i class="resize-handle rh-se" data-resize="se"></i>`;
   layer.appendChild(win);
   win.setAttribute("aria-labelledby", `window-title-${id}`);
   openWindows.set(id, win);
@@ -958,6 +963,7 @@ function bindWindow(win) {
   win.querySelector(".max").addEventListener("click", (event) => { event.stopPropagation(); win.classList.toggle("maximized"); });
   bar.addEventListener("dblclick", () => win.classList.toggle("maximized"));
   bar.addEventListener("pointerdown", startDrag);
+  win.querySelectorAll(".resize-handle").forEach(handle => handle.addEventListener("pointerdown", startResize));
   win.querySelectorAll("[data-copy]").forEach(button => button.addEventListener("click", () => copyText(button.dataset.copy)));
   win.querySelectorAll("[data-project-url]").forEach(card => card.addEventListener("click", () => {
     const url = card.dataset.projectUrl;
@@ -1615,6 +1621,49 @@ window.addEventListener("pointermove", event => {
 });
 window.addEventListener("pointerup", () => { dragState = null; });
 
+let resizeState = null;
+function startResize(event) {
+  if (window.innerWidth <= 760) return;
+  const win = event.currentTarget.closest(".os-window");
+  if (win.classList.contains("maximized")) return;
+  event.stopPropagation();
+  const rect = win.getBoundingClientRect();
+  resizeState = {
+    win,
+    dir: event.currentTarget.dataset.resize,
+    x: event.clientX,
+    y: event.clientY,
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+  };
+  event.currentTarget.setPointerCapture(event.pointerId);
+}
+window.addEventListener("pointermove", event => {
+  if (!resizeState) return;
+  const { win, dir, x, y, left, top, width, height } = resizeState;
+  const dx = event.clientX - x;
+  const dy = event.clientY - y;
+  const minWidth = 420;
+  const minHeight = 280;
+  if (dir.includes("e")) {
+    const maxWidth = window.innerWidth - left - 8;
+    win.style.width = `${Math.max(minWidth, Math.min(maxWidth, width + dx))}px`;
+  }
+  if (dir.includes("w")) {
+    const maxWidth = left + width - 8;
+    const nextWidth = Math.max(minWidth, Math.min(maxWidth, width - dx));
+    win.style.width = `${nextWidth}px`;
+    win.style.left = `${left + width - nextWidth}px`;
+  }
+  if (dir.includes("s")) {
+    const maxHeight = window.innerHeight - top - 8;
+    win.style.height = `${Math.max(minHeight, Math.min(maxHeight, height + dy))}px`;
+  }
+});
+window.addEventListener("pointerup", () => { resizeState = null; });
+
 function focusWindow(win) {
   document.querySelectorAll(".os-window").forEach(item => item.classList.remove("focused"));
   win.classList.add("focused");
@@ -2011,6 +2060,36 @@ window.addEventListener("resize", () => {
   playerState.waypoint = -1;
   autoPatrol();
 });
+
+function guardIntroLayout() {
+  const intro = document.querySelector(".desktop-intro");
+  const actions = document.querySelector(".intro-actions");
+  if (!intro || !actions || window.innerWidth <= 900) return;
+  intro.classList.remove("is-compact");
+  intro.style.removeProperty("top");
+  const overlaps = (a, b, gap = 16) =>
+    a.left < b.right + gap && a.right > b.left - gap && a.top < b.bottom + gap && a.bottom > b.top - gap;
+  const stack = document.querySelector(".motivation-stack");
+  if (stack) {
+    const introRect = intro.getBoundingClientRect();
+    const stackRect = stack.getBoundingClientRect();
+    if (overlaps(introRect, stackRect)) {
+      const introTopNow = parseFloat(getComputedStyle(intro).top) || 0;
+      intro.style.top = `${introTopNow + (stackRect.bottom - introRect.top) + 16}px`;
+    }
+  }
+  const rail = document.querySelector(".proof-rail");
+  if (rail && overlaps(actions.getBoundingClientRect(), rail.getBoundingClientRect())) {
+    intro.classList.add("is-compact");
+  }
+}
+window.addEventListener("resize", guardIntroLayout);
+window.addEventListener("load", guardIntroLayout);
+document.fonts?.ready?.then(guardIntroLayout).catch(() => {});
+guardIntroLayout();
+setTimeout(guardIntroLayout, 150);
+setTimeout(guardIntroLayout, 900);
+new MutationObserver(guardIntroLayout).observe(document.querySelector(".motivation-stack") || document.body, { childList: true, subtree: true, characterData: true });
 
 function updateClock() {
   const now = new Date();
