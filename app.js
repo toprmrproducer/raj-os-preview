@@ -2516,13 +2516,12 @@ function initWallpaperRotator() {
   const rotator = document.querySelector("[data-wallpaper-rotator]");
   if (!rotator) return;
   const layers = [...rotator.querySelectorAll("[data-wallpaper-layer]")];
-  // wallpapers that have a looping ambient video (drifting clouds); the rest are static
-  // (enabled once the video actually animates HIS exact image, not a reinterpretation)
-  const animated = {};
-  const lightSet = ["cotton-candy-dawn", "anime-sky", "paramo-sunrise", "warm-aurora", "retro-grid"];
-  const darkSet = ["deep-space", "retro-grid", "cotton-candy-dawn"];
+  // wallpapers that have a looping ambient video (Shreyas's exact image animated)
+  const animated = { "cotton-candy-dawn": true, "anime-sky": true, "deep-space": true, "founder-window": true };
+  const lightSet = ["cotton-candy-dawn", "anime-sky", "founder-window", "paramo-sunrise", "warm-aurora", "retro-grid"];
+  const darkSet = ["deep-space", "cotton-candy-dawn", "founder-window", "retro-grid"];
   const base = "./assets/wallpapers/";
-  const V = "?v=chatgpt7";                 // cache-bust
+  const V = "?v=vid1";                      // cache-bust (new video assets)
   const imgUrl = name => `${base}${name}.jpg${V}`;
   const setLayer = (layer, name) => {
     const existing = layer.querySelector("video");
