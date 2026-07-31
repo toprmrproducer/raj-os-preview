@@ -654,6 +654,19 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
         </div>
       </div>`,
   },
+  rickroll: {
+    title: "media player — now playing",
+    chrome: "#ff6b63",
+    subtitle: "LOADING YOUR FILE...",
+    render: () => `
+      <div class="rickroll-app">
+        <div class="rickroll-fakebar"><span data-rickroll-label>opening your file...</span><small>0:00 / 3:33</small></div>
+        <div class="rickroll-frame">
+          <iframe data-rickroll-frame src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0" title="Now playing" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p class="rickroll-caption">You have been rickrolled by a 17 year old's portfolio website. Close the window and pretend this never happened.</p>
+      </div>`,
+  },
   run: {
     title: "Founder Run — Arcade.exe",
     chrome: "#c7f36b",
@@ -672,7 +685,7 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
             <button type="button" class="run-start" data-run-start>PRESS SPACE / TAP TO START</button>
           </div>
         </div>
-        <p class="run-hint">SPACE or TAP to jump · double-tap for a double jump · everything speeds up, just like real life.</p>
+        <p class="run-hint">SPACE or TAP to jump · again mid-air for a double jump · land on the green platforms, grab the ₹, dodge everything.</p>
       </div>`,
   },
 };
@@ -802,12 +815,12 @@ function renderFileExplorer() {
     </div>`;
 }
 const prankFiles = [
-  { id: "keys", name: "api_keys.env", kind: "Env File", status: "DEFINITELY REAL", size: "1 KB", icon: "▣", preview: "Every founder's most guarded secret. Or a decoy. There is exactly one way to find out, and you are going to regret it." },
-  { id: "virus", name: "virus.exe", kind: "Application", status: "666 KB", size: "666 KB", icon: "◆", preview: "A genuine, hand-crafted computer virus. It has been sitting here since 3:47 AM. Double-click to unleash chaos upon this machine." },
-  { id: "mixtape", name: "mixtape_FINAL_v2_REAL_final.mp3", kind: "Audio", status: "CERTIFIED FIRE", size: "4.2 MB", icon: "♪", preview: "Seventeen tracks. Zero skips. The naming convention alone tells you everything about the creative process behind it." },
-  { id: "feelings", name: "my_actual_feelings", kind: "Folder", status: "0 ITEMS", size: "empty", icon: "▤", preview: "A folder. It is completely empty. It has always been empty. Some things a founder just does not keep on disk." },
-  { id: "homework", name: "homework_2019.zip", kind: "Archive", status: "CORRUPTED (GOOD)", size: "corrupted", icon: "▦", preview: "10th grade homework from 2019. The archive is corrupted beyond recovery, which is genuinely the best outcome for everyone involved." },
-  { id: "sys32", name: "delete_system32.bat", kind: "Script", status: "DO NOT RUN", size: "0 KB", icon: "!", preview: "A batch script with one job. The filename is a warning, a dare, and a life choice, all at once. Double-clicking this is on you." },
+  { id: "keys", name: "api_keys.env", kind: "Env File", status: "DEFINITELY REAL", size: "1 KB", icon: "▣", preview: "Oh you sweet summer child. You think the real keys are just sitting in a folder called DO_NOT_OPEN? Double-click it. See what happens to people who go looking." },
+  { id: "xxx", name: "definitely_not_xxx.mp4", kind: "Video", status: "18+ ??", size: "0 KB", icon: "▶", preview: "Why are you here? Genuinely. It is a portfolio website. What did you think this was. Double-click if you have truly abandoned all shame." },
+  { id: "pokemon", name: "pokemon_emerald_ROM_legit.gba", kind: "ROM", status: "TOTALLY LEGAL", size: "8 MB", icon: "◈", preview: "A totally legal, definitely-purchased copy of a game from 2004. Nintendo's lawyers are already in the car. Double-click and find out." },
+  { id: "feelings", name: "my_actual_feelings", kind: "Folder", status: "0 ITEMS", size: "empty", icon: "▤", preview: "Why do you care? It is empty. It has always been empty. A founder does not keep those on disk, they keep them in the pricing." },
+  { id: "mixtape", name: "mixtape_FINAL_v2_REAL_final.mp3", kind: "Audio", status: "CERTIFIED FIRE", size: "4.2 MB", icon: "♪", preview: "Seventeen tracks. Zero skips. The filename alone is a red flag and a promise. Double-click it. You are so ready. You are not ready." },
+  { id: "sys32", name: "delete_system32.bat", kind: "Script", status: "DO NOT RUN", size: "0 KB", icon: "!", preview: "One job. The filename is a warning, a dare, and a personality test. Double-clicking this is a choice you make completely alone." },
 ];
 
 function renderPrankFinder() {
@@ -1530,14 +1543,14 @@ function bindPrank(win) {
   };
   const openPrankFile = id => {
     if (id === "keys") { toast("api_keys.env", "Opening the definitely-real secrets..."); openApp("keys"); }
-    else if (id === "virus") { toast("EXECUTION BLOCKED", "virus.exe took one look at this codebase and left. It said the bar was already met."); if (hint) hint.textContent = "virus.exe declined to run. Professional courtesy between chaotic entities."; }
+    else if (id === "xxx") { toast("BUSTED", "You actually double-clicked that. On a founder's portfolio. Enjoy."); if (hint) hint.textContent = "There is no going back from what you just tried to open."; openRickroll("definitely_not_xxx.mp4"); }
+    else if (id === "pokemon") { toast("NINTENDO HAS BEEN NOTIFIED", "Loading pokemon_emerald_ROM_legit.gba..."); if (hint) hint.textContent = "The lawyers are outside. Do not answer the door."; openRickroll("pokemon_emerald_ROM_legit.gba"); }
     else if (id === "mixtape") {
       mixtapeClicks += 1;
-      if (mixtapeClicks === 1) { toast("PLAYBACK DENIED", "The mixtape is too powerful for browser speakers."); if (hint) hint.textContent = "Double-click it once more if you truly believe you are ready."; }
-      else { toast("FINE", "Opening the real music player."); document.querySelector("[data-music-toggle]")?.click(); }
+      if (mixtapeClicks === 1) { toast("PLAYBACK DENIED", "The mixtape is too powerful for browser speakers. Double-click again if you insist."); if (hint) hint.textContent = "Double-click it once more if you truly believe you are ready."; }
+      else { toast("FINE. PLAYING IT.", "You asked for this."); openRickroll("mixtape_FINAL_v2_REAL_final.mp3"); }
     }
-    else if (id === "feelings") { toast("my_actual_feelings", "The folder is empty. It has always been empty."); if (hint) hint.textContent = "0 items. Some things a founder does not keep on disk."; }
-    else if (id === "homework") { toast("homework_2019.zip", "Corrupted beyond recovery. The best possible outcome."); if (hint) hint.textContent = "2019 stays in 2019. This is a good thing."; }
+    else if (id === "feelings") { toast("my_actual_feelings", "The folder is empty. Why do you care?"); if (hint) hint.textContent = "0 items. A founder keeps those in the pricing, not on disk."; }
     else if (id === "sys32") { toast("FATAL DECISION", "Running delete_system32.bat... you did this."); if (hint) hint.textContent = "You ran it. This is on you and you alone."; setTimeout(() => powerDown("delete_system32.bat completed successfully. Congratulations, hacker."), 950); }
   };
   rows.forEach(row => {
@@ -1549,6 +1562,16 @@ function bindPrank(win) {
     });
     row.addEventListener("dblclick", () => openPrankFile(file.id));
   });
+}
+
+function openRickroll(label) {
+  openApp("rickroll");
+  setTimeout(() => {
+    const win = openWindows.get("rickroll");
+    if (!win) return;
+    const labelEl = win.querySelector("[data-rickroll-label]");
+    if (labelEl) labelEl.textContent = `now playing: ${label || "your file"}`;
+  }, 60);
 }
 
 function bindRun(win) {
@@ -1573,16 +1596,16 @@ function bindRun(win) {
   let best = Number(localStorage.getItem("raj-os-run-best") || 0);
   bestEl.textContent = best;
   let state = "idle";
-  let player, obstacles, coins, speed, score, jumps, spawnTimer, coinTimer, raf, lastQuip = "";
+  let player, obstacles, coins, platforms, speed, score, jumps, spawnTimer, coinTimer, platTimer, raf, lastQuip = "";
   const reset = () => {
     player = { x: 70, y: GROUND, vy: 0, w: 30, h: 42, onGround: true };
-    obstacles = []; coins = []; speed = 4.4; score = 0; jumps = 0;
-    spawnTimer = 40; coinTimer = 90;
+    obstacles = []; coins = []; platforms = []; speed = 4.2; score = 0; jumps = 0;
+    spawnTimer = 50; coinTimer = 70; platTimer = 120;
   };
   const jump = () => {
     if (state === "idle" || state === "over") { start(); return; }
-    if (player.onGround) { player.vy = -12.4; player.onGround = false; jumps = 1; }
-    else if (jumps < 2) { player.vy = -10.8; jumps = 2; }
+    if (player.onGround) { player.vy = -13.6; player.onGround = false; jumps = 1; }
+    else if (jumps < 2) { player.vy = -11.6; jumps = 2; }
   };
   const start = () => {
     reset();
@@ -1593,7 +1616,7 @@ function bindRun(win) {
   };
   const gameOver = () => {
     state = "over";
-    if (score > best) { best = score; localStorage.setItem("raj-os-run-best", best); bestEl.textContent = best; }
+    if (Math.floor(score) > best) { best = Math.floor(score); localStorage.setItem("raj-os-run-best", best); bestEl.textContent = best; }
     lastQuip = QUIPS[Math.floor(score) % QUIPS.length];
     overTitle.textContent = `RUN OVER · ${Math.floor(score)}`;
     overCopy.textContent = lastQuip + " Press space or tap to run it back.";
@@ -1603,31 +1626,59 @@ function bindRun(win) {
   const loop = () => {
     if (state !== "running") return;
     ctx.clearRect(0, 0, W, H);
-    // sky bands
+    // sky + hills
     rect(0, 0, W, H, "#fbe3ec");
     rect(0, GROUND + player.h, W, H, "#efd0b7");
-    ctx.fillStyle = "rgba(123,22,53,.18)";
+    ctx.fillStyle = "rgba(247,169,189,.55)";
+    for (let i = 0; i < 5; i++) { const hx = (i * 190 - (score * 0.9) % 190) - 40; ctx.beginPath(); ctx.moveTo(hx, GROUND + player.h); ctx.lineTo(hx + 90, GROUND + player.h - 60); ctx.lineTo(hx + 180, GROUND + player.h); ctx.fill(); }
+    ctx.fillStyle = "rgba(123,22,53,.16)";
     for (let i = 0; i < 6; i++) { const cx = (i * 150 - (score * 1.4) % 150); ctx.fillRect(cx, 40 + (i % 2) * 22, 46, 14); }
-    // ground line
-    ctx.fillStyle = "#17131b"; ctx.fillRect(0, GROUND + player.h, W, 3);
-    // physics
-    player.vy += 0.62; player.y += player.vy;
+    // ground brick line
+    ctx.fillStyle = "#17131b"; ctx.fillRect(0, GROUND + player.h, W, 4);
+    ctx.fillStyle = "rgba(123,22,53,.25)";
+    for (let i = 0; i < W / 40 + 1; i++) { const bx = (i * 40 - (score * speed) % 40); ctx.fillRect(bx, GROUND + player.h + 6, 2, 10); }
+    // physics + platform landing (one-way from above)
+    const prevBottom = player.y + player.h;
+    player.vy += 0.66; player.y += player.vy;
+    player.onGround = false;
+    platforms.forEach(p => {
+      const withinX = player.x + player.w > p.x + 4 && player.x < p.x + p.w - 4;
+      if (withinX && player.vy >= 0 && prevBottom <= p.y + 6 && player.y + player.h >= p.y) {
+        player.y = p.y - player.h; player.vy = 0; player.onGround = true; jumps = 0;
+      }
+    });
     if (player.y >= GROUND) { player.y = GROUND; player.vy = 0; player.onGround = true; jumps = 0; }
     // draw player
     if (rajImg.complete && rajImg.naturalWidth) ctx.drawImage(rajImg, player.x - 8, player.y - 6, 46, player.h + 10);
     else rect(player.x, player.y, player.w, player.h, "#7b1635");
-    // spawn obstacles
+    // spawn floating platforms
+    if (--platTimer <= 0) {
+      const py = GROUND - 40 - Math.random() * 90;
+      const pw = 70 + Math.random() * 70;
+      platforms.push({ x: W + 30, y: py, w: pw });
+      // a coin sitting on the platform
+      coins.push({ x: W + 30 + pw / 2, y: py - 22, r: 11, got: false });
+      platTimer = 150 + Math.random() * 120;
+    }
+    // spawn ground obstacles (goombas)
     if (--spawnTimer <= 0) {
       const label = OBSTACLES[Math.floor(Math.random() * OBSTACLES.length)];
-      const h = 30 + Math.random() * 26;
-      obstacles.push({ x: W + 20, y: GROUND + player.h - h, w: 26 + label.length * 3, h, label });
-      spawnTimer = Math.max(38, 92 - speed * 5) + Math.random() * 30;
+      const h = 30 + Math.random() * 24;
+      obstacles.push({ x: W + 20, y: GROUND + player.h - h, w: 28 + label.length * 3, h, label });
+      spawnTimer = Math.max(42, 96 - speed * 5) + Math.random() * 34;
     }
-    // spawn coins
+    // spawn low coins
     if (--coinTimer <= 0) {
-      coins.push({ x: W + 20, y: GROUND - 40 - Math.random() * 60, r: 11, got: false });
-      coinTimer = 110 + Math.random() * 80;
+      coins.push({ x: W + 20, y: GROUND - 30 - Math.random() * 40, r: 11, got: false });
+      coinTimer = 120 + Math.random() * 90;
     }
+    // platforms
+    platforms.forEach(p => {
+      p.x -= speed;
+      rect(p.x, p.y, p.w, 14, "#c7f36b");
+      ctx.fillStyle = "#17131b"; ctx.fillRect(p.x, p.y, p.w, 3); ctx.fillRect(p.x, p.y + 11, p.w, 3);
+    });
+    platforms = platforms.filter(p => p.x + p.w > -10);
     // obstacles
     ctx.font = "bold 9px 'Silkscreen', monospace";
     obstacles.forEach(o => {
@@ -1697,13 +1748,15 @@ function bindHack(win) {
     tick();
   };
   const commands = {
-    help: () => print("Commands: <b>ls</b>, <b>whoami</b>, <b>passwd</b>, <b>hack</b>, <b>steal keys</b>, <b>sudo make-me-rich</b>, <b>clear</b>, <b>exit</b>"),
+    help: () => print("Commands: <b>ls</b>, <b>whoami</b>, <b>passwd</b>, <b>hack</b>, <b>steal keys</b>, <b>play</b>, <b>sudo make-me-rich</b>, <b>clear</b>, <b>exit</b>"),
     ls: () => print("api_keys.env&nbsp;&nbsp;bank_details.txt&nbsp;&nbsp;definitely_not_a_honeypot/&nbsp;&nbsp;vibes.config"),
     whoami: () => print("script_kiddie_" + Math.floor(100 + Math.random() * 900)),
     passwd: () => print("Hint: it is NOT shreyas123. He is 17, not stupid."),
     clear: () => { output.innerHTML = ""; },
     exit: () => { print("Session logged. Your IP has been reported to Shreyas's mom."); setTimeout(() => closeWindow(win), 1400); },
     "sudo make-me-rich": () => print("Permission granted. Step 1: close this window and go build something."),
+    play: () => { print("Loading hidden arcade: FOUNDER RUN..."); setTimeout(() => openApp("run"), 500); },
+    run: () => { print("Loading hidden arcade: FOUNDER RUN..."); setTimeout(() => openApp("run"), 500); },
   };
   const runHack = () => sequence([
     ["Scanning shreyasraj.com for vulnerabilities...", ""],
@@ -2422,6 +2475,25 @@ function initSystemMenu() {
   });
 }
 initSystemMenu();
+
+function initKonami() {
+  const code = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+  let pos = 0;
+  window.addEventListener("keydown", event => {
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    if (key === code[pos]) {
+      pos += 1;
+      if (pos === code.length) {
+        pos = 0;
+        toast("CHEAT CODE ACCEPTED", "You found Founder Run. Now dodge everything real life throws at you.");
+        openApp("run");
+      }
+    } else {
+      pos = key === code[0] ? 1 : 0;
+    }
+  });
+}
+initKonami();
 
 function initModeToggle() {
   const button = document.querySelector("[data-mode-toggle]");
