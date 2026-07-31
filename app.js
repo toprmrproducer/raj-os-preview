@@ -2061,35 +2061,50 @@ window.addEventListener("resize", () => {
   autoPatrol();
 });
 
-function guardIntroLayout() {
-  const intro = document.querySelector(".desktop-intro");
-  const actions = document.querySelector(".intro-actions");
-  if (!intro || !actions || window.innerWidth <= 900) return;
-  intro.classList.remove("is-compact");
-  intro.style.removeProperty("top");
-  const overlaps = (a, b, gap = 16) =>
-    a.left < b.right + gap && a.right > b.left - gap && a.top < b.bottom + gap && a.bottom > b.top - gap;
+function initDailyTransmission() {
   const stack = document.querySelector(".motivation-stack");
-  if (stack) {
-    const introRect = intro.getBoundingClientRect();
-    const stackRect = stack.getBoundingClientRect();
-    if (overlaps(introRect, stackRect)) {
-      const introTopNow = parseFloat(getComputedStyle(intro).top) || 0;
-      intro.style.top = `${introTopNow + (stackRect.bottom - introRect.top) + 16}px`;
-    }
+  const closeButton = document.querySelector("[data-motivation-close]");
+  if (!stack) return;
+  const todayKey = new Date().toDateString();
+  const dismissedOn = localStorage.getItem("raj-os-transmission-dismissed");
+  if (dismissedOn === todayKey) {
+    stack.hidden = true;
+    return;
   }
-  const rail = document.querySelector(".proof-rail");
-  if (rail && overlaps(actions.getBoundingClientRect(), rail.getBoundingClientRect())) {
-    intro.classList.add("is-compact");
-  }
+  closeButton?.addEventListener("click", event => {
+    event.stopPropagation();
+    localStorage.setItem("raj-os-transmission-dismissed", todayKey);
+    stack.classList.add("closing");
+    setTimeout(() => { stack.hidden = true; }, 180);
+  });
 }
-window.addEventListener("resize", guardIntroLayout);
-window.addEventListener("load", guardIntroLayout);
-document.fonts?.ready?.then(guardIntroLayout).catch(() => {});
-guardIntroLayout();
-setTimeout(guardIntroLayout, 150);
-setTimeout(guardIntroLayout, 900);
-new MutationObserver(guardIntroLayout).observe(document.querySelector(".motivation-stack") || document.body, { childList: true, subtree: true, characterData: true });
+initDailyTransmission();
+
+function initDockAutoHide() {
+  const dock = document.querySelector(".dock");
+  if (!dock) return;
+  const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+  if (!hasFinePointer || window.innerWidth <= 760) return;
+  dock.classList.add("dock-hoverable");
+  let hideTimer;
+  const reveal = () => {
+    dock.classList.add("dock-visible");
+    clearTimeout(hideTimer);
+  };
+  const scheduleHide = () => {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => dock.classList.remove("dock-visible"), 600);
+  };
+  window.addEventListener("mousemove", event => {
+    if (window.innerHeight - event.clientY < 64) reveal();
+    else if (!dock.matches(":hover")) scheduleHide();
+  });
+  dock.addEventListener("mouseenter", reveal);
+  dock.addEventListener("mouseleave", scheduleHide);
+  reveal();
+  scheduleHide();
+}
+initDockAutoHide();
 
 function updateClock() {
   const now = new Date();
@@ -2099,7 +2114,7 @@ function updateClock() {
   document.querySelector("#timezone").textContent = zone ? zone.value.toUpperCase() : "LOCAL";
 }
 updateClock();
-applyTheme(localStorage.getItem("raj-os-theme") || "day");
+applyTheme("day");
 syncWorld();
 setInterval(updateClock, 30000);
 setTimeout(finishBoot, 2450);

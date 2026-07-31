@@ -87,11 +87,6 @@
           <button type="button" data-open="journey">Journey</button>
           <button type="button" data-command>Search</button>
         </nav>
-        <div class="theme-switch" aria-label="Appearance">
-          <button type="button" data-theme-choice="day" aria-pressed="true">DAY</button>
-          <button type="button" data-theme-choice="night" aria-pressed="false">NIGHT</button>
-          <button type="button" data-theme-choice="dark" aria-pressed="false">DARK</button>
-        </div>
         <div class="system-status">
           <span class="status-live"><i></i> BUILDING</span>
           <span class="signal" aria-label="Signal connected"><i></i><i></i><i></i></span>
@@ -108,7 +103,7 @@
         <div class="cloud cloud-c" aria-hidden="true"></div>
         <div class="theme-orb" aria-hidden="true"><i></i></div>
         <aside class="activity-stack motivation-stack" data-movable-widget="daily-transmission" aria-label="Daily motivation">
-          <header><span>DAILY TRANSMISSION</span><i></i></header>
+          <header><span>DAILY TRANSMISSION</span><button class="motivation-close" type="button" data-motivation-close aria-label="Close daily transmission">×</button></header>
           <div class="motivation-card">
             <time data-motivation-date>TODAY</time>
             <blockquote data-motivation-quote>BUILD THE THING YOU KEEP WISHING EXISTED.</blockquote>
@@ -117,17 +112,7 @@
           </div>
         </aside>
 
-        <div class="desktop-intro">
-          <p class="welcome-line">WELCOME TO SHREYASRAJ.COM</p>
-          <p class="eyebrow">FOUNDER / OPERATOR / AI BUILDER</p>
-          <h1>Shreyas<br /><em>Raj.</em></h1>
-          <p class="identity-morph" aria-live="polite"><span data-identity-morph>SHREYAS RAJ OS</span></p>
-          <p>I build AI systems, revenue engines, and digital experiences that refuse to be ignored.</p>
-          <div class="intro-actions">
-            <button class="os-button primary" type="button" data-open="projects">ENTER THE PORTFOLIO</button>
-            <button class="os-button" type="button" data-open="contact">START A PROJECT</button>
-          </div>
-        </div>
+        <h1 class="sr-only">Shreyas Raj — Founder, Operator, AI Builder. AI systems, revenue engines, and digital experiences.</h1>
 
         <section class="app-grid" aria-label="Desktop applications">
           <button class="desktop-app featured-app" type="button" data-open="projects" style="--app:#f5a39c">
@@ -186,11 +171,15 @@
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/journey.png" alt="" /></span>
             <strong>AI Field Notes</strong><small>Pune + India blog</small>
           </button>
+          <button class="desktop-app" type="button" data-open="learn" style="--app:#e6e35f">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/learn.svg" alt="" /></span>
+            <strong>Learn</strong><small>Real YouTube uploads</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="emergency" style="--app:#f5a39c">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/sos.svg" alt="" /></span>
+            <strong>Emergency</strong><small>Reach Shreyas now</small>
+          </button>
         </section>
-
-        <button class="desktop-sos" type="button" data-open="emergency" aria-label="Open emergency contact">
-          <strong>SOS</strong><span>REACH SHREYAS NOW</span>
-        </button>
 
         <aside class="build-ribbon" aria-label="Build your own AI operating system">
           <a href="https://calendly.com/shreyasrajsony11/30min" target="_blank" rel="noreferrer">
@@ -198,13 +187,6 @@
             <strong>BOOK A CALL ↗</strong>
           </a>
         </aside>
-
-        <div class="learn-cluster" data-learn-cluster>
-          <button class="learn-secret" type="button" data-open="learn">LEARN.APP<br /><small>YOUTUBE LIBRARY</small></button>
-          <button class="learn-sticky" type="button" data-learn-sticky aria-label="Move sticky note to reveal Learn app">
-            <span>MOVE ME</span><strong>There is a video library under this note.</strong><small>DRAG OR TAP ↗</small>
-          </button>
-        </div>
 
         <button class="secret-folder" type="button" data-secret-folder data-open="prank" aria-label="Open hidden do not open folder">
           <span></span><strong>DO_NOT_OPEN</strong><small>YOU WILL REGRET THIS</small>
@@ -215,13 +197,6 @@
           <img data-portrait-img src="./assets/raj-avatar.png" alt="Full-body illustrated portrait of Shreyas Raj wearing a red T-shirt" />
           <i aria-hidden="true"></i>
         </button>
-
-        <aside class="proof-rail" aria-label="Portfolio statistics">
-          <button type="button" data-open="projects"><strong>6</strong><span>SHIPPED PROJECTS</span></button>
-          <button type="button" data-open="socials"><strong>100K+</strong><span>BUILDER COMMUNITY</span></button>
-          <button type="button" data-open="socials"><strong>1.81M</strong><span>YOUTUBE VIEWS</span></button>
-          <button type="button" data-open="testimonials"><strong>5</strong><span>VIDEO TESTIMONIALS</span></button>
-        </aside>
 
         <div id="window-layer" class="window-layer" aria-live="polite"></div>
 
