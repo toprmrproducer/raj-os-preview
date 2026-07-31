@@ -2519,19 +2519,21 @@ function initWallpaperRotator() {
   const lightSet = ["cotton-candy-dawn", "anime-sky", "paramo-sunrise", "warm-aurora", "retro-grid"];
   const darkSet = ["deep-space", "retro-grid", "cotton-candy-dawn"];
   const base = "./assets/wallpapers/";
+  const V = "?v=chatgpt6";                 // cache-bust: force the CDN/browser to fetch the new ChatGPT images
+  const url = name => `${base}${name}.jpg${V}`;
   const pick = () => (os.dataset.theme === "dark" ? darkSet : lightSet);
   let set = pick();
   let index = 0;
   let activeLayer = 0;
   // preload
-  set.forEach(name => { const img = new Image(); img.src = `${base}${name}.jpg`; });
-  layers[0].style.backgroundImage = `url(${base}${set[0]}.jpg)`;
+  set.forEach(name => { const img = new Image(); img.src = url(name); });
+  layers[0].style.backgroundImage = `url(${url(set[0])})`;
   rotator.classList.add("wallpaper-on");
   const advance = () => {
     set = pick();
     index = (index + 1) % set.length;
     const next = (activeLayer + 1) % 2;
-    layers[next].style.backgroundImage = `url(${base}${set[index]}.jpg)`;
+    layers[next].style.backgroundImage = `url(${url(set[index])})`;
     const preloadImg = new Image(); preloadImg.src = layers[next].style.backgroundImage.slice(5, -2);
     layers[next].classList.add("is-active");
     layers[activeLayer].classList.remove("is-active");

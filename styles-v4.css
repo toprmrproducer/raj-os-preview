@@ -1944,15 +1944,18 @@
   top: calc(100% + 6px);
   left: 0;
   z-index: 9000;
-  min-width: 190px;
-  display: grid;
-  padding: 5px;
-  border: 2px solid var(--desktop-ink);
-  background: var(--paper, #fff8dc);
-  box-shadow: 6px 6px 0 r
-  border: 2px solid var(--desktop-ink);
-  background: var(--paper, #fff8dc);
-  color: var(--desktop-ink);
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border: 2px solid #17131b;
+  background: #fff8dc;
+  box-shadow: 6px 7px 0 rgba(23,19,27,.3);
+}
+.motivation-close {
+  border: 2px solid #17131b;
+  background: #fff8dc;
+  color: #17131b;
   width: 22px;
   height: 22px;
   line-height: 1;
