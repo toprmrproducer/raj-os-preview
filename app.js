@@ -618,22 +618,10 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   prank: {
-    title: "DO_NOT_OPEN — Explorer.app",
+    title: "DO_NOT_OPEN — Finder",
     chrome: "#ff6b63",
     subtitle: "6 ITEMS / YOU WERE WARNED",
-    render: () => `
-      <div class="prank-explorer" data-prank-app>
-        <header class="prank-explorer-bar"><span>C:\\SHREYAS_OS\\DO_NOT_OPEN\\</span><small>6 items · last modified 3:47 AM</small></header>
-        <div class="prank-file-grid">
-          <button type="button" class="prank-file" data-prank-file="keys"><i class="pf-icon pf-env"></i><strong>api_keys.env</strong><small>1 KB · definitely real</small></button>
-          <button type="button" class="prank-file" data-prank-file="virus"><i class="pf-icon pf-exe"></i><strong>virus.exe</strong><small>666 KB · application</small></button>
-          <button type="button" class="prank-file" data-prank-file="mixtape"><i class="pf-icon pf-mp3"></i><strong>mixtape_FINAL_v2.mp3</strong><small>4.2 MB · fire</small></button>
-          <button type="button" class="prank-file" data-prank-file="feelings"><i class="pf-icon pf-folder"></i><strong>my_actual_feelings</strong><small>folder · 0 items</small></button>
-          <button type="button" class="prank-file" data-prank-file="homework"><i class="pf-icon pf-zip"></i><strong>homework_2019.zip</strong><small>corrupted · good</small></button>
-          <button type="button" class="prank-file" data-prank-file="sys32"><i class="pf-icon pf-sys"></i><strong>delete_system32.bat</strong><small>DO NOT RUN</small></button>
-        </div>
-        <footer class="prank-explorer-status"><span data-prank-status>Every click here is a decision you make alone.</span></footer>
-      </div>`,
+    render: () => renderPrankFinder(),
   },
   hack: {
     title: "HACK RAJ OS — Terminal.exe",
@@ -664,6 +652,27 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
           <a class="emergency-secondary" href="tel:+919307512816">CALL SHREYAS ↗<small>Tap to call</small></a>
           <a class="emergency-secondary" href="https://calendly.com/shreyasrajsony11/30min" target="_blank" rel="noreferrer">BOOK 30 MIN ↗<small>For non-emergency builds</small></a>
         </div>
+      </div>`,
+  },
+  run: {
+    title: "Founder Run — Arcade.exe",
+    chrome: "#c7f36b",
+    subtitle: "ONE BUTTON / INFINITE HUSTLE",
+    render: () => `
+      <div class="run-app" data-run-app>
+        <div class="run-hud">
+          <span class="run-kicker">FOUNDER RUN</span>
+          <div class="run-scores"><span>SCORE <b data-run-score>0</b></span><span>BEST <b data-run-best>0</b></span></div>
+        </div>
+        <div class="run-stage">
+          <canvas data-run-canvas width="720" height="300"></canvas>
+          <div class="run-overlay" data-run-overlay>
+            <strong data-run-over-title>FOUNDER RUN</strong>
+            <p data-run-over-copy>Jump the bugs, the scams, and the pointless meetings. Grab the cash. See how long you last.</p>
+            <button type="button" class="run-start" data-run-start>PRESS SPACE / TAP TO START</button>
+          </div>
+        </div>
+        <p class="run-hint">SPACE or TAP to jump · double-tap for a double jump · everything speeds up, just like real life.</p>
       </div>`,
   },
 };
@@ -792,6 +801,54 @@ function renderFileExplorer() {
       </div>
     </div>`;
 }
+const prankFiles = [
+  { id: "keys", name: "api_keys.env", kind: "Env File", status: "DEFINITELY REAL", size: "1 KB", icon: "▣", preview: "Every founder's most guarded secret. Or a decoy. There is exactly one way to find out, and you are going to regret it." },
+  { id: "virus", name: "virus.exe", kind: "Application", status: "666 KB", size: "666 KB", icon: "◆", preview: "A genuine, hand-crafted computer virus. It has been sitting here since 3:47 AM. Double-click to unleash chaos upon this machine." },
+  { id: "mixtape", name: "mixtape_FINAL_v2_REAL_final.mp3", kind: "Audio", status: "CERTIFIED FIRE", size: "4.2 MB", icon: "♪", preview: "Seventeen tracks. Zero skips. The naming convention alone tells you everything about the creative process behind it." },
+  { id: "feelings", name: "my_actual_feelings", kind: "Folder", status: "0 ITEMS", size: "empty", icon: "▤", preview: "A folder. It is completely empty. It has always been empty. Some things a founder just does not keep on disk." },
+  { id: "homework", name: "homework_2019.zip", kind: "Archive", status: "CORRUPTED (GOOD)", size: "corrupted", icon: "▦", preview: "10th grade homework from 2019. The archive is corrupted beyond recovery, which is genuinely the best outcome for everyone involved." },
+  { id: "sys32", name: "delete_system32.bat", kind: "Script", status: "DO NOT RUN", size: "0 KB", icon: "!", preview: "A batch script with one job. The filename is a warning, a dare, and a life choice, all at once. Double-clicking this is on you." },
+];
+
+function renderPrankFinder() {
+  return `
+    <div class="file-explorer prank-finder" data-prank-app>
+      <header class="finder-toolbar">
+        <div class="finder-nav"><button type="button" aria-label="Back">‹</button><button type="button" aria-label="Forward">›</button></div>
+        <strong>DO_NOT_OPEN</strong>
+        <div class="finder-views" aria-hidden="true"><span>▦</span><span>☷</span><span>▥</span></div>
+        <label><span>⌕</span><input type="search" placeholder="Search files you should not open" aria-label="Search" /></label>
+      </header>
+      <div class="finder-shell">
+        <aside class="finder-sidebar">
+          <strong>FAVOURITES</strong>
+          <button type="button" class="active">⚠ DO_NOT_OPEN</button>
+          <button type="button" data-open="hack">⌘ Hack Raj OS</button>
+          <button type="button" data-open="keys">▣ api_keys.env</button>
+          <strong>LOCATIONS</strong>
+          <button type="button" data-open="files">◫ Actual Case Files</button>
+          <button type="button" data-home>⌂ Escape While You Can</button>
+        </aside>
+        <main class="finder-main">
+          <nav class="finder-breadcrumbs"><span>Shreyas OS</span><i>›</i><span>DO_NOT_OPEN</span></nav>
+          <div class="finder-list-head"><span>NAME</span><span>KIND</span><span>STATUS</span></div>
+          <div class="finder-list" data-prank-list>
+            ${prankFiles.map(f => `
+              <button type="button" class="finder-row" data-prank-file="${f.id}">
+                <span><i>${f.icon}</i><strong>${f.name}</strong></span><span>${f.kind}</span><span>${f.status}</span>
+              </button>`).join("")}
+          </div>
+          <p class="finder-hint" data-prank-hint>DOUBLE-CLICK TO OPEN · SINGLE-CLICK TO PREVIEW · NOTHING GOOD IS IN HERE</p>
+        </main>
+        <aside class="finder-preview" data-prank-preview>
+          <span class="finder-preview-icon">⚠</span>
+          <h3>DO_NOT_OPEN</h3>
+          <p>Six files. Zero good decisions. Single-click to read what you are about to do. Double-click to do it anyway.</p>
+        </aside>
+      </div>
+    </div>`;
+}
+
 function metric(value, label, copy, color) { return `<article class="metric-card" style="--metric:${color}"><strong>${value}</strong><span>${label}</span><p>${copy}</p></article>`; }
 function step(title, copy, color) { return `<article class="process-step" style="--step:${color}"><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
 function milestone(year, title, copy, color) { return `<article class="journey-entry" style="--milestone:${color}"><time>${year}</time><div><h3>${title}</h3><p>${copy}</p></div></article>`; }
@@ -1051,6 +1108,7 @@ function bindWindow(win) {
   if (win.querySelector("[data-ajax-form]")) bindAjaxForms(win);
   if (win.querySelector("[data-prank-app]")) bindPrank(win);
   if (win.querySelector("[data-hack-terminal]")) bindHack(win);
+  if (win.querySelector("[data-run-app]")) bindRun(win);
   win.querySelectorAll("[data-music-track]").forEach(button => button.addEventListener("click", () => {
     selectMusicTrack(Number(button.dataset.musicTrack), true);
   }));
@@ -1457,36 +1515,163 @@ function bindAjaxForms(win) {
 }
 
 function bindPrank(win) {
-  const status = win.querySelector("[data-prank-status]");
+  const preview = win.querySelector("[data-prank-preview]");
+  const hint = win.querySelector("[data-prank-hint]");
+  const rows = [...win.querySelectorAll("[data-prank-file]")];
   let mixtapeClicks = 0;
-  const say = message => { if (status) status.textContent = message; };
-  win.querySelectorAll("[data-prank-file]").forEach(file => file.addEventListener("click", () => {
-    const kind = file.dataset.prankFile;
-    if (kind === "keys") {
-      say("Opening api_keys.env... this is going well for you.");
-      openApp("keys");
-    } else if (kind === "virus") {
-      say("virus.exe refused to run. It said this machine already has enough problems.");
-      toast("EXECUTION BLOCKED", "virus.exe took one look at the codebase and left.");
-    } else if (kind === "mixtape") {
+  const showPreview = file => {
+    preview.innerHTML = `
+      <span class="finder-preview-icon">${file.icon}</span>
+      <h3>${file.name}</h3>
+      <p class="finder-preview-meta">${file.kind} · ${file.size} · ${file.status}</p>
+      <p>${file.preview}</p>
+      <button type="button" class="finder-preview-open" data-prank-open="${file.id}">OPEN IT ANYWAY ↗</button>`;
+    preview.querySelector("[data-prank-open]")?.addEventListener("click", () => openPrankFile(file.id));
+  };
+  const openPrankFile = id => {
+    if (id === "keys") { toast("api_keys.env", "Opening the definitely-real secrets..."); openApp("keys"); }
+    else if (id === "virus") { toast("EXECUTION BLOCKED", "virus.exe took one look at this codebase and left. It said the bar was already met."); if (hint) hint.textContent = "virus.exe declined to run. Professional courtesy between chaotic entities."; }
+    else if (id === "mixtape") {
       mixtapeClicks += 1;
-      if (mixtapeClicks === 1) {
-        say("mixtape_FINAL_v2.mp3 — it slaps. You are not ready.");
-        toast("PLAYBACK DENIED", "The mixtape is too powerful for browser speakers.");
-      } else {
-        say("Fine. Opening the real music player.");
-        document.querySelector("[data-music-toggle]")?.click();
-      }
-    } else if (kind === "feelings") {
-      say("my_actual_feelings — folder is empty. As expected.");
-    } else if (kind === "homework") {
-      say("homework_2019.zip is corrupted. Some things are better left in 2019.");
-    } else if (kind === "sys32") {
-      say("delete_system32.bat is executing. You did this.");
-      toast("FATAL DECISION", "Running delete_system32.bat...");
-      setTimeout(() => powerDown("delete_system32.bat completed successfully. Congratulations."), 900);
+      if (mixtapeClicks === 1) { toast("PLAYBACK DENIED", "The mixtape is too powerful for browser speakers."); if (hint) hint.textContent = "Double-click it once more if you truly believe you are ready."; }
+      else { toast("FINE", "Opening the real music player."); document.querySelector("[data-music-toggle]")?.click(); }
     }
-  }));
+    else if (id === "feelings") { toast("my_actual_feelings", "The folder is empty. It has always been empty."); if (hint) hint.textContent = "0 items. Some things a founder does not keep on disk."; }
+    else if (id === "homework") { toast("homework_2019.zip", "Corrupted beyond recovery. The best possible outcome."); if (hint) hint.textContent = "2019 stays in 2019. This is a good thing."; }
+    else if (id === "sys32") { toast("FATAL DECISION", "Running delete_system32.bat... you did this."); if (hint) hint.textContent = "You ran it. This is on you and you alone."; setTimeout(() => powerDown("delete_system32.bat completed successfully. Congratulations, hacker."), 950); }
+  };
+  rows.forEach(row => {
+    const file = prankFiles.find(f => f.id === row.dataset.prankFile);
+    row.addEventListener("click", () => {
+      rows.forEach(r => r.classList.remove("selected"));
+      row.classList.add("selected");
+      showPreview(file);
+    });
+    row.addEventListener("dblclick", () => openPrankFile(file.id));
+  });
+}
+
+function bindRun(win) {
+  const canvas = win.querySelector("[data-run-canvas]");
+  const ctx = canvas.getContext("2d");
+  const overlay = win.querySelector("[data-run-overlay]");
+  const overTitle = win.querySelector("[data-run-over-title]");
+  const overCopy = win.querySelector("[data-run-over-copy]");
+  const scoreEl = win.querySelector("[data-run-score]");
+  const bestEl = win.querySelector("[data-run-best]");
+  const W = canvas.width, H = canvas.height, GROUND = H - 48;
+  const rajImg = new Image();
+  rajImg.src = "./assets/raj-front.png";
+  const OBSTACLES = ["BUG", "SCAM", "MEETING", "DOUBT", "TAX"];
+  const QUIPS = [
+    "A meeting got you. It happens to the best of us.",
+    "Scammed again. At least this one was free.",
+    "The bug won this round. Ship it anyway.",
+    "Doubt is undefeated at close range. Run it back.",
+    "Taxes. The one boss you cannot dodge forever.",
+  ];
+  let best = Number(localStorage.getItem("raj-os-run-best") || 0);
+  bestEl.textContent = best;
+  let state = "idle";
+  let player, obstacles, coins, speed, score, jumps, spawnTimer, coinTimer, raf, lastQuip = "";
+  const reset = () => {
+    player = { x: 70, y: GROUND, vy: 0, w: 30, h: 42, onGround: true };
+    obstacles = []; coins = []; speed = 4.4; score = 0; jumps = 0;
+    spawnTimer = 40; coinTimer = 90;
+  };
+  const jump = () => {
+    if (state === "idle" || state === "over") { start(); return; }
+    if (player.onGround) { player.vy = -12.4; player.onGround = false; jumps = 1; }
+    else if (jumps < 2) { player.vy = -10.8; jumps = 2; }
+  };
+  const start = () => {
+    reset();
+    state = "running";
+    overlay.classList.add("hidden");
+    cancelAnimationFrame(raf);
+    loop();
+  };
+  const gameOver = () => {
+    state = "over";
+    if (score > best) { best = score; localStorage.setItem("raj-os-run-best", best); bestEl.textContent = best; }
+    lastQuip = QUIPS[Math.floor(score) % QUIPS.length];
+    overTitle.textContent = `RUN OVER · ${Math.floor(score)}`;
+    overCopy.textContent = lastQuip + " Press space or tap to run it back.";
+    overlay.classList.remove("hidden");
+  };
+  const rect = (x, y, w, h, fill) => { ctx.fillStyle = fill; ctx.fillRect(x, y, w, h); };
+  const loop = () => {
+    if (state !== "running") return;
+    ctx.clearRect(0, 0, W, H);
+    // sky bands
+    rect(0, 0, W, H, "#fbe3ec");
+    rect(0, GROUND + player.h, W, H, "#efd0b7");
+    ctx.fillStyle = "rgba(123,22,53,.18)";
+    for (let i = 0; i < 6; i++) { const cx = (i * 150 - (score * 1.4) % 150); ctx.fillRect(cx, 40 + (i % 2) * 22, 46, 14); }
+    // ground line
+    ctx.fillStyle = "#17131b"; ctx.fillRect(0, GROUND + player.h, W, 3);
+    // physics
+    player.vy += 0.62; player.y += player.vy;
+    if (player.y >= GROUND) { player.y = GROUND; player.vy = 0; player.onGround = true; jumps = 0; }
+    // draw player
+    if (rajImg.complete && rajImg.naturalWidth) ctx.drawImage(rajImg, player.x - 8, player.y - 6, 46, player.h + 10);
+    else rect(player.x, player.y, player.w, player.h, "#7b1635");
+    // spawn obstacles
+    if (--spawnTimer <= 0) {
+      const label = OBSTACLES[Math.floor(Math.random() * OBSTACLES.length)];
+      const h = 30 + Math.random() * 26;
+      obstacles.push({ x: W + 20, y: GROUND + player.h - h, w: 26 + label.length * 3, h, label });
+      spawnTimer = Math.max(38, 92 - speed * 5) + Math.random() * 30;
+    }
+    // spawn coins
+    if (--coinTimer <= 0) {
+      coins.push({ x: W + 20, y: GROUND - 40 - Math.random() * 60, r: 11, got: false });
+      coinTimer = 110 + Math.random() * 80;
+    }
+    // obstacles
+    ctx.font = "bold 9px 'Silkscreen', monospace";
+    obstacles.forEach(o => {
+      o.x -= speed;
+      rect(o.x, o.y, o.w, o.h, "#17131b");
+      ctx.fillStyle = "#ff6b63"; ctx.fillRect(o.x + 3, o.y + 3, o.w - 6, 4);
+      ctx.fillStyle = "#fff8dc"; ctx.textAlign = "center";
+      ctx.fillText(o.label, o.x + o.w / 2, o.y + o.h / 2 + 3);
+      if (player.x < o.x + o.w - 6 && player.x + player.w > o.x + 6 && player.y + player.h > o.y + 4) gameOver();
+    });
+    obstacles = obstacles.filter(o => o.x + o.w > -10);
+    // coins
+    coins.forEach(c => {
+      c.x -= speed;
+      if (!c.got) {
+        ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffd95a"; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = "#17131b"; ctx.stroke();
+        ctx.fillStyle = "#17131b"; ctx.textAlign = "center"; ctx.font = "bold 11px 'Silkscreen', monospace";
+        ctx.fillText("₹", c.x, c.y + 4);
+        const dx = player.x + player.w / 2 - c.x, dy = player.y + player.h / 2 - c.y;
+        if (Math.hypot(dx, dy) < c.r + 20) { c.got = true; score += 15; }
+      }
+    });
+    coins = coins.filter(c => c.x > -20 && !c.got);
+    // score + speed
+    score += 0.16; speed += 0.0016;
+    scoreEl.textContent = Math.floor(score);
+    raf = requestAnimationFrame(loop);
+  };
+  // controls
+  const keyHandler = e => {
+    if (!win.isConnected) { window.removeEventListener("keydown", keyHandler); return; }
+    if (!win.classList.contains("focused")) return;
+    if (e.code === "Space" || e.code === "ArrowUp") { e.preventDefault(); jump(); }
+  };
+  window.addEventListener("keydown", keyHandler);
+  canvas.addEventListener("pointerdown", e => { e.preventDefault(); jump(); });
+  win.querySelector("[data-run-start]")?.addEventListener("click", start);
+  reset();
+  // idle preview frame
+  ctx.clearRect(0, 0, W, H); rect(0, 0, W, H, "#fbe3ec"); rect(0, GROUND + 42, W, H, "#efd0b7");
+  ctx.fillStyle = "#17131b"; ctx.fillRect(0, GROUND + 42, W, 3);
+  const drawIdle = () => { if (rajImg.complete && rajImg.naturalWidth) ctx.drawImage(rajImg, 62, GROUND - 6, 46, 52); };
+  if (rajImg.complete) drawIdle(); else rajImg.onload = drawIdle;
 }
 
 function bindHack(win) {
@@ -2292,4 +2477,48 @@ updateClock();
 applyTheme(localStorage.getItem("raj-os-mode") === "dark" ? "dark" : "day");
 syncWorld();
 setInterval(updateClock, 30000);
-setTimeout(finishBoot, 2450);
+runBootSequence();
+
+function runBootSequence() {
+  const console = document.querySelector("[data-boot-console]");
+  const bar = document.querySelector("[data-boot-bar]");
+  const pctEl = document.querySelector("[data-boot-pct]");
+  const statusEl = document.querySelector("[data-boot-status]");
+  if (!console || !bar) { setTimeout(finishBoot, 2200); return; }
+  const steps = [
+    { at: 8, log: "> mounting /projects ................ ok", status: "loading the receipts..." },
+    { at: 22, log: "> mounting /case-files ............. ok", status: "opening the case files..." },
+    { at: 38, log: "> loading client-videos ........... ok", status: "cueing the proof..." },
+    { at: 52, log: "> booting ai-voice-agent .......... ok", status: "waking the voice agent..." },
+    { at: 66, log: "> scanning for scammers ........... 2 found, blocked", status: "learning from 2019..." },
+    { at: 80, log: "> loading founder-personality ..... 100%", status: "installing personality..." },
+    { at: 92, log: "> checking coffee levels .......... critical", status: "ignoring coffee warning..." },
+    { at: 100, log: "> SHREYAS OS v5.5 .............. ONLINE", status: "we are live." },
+  ];
+  let pct = 0;
+  let stepIndex = 0;
+  const cursor = document.createElement("p");
+  cursor.className = "boot-cursor";
+  cursor.textContent = "root@rajos:~$ ";
+  const tick = () => {
+    if (booted) return;
+    pct = Math.min(100, pct + (2 + Math.random() * 5));
+    const shown = Math.round(pct);
+    bar.style.width = `${shown}%`;
+    if (pctEl) pctEl.textContent = `${shown}%`;
+    while (stepIndex < steps.length && shown >= steps[stepIndex].at) {
+      const step = steps[stepIndex];
+      const line = document.createElement("p");
+      line.className = "boot-log-line" + (step.at === 100 ? " boot-log-final" : "");
+      line.innerHTML = step.log.replace(/(ok|ONLINE|100%|blocked)/g, "<b>$1</b>");
+      console.insertBefore(line, cursor);
+      if (statusEl) statusEl.textContent = step.status;
+      console.scrollTop = console.scrollHeight;
+      stepIndex += 1;
+    }
+    if (shown >= 100) { setTimeout(finishBoot, 520); return; }
+    setTimeout(tick, 130 + Math.random() * 120);
+  };
+  console.appendChild(cursor);
+  setTimeout(tick, 260);
+}

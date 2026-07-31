@@ -66,12 +66,17 @@
 
     <div id="boot" class="boot" aria-live="polite">
       <button class="boot-skip os-button" type="button">SKIP BOOT ↗</button>
-      <div class="boot-mark sprite-mark"><img src="./assets/raj-front.png" alt="Shreyas Raj pixel character" /></div>
-      <div class="boot-terminal">
-        <p class="boot-line" style="--delay:.1s">LOADING THE PORTFOLIO OF SHREYAS RAJ...</p>
-        <p class="boot-line" style="--delay:.38s">MOUNTING PROJECTS, CASE STUDIES, PROOF, VOICE, AND MEDIA...</p>
-        <p class="boot-line" style="--delay:.75s">SHREYAS OS v5.4: <span>ONLINE</span></p>
-        <div class="boot-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="boot-core">
+        <div class="boot-mark sprite-mark"><img src="./assets/raj-front.png" alt="Shreyas Raj pixel character" /></div>
+        <div class="boot-brand">
+          <strong>SHREYAS RAJ OS</strong>
+          <span>v5.5 · founder edition</span>
+        </div>
+      </div>
+      <div class="boot-console" data-boot-console aria-hidden="true"></div>
+      <div class="boot-bar-wrap">
+        <div class="boot-bar"><i data-boot-bar></i></div>
+        <div class="boot-bar-meta"><span data-boot-status>waking up the founder...</span><b data-boot-pct>0%</b></div>
       </div>
       <p class="boot-title">welcome to Shreyas Raj.<br /><em>this is my AI operating system.</em></p>
     </div>
@@ -156,6 +161,10 @@
           <button class="desktop-app" type="button" data-open="games" style="--app:#c7f36b">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/games.svg" alt="" /></span>
             <strong>Play Games</strong><small>Viper Arena + Fangs.io</small>
+          </button>
+          <button class="desktop-app" type="button" data-open="run" style="--app:#f5a39c">
+            <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/run.svg" alt="" /></span>
+            <strong>Founder Run</strong><small>One-button arcade</small>
           </button>
           <button class="desktop-app" type="button" data-open="founder" style="--app:#e6e35f">
             <span class="pixel-icon" aria-hidden="true"><img src="./assets/icons-v4/founder.png" alt="" /></span>
