@@ -555,9 +555,19 @@
 
   Game.prototype._pelletPickup = function () {
     const head = this.player.pts[0];
+    const MAGNET_R = 95;                       // auto-collect radius: orbs get pulled in when this close
+    const MAGNET_R2 = MAGNET_R * MAGNET_R;
     for (const pel of this.pellets) {
       pel.ph += DT * 4;
-      if (dist2(head.x, head.y, pel.x, pel.y) < (HEAD_R + pel.r) * (HEAD_R + pel.r)) {
+      const d2 = dist2(head.x, head.y, pel.x, pel.y);
+      // magnet: pull nearby orbs toward the head so scarce pellets auto-collect
+      if (d2 < MAGNET_R2) {
+        const d = Math.sqrt(d2) || 1;
+        const pull = (1 - d / MAGNET_R) * 460 * DT;   // stronger the closer it is
+        pel.x += ((head.x - pel.x) / d) * pull;
+        pel.y += ((head.y - pel.y) / d) * pull;
+      }
+      if (dist2(head.x, head.y, pel.x, pel.y) < (HEAD_R + pel.r + 4) * (HEAD_R + pel.r + 4)) {
         pel.dead = true;
         this._grow(this.player, 3);
         this.score += Math.round(10 * this.combo);

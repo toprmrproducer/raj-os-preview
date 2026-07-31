@@ -172,6 +172,30 @@ export function stepCombat(world, dt) {
     p.x += p.vx * dt; p.y += p.vy * dt;
     if (p.x < 0 || p.y < 0 || p.x > WORLD.W || p.y > WORLD.H) { world.projectiles.delete(p.id); continue; }
     if (age < 90) continue; // grace so you don't hit your own head
+    // shoot the mines: a bullet that hits a mine detonates it and both are destroyed
+    let hitMine = false;
+    for (const m of world.projectiles.values()) {
+      if (m.kind !== 'mine' || m.id === p.id) continue;
+      if (dist(p.x, p.y, m.x, m.y) < 18) {
+        world.boom(m.x, m.y, '#ff9f45');
+        world.spark(m.x, m.y, '#ffd27a', 14);
+        // the blast still hurts any snake caught in it (except the shooter's teammates = everyone here is fair game)
+        for (const s of world.snakes.values()) {
+          if (!s.alive || (now < s.spawnProtectedUntil)) continue;
+          const segs = s.segments();
+          for (let i = 0; i < segs.length; i += 2) {
+            if (dist(m.x, m.y, segs[i].x, segs[i].y) < (m.triggerR || 42)) {
+              damageSnake(world, s, world.snakes.get(m.owner) || null, 'mine', m.segDamage);
+              break;
+            }
+          }
+        }
+        world.projectiles.delete(m.id);
+        hitMine = true;
+        break;
+      }
+    }
+    if (hitMine) { world.projectiles.delete(p.id); continue; }
     let hit = false;
     for (const s of world.snakes.values()) {
       if (!s.alive || s.id === p.owner) continue;

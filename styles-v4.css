@@ -2142,3 +2142,27 @@ body.crt-off .os { animation: crtCollapse .5s ease forwards; }
   background: linear-gradient(180deg, rgba(255,248,220,.14), rgba(255,248,220,.04) 34%, rgba(255,248,220,.14));
 }
 @media (prefers-reduced-motion: reduce) { .wallpaper-layer { transition: opacity .4s ease; } }
+
+/* ===== v5.8: icons left-aligned + 25% bigger, wallpaper flipped, Daily Transmission to the right ===== */
+@media (min-width: 901px) {
+  .app-grid {
+    left: clamp(28px, 3vw, 60px);
+    right: auto;
+    top: 58px;
+    grid-template-columns: repeat(5, 105px);
+    gap: 18px 10px;
+  }
+  .desktop-app { width: 105px; min-height: 120px; gap: 5px; }
+  .desktop-app .pixel-icon,
+  .featured-app .pixel-icon { width: 63px; height: 63px; }
+  .desktop-app strong { max-width: 105px; padding: 4px 6px; font-size: 11px; line-height: 1.2; }
+  .desktop-app small { max-width: 105px; font-size: 10px; line-height: 1.35; }
+  .desktop-app > b { font-size: 6px; padding: 2px 4px; }
+  /* move Daily Transmission to the right so it clears the now-left icons */
+  .activity-stack.motivation-stack { left: auto; right: 34px; }
+}
+@media (min-width: 1500px) {
+  .app-grid { grid-template-columns: repeat(6, 105px); }
+}
+/* flip the wallpaper scenery horizontally */
+.wallpaper-layer { transform: scaleX(-1); }
