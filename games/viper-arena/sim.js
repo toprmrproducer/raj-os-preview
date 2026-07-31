@@ -598,14 +598,7 @@
     const p = this.player;
     if (!p.alive) return;
     const head = p.pts[0];
-    // self collision (skip the first few near the head)
-    for (let i = 8; i < p.pts.length; i++) {
-      if (dist2(head.x, head.y, p.pts[i].x, p.pts[i].y) < (HEAD_R + BODY_R - 3) * (HEAD_R + BODY_R - 3)) {
-        this.deathCause = 'YOUR OWN TAIL';
-        this._killSnake(p, null);
-        return;
-      }
-    }
+    // no self-collision death: cutting your own tail to shrink your signature is a valid move, not a death
     // enemy bodies
     for (const e of this.enemies) {
       if (!e.alive) continue;
