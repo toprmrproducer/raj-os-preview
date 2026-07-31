@@ -2465,8 +2465,8 @@ button:active, .dock button:active, .world-app:active { transform: translate(2px
   color: white;
   text-decoration: none;
 }
-.build-ribbon span { font: 12px/1.35 var(--pixel); }
-.build-ribbon strong { margin-top: 8px; color: var(--lime); font: 16px/1.2 var(--pixel); }
+.build-ribbon span { font: 13px/1.35 var(--pixel); }
+.build-ribbon strong { margin-top: 8px; color: var(--lime); font: 19px/1.2 var(--pixel); }
 .build-ribbon:hover { transform: rotate(-7deg) translate(-10px,-4px); }
 [data-movable-widget] { cursor: grab; }
 [data-movable-widget].widget-dragging { cursor: grabbing; z-index: 5700; }

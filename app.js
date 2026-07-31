@@ -2516,46 +2516,41 @@ function initWallpaperRotator() {
   const rotator = document.querySelector("[data-wallpaper-rotator]");
   if (!rotator) return;
   const layers = [...rotator.querySelectorAll("[data-wallpaper-layer]")];
-  // ONLY the video wallpapers rotate (Shreyas's exact images animated) — no static images
-  const animated = { "cotton-candy-dawn": true, "anime-sky": true, "deep-space": true, "founder-window": true };
-  const lightSet = ["cotton-candy-dawn", "anime-sky", "founder-window"];
-  const darkSet = ["deep-space", "cotton-candy-dawn", "founder-window"];
+  // all 4 video wallpapers rotate together, regardless of day/night theme —
+  // the previous light/dark split silently dropped deep-space out of rotation on the
+  // default (light) theme, which read as "the space video never shows up"
+  const set = ["cotton-candy-dawn", "anime-sky", "deep-space", "founder-window"];
   const base = "./assets/wallpapers/";
   const V = "?v=vid3";                      // cache-bust (1080p re-encode)
   const noFlip = { "founder-window": true }; // keeps its natural orientation
-  const imgUrl = name => `${base}${name}.jpg${V}`;
-  const setLayer = (layer, name) => {
+  // swap only fires the cross-fade once the incoming video can actually paint a frame,
+  // so a slow-loading video never leaves a blank/transparent layer flashing the pink fallback
+  const setLayer = (layer, name, onReady) => {
     const existing = layer.querySelector("video");
     if (existing) existing.remove();
-    if (animated[name]) {
-      layer.style.backgroundImage = "";
-      const v = document.createElement("video");
-      v.className = "wallpaper-video is-active" + (noFlip[name] ? " no-flip" : "");
-      v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
-      v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
-      v.src = `${base}${name}.mp4${V}`;
-      layer.appendChild(v);
-      v.play().catch(() => {});
-    } else {
-      layer.style.backgroundImage = `url(${imgUrl(name)})`;
-    }
+    layer.style.backgroundImage = "";
+    const v = document.createElement("video");
+    v.className = "wallpaper-video is-active" + (noFlip[name] ? " no-flip" : "");
+    v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
+    v.preload = "auto";
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+    v.src = `${base}${name}.mp4${V}`;
+    layer.appendChild(v);
+    const fire = () => { v.play().catch(() => {}); onReady && onReady(); };
+    if (v.readyState >= 2) fire();
+    else v.addEventListener("canplay", fire, { once: true });
   };
-  const pick = () => (os.dataset.theme === "dark" ? darkSet : lightSet);
-  let set = pick();
   let index = 0;
   let activeLayer = 0;
-  // preload the still frames
-  set.forEach(name => { if (!animated[name]) { const img = new Image(); img.src = imgUrl(name); } });
-  setLayer(layers[0], set[0]);
-  rotator.classList.add("wallpaper-on");
+  setLayer(layers[0], set[0], () => rotator.classList.add("wallpaper-on"));
   const advance = () => {
-    set = pick();
     index = (index + 1) % set.length;
     const next = (activeLayer + 1) % 2;
-    setLayer(layers[next], set[index]);
-    layers[next].classList.add("is-active");
-    layers[activeLayer].classList.remove("is-active");
-    activeLayer = next;
+    setLayer(layers[next], set[index], () => {
+      layers[next].classList.add("is-active");
+      layers[activeLayer].classList.remove("is-active");
+      activeLayer = next;
+    });
   };
   setInterval(advance, 40000);
 }
