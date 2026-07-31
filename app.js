@@ -39,6 +39,17 @@ const clientCases = [
     outcome: "The system generated lead conversations for the UK marketing operation. No invented lead count or revenue attribution is shown.",
     image: "./assets/case-studies/imperium-marketing.png",
     color: "#c7f36b"
+  },
+  {
+    id: "cpaas-voice-layer",
+    company: "Pan-India CPaaS Platform",
+    sector: "AI VOICE INFRASTRUCTURE / INDIA",
+    metric: "PAID",
+    metricLabel: "DELIVERED + PAID VOICE LAYER",
+    summary: "A multi-provider AI voice layer for a national CPaaS platform: voice cloning, Gemini and Cartesia integration, prompt hardening, and voicemail handling.",
+    outcome: "Delivered and paid. The client is anonymized by agreement; the work shipped into their production platform and dashboard.",
+    image: "./assets/case-studies/systems-map.png",
+    color: "#c2b2e9"
   }
 ];
 
@@ -193,6 +204,12 @@ const apps = {
           ${metric("1.81M","YOUTUBE VIEWS","Recorded channel reach at the latest saved audit.","#c4e5ed")}
         </section>
         <p class="source-note">DISCLOSURE: ₹80Cr+ and ₹50Cr are founder/client-case reports supplied for this portfolio. They describe pipeline or channelled property value, not independently audited realized revenue. Open Case Files for the complete wording.</p>
+        <div class="results-archives">
+          <span>GO DEEPER</span>
+          <button type="button" data-open="journey">THE FULL JOURNEY ↗</button>
+          <button type="button" data-open="blog">AI FIELD NOTES ↗</button>
+          <button type="button" data-open="testimonials">CLIENT VIDEOS ↗</button>
+        </div>
       </div>`,
   },
   process: {
@@ -258,18 +275,27 @@ const apps = {
       <div class="app-content journey-app">
         <span class="app-kicker">MY JOURNEY / PUBLIC FILE</span>
         <h2 class="app-heading">Built in chapters.<br><em>Still becoming.</em></h2>
-        <p class="app-deck">A deliberately honest public timeline. Where the archive is incomplete, it says so instead of inventing a cleaner story.</p>
-        <figure class="journey-map">
-          <img src="./assets/case-studies/systems-map.png" alt="Pixel-art map connecting consulting, websites, AI voice agents, deployment infrastructure, and analytics" />
-          <figcaption>THE SYSTEMS MAP / CONSULTING → BUILD → DEPLOY → PROVE</figcaption>
-        </figure>
+        <p class="app-deck">A deliberately honest public timeline. The wins, the ventures that died, and the money lost learning who not to trust. Where the archive is incomplete, it says so instead of inventing a cleaner story.</p>
+        <div class="journey-polaroids" aria-label="Real photos from the journey">
+          <figure><img src="./assets/photos/candid-laugh.jpg" alt="Shreyas laughing candidly in a garden" loading="lazy" /><figcaption>When the invoice clears.</figcaption></figure>
+          <figure><img src="./assets/photos/deadpan.jpg" alt="Shreyas staring deadpan at the camera" loading="lazy" /><figcaption>"AI is just a fad," they said.</figcaption></figure>
+          <figure><img src="./assets/photos/office-tree.jpg" alt="Shreyas working on a laptop under a tree" loading="lazy" /><figcaption>HQ, some days.</figcaption></figure>
+          <figure><img src="./assets/photos/tower-stare.jpg" alt="Shreyas standing beneath a tall tower" loading="lazy" /><figcaption>Sizing up the next one.</figcaption></figure>
+        </div>
         <div class="journey-list">
           ${milestone("2015","THE FIRST CHAPTER","The public journey file begins here. The exact early archive is still being reconstructed.","#f5d56e")}
-          ${milestone("2024","RAPIDXAI / OPERATOR MODE","AI systems, automations, voice infrastructure, and commercial delivery became the operating focus.","#f5a39c")}
+          ${milestone("AGE 15","FIRST MONEY / 10TH GRADE","Teaching people and babysitting kids while still in school. Not glamorous. First earned money, first taste of being paid to be useful.","#ffd95a")}
+          ${milestone("2023","RED RANGERS PUNE","The first real venture with a name on it. It taught more about running something than any course ever did.","#f5a39c")}
+          ${milestone("2024","SCAMMED. TWICE.","Lost real money to people who talked well and delivered nothing. Both losses got turned into written rules so they can never happen the same way again.","#e8a49c")}
+          ${milestone("2024","RAPIDXAI / OPERATOR MODE","AI systems, automations, voice infrastructure, and commercial delivery became the operating focus.","#c2b2e9")}
           ${milestone("2025","100K+ COMMUNITY","The recorded YouTube and Instagram audience crossed six figures across the saved channel audit.","#a8d7e8")}
           ${milestone("2026","SHREYAS OS ONLINE","Six selected systems, five client videos, and the operating playbook became one interactive public portfolio.","#c7f36b")}
           ${milestone("NEXT","THE UNREASONABLE TARGET","Keep shipping real businesses, durable systems, and work that produces measurable leverage.","#b8a7e8")}
         </div>
+        <figure class="journey-map">
+          <img src="./assets/case-studies/systems-map.png" alt="Pixel-art map connecting consulting, websites, AI voice agents, deployment infrastructure, and analytics" />
+          <figcaption>THE SYSTEMS MAP / CONSULTING → BUILD → DEPLOY → PROVE</figcaption>
+        </figure>
       </div>`,
   },
   founder: {
@@ -592,19 +618,36 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   prank: {
-    title: "DO_NOT_OPEN — Secret.folder",
+    title: "DO_NOT_OPEN — Explorer.app",
     chrome: "#ff6b63",
-    subtitle: "YOU WERE WARNED",
+    subtitle: "6 ITEMS / YOU WERE WARNED",
     render: () => `
-      <div class="prank-app" data-prank-app>
-        <span class="app-kicker">HIDDEN FILE / 00</span>
-        <h2 class="app-heading" data-prank-title>Do not<br><em>open this.</em></h2>
-        <p class="app-deck" data-prank-copy>This folder was behind the portrait for a reason. Exit now and your professional reputation remains intact.</p>
-        <div class="prank-actions">
-          <button type="button" data-prank-next>OPEN IT ANYWAY</button>
-          <button type="button" data-prank-exit>CLOSE FOLDER</button>
+      <div class="prank-explorer" data-prank-app>
+        <header class="prank-explorer-bar"><span>C:\\SHREYAS_OS\\DO_NOT_OPEN\\</span><small>6 items · last modified 3:47 AM</small></header>
+        <div class="prank-file-grid">
+          <button type="button" class="prank-file" data-prank-file="keys"><i class="pf-icon pf-env"></i><strong>api_keys.env</strong><small>1 KB · definitely real</small></button>
+          <button type="button" class="prank-file" data-prank-file="virus"><i class="pf-icon pf-exe"></i><strong>virus.exe</strong><small>666 KB · application</small></button>
+          <button type="button" class="prank-file" data-prank-file="mixtape"><i class="pf-icon pf-mp3"></i><strong>mixtape_FINAL_v2.mp3</strong><small>4.2 MB · fire</small></button>
+          <button type="button" class="prank-file" data-prank-file="feelings"><i class="pf-icon pf-folder"></i><strong>my_actual_feelings</strong><small>folder · 0 items</small></button>
+          <button type="button" class="prank-file" data-prank-file="homework"><i class="pf-icon pf-zip"></i><strong>homework_2019.zip</strong><small>corrupted · good</small></button>
+          <button type="button" class="prank-file" data-prank-file="sys32"><i class="pf-icon pf-sys"></i><strong>delete_system32.bat</strong><small>DO NOT RUN</small></button>
         </div>
-        <button class="api-decoy" type="button" data-open="keys">API_KEYS.env · DEFINITELY SECRET</button>
+        <footer class="prank-explorer-status"><span data-prank-status>Every click here is a decision you make alone.</span></footer>
+      </div>`,
+  },
+  hack: {
+    title: "HACK RAJ OS — Terminal.exe",
+    chrome: "#17131b",
+    subtitle: "UNAUTHORIZED ACCESS MODE",
+    render: () => `
+      <div class="hack-terminal" data-hack-terminal>
+        <div class="hack-output" data-hack-output>
+          <p>SHREYAS OS SECURE SHELL v5.4 — unauthorized session</p>
+          <p>This entire OS was vibe-coded. Surely the security is terrible.</p>
+          <p>Somewhere in here are Shreyas's API keys. Go on. Take them.</p>
+          <p>Type <b>help</b> to see your options.</p>
+        </div>
+        <label class="hack-input-row"><span>root@rajos:~$</span><input type="text" data-hack-input autocomplete="off" spellcheck="false" placeholder="type a command..." /></label>
       </div>`,
   },
   emergency: {
@@ -679,7 +722,7 @@ function applyTheme(theme) {
 }
 
 function toggleTheme() {
-  const sequence = ["day", "night", "dark"];
+  const sequence = ["day", "dark"];
   const current = sequence.indexOf(os.dataset.theme || "day");
   const next = sequence[(current + 1) % sequence.length];
   applyTheme(next);
@@ -1007,6 +1050,7 @@ function bindWindow(win) {
   if (win.querySelector("[data-game-frame]")) bindGameRoom(win);
   if (win.querySelector("[data-ajax-form]")) bindAjaxForms(win);
   if (win.querySelector("[data-prank-app]")) bindPrank(win);
+  if (win.querySelector("[data-hack-terminal]")) bindHack(win);
   win.querySelectorAll("[data-music-track]").forEach(button => button.addEventListener("click", () => {
     selectMusicTrack(Number(button.dataset.musicTrack), true);
   }));
@@ -1413,30 +1457,96 @@ function bindAjaxForms(win) {
 }
 
 function bindPrank(win) {
-  const root = win.querySelector("[data-prank-app]");
-  const title = root.querySelector("[data-prank-title]");
-  const copy = root.querySelector("[data-prank-copy]");
-  const next = root.querySelector("[data-prank-next]");
-  const exit = root.querySelector("[data-prank-exit]");
-  const steps = [
-    ["Still opening it?", "You had one job. There is still time to leave.", "YES, I AM SURE"],
-    ["Last warning.", "The file is labelled definitely_not_a_rickroll.mov. That seems trustworthy.", "PLAY THE VERY NORMAL VIDEO"],
-    ["You chose this.", "The prank opens in a new tab. Nothing autoplays, traps your browser, or steals focus.", "TAKE ME TO THE VIDEO ↗"],
-  ];
-  let stepIndex = 0;
-  next.addEventListener("click", () => {
-    if (stepIndex < steps.length) {
-      const [heading, body, label] = steps[stepIndex];
-      title.innerHTML = `${heading.split(" ")[0]}<br><em>${heading.split(" ").slice(1).join(" ")}</em>`;
-      copy.textContent = body;
-      next.textContent = label;
-      stepIndex += 1;
-      return;
+  const status = win.querySelector("[data-prank-status]");
+  let mixtapeClicks = 0;
+  const say = message => { if (status) status.textContent = message; };
+  win.querySelectorAll("[data-prank-file]").forEach(file => file.addEventListener("click", () => {
+    const kind = file.dataset.prankFile;
+    if (kind === "keys") {
+      say("Opening api_keys.env... this is going well for you.");
+      openApp("keys");
+    } else if (kind === "virus") {
+      say("virus.exe refused to run. It said this machine already has enough problems.");
+      toast("EXECUTION BLOCKED", "virus.exe took one look at the codebase and left.");
+    } else if (kind === "mixtape") {
+      mixtapeClicks += 1;
+      if (mixtapeClicks === 1) {
+        say("mixtape_FINAL_v2.mp3 — it slaps. You are not ready.");
+        toast("PLAYBACK DENIED", "The mixtape is too powerful for browser speakers.");
+      } else {
+        say("Fine. Opening the real music player.");
+        document.querySelector("[data-music-toggle]")?.click();
+      }
+    } else if (kind === "feelings") {
+      say("my_actual_feelings — folder is empty. As expected.");
+    } else if (kind === "homework") {
+      say("homework_2019.zip is corrupted. Some things are better left in 2019.");
+    } else if (kind === "sys32") {
+      say("delete_system32.bat is executing. You did this.");
+      toast("FATAL DECISION", "Running delete_system32.bat...");
+      setTimeout(() => powerDown("delete_system32.bat completed successfully. Congratulations."), 900);
     }
-    window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", "noopener,noreferrer");
-    toast("PRANK COMPLETE", "You were warned three separate times.");
+  }));
+}
+
+function bindHack(win) {
+  const output = win.querySelector("[data-hack-output]");
+  const input = win.querySelector("[data-hack-input]");
+  let hacking = false;
+  const print = (text, cls) => {
+    const line = document.createElement("p");
+    if (cls) line.className = cls;
+    line.innerHTML = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+  };
+  const sequence = (lines, done) => {
+    hacking = true;
+    let index = 0;
+    const tick = () => {
+      if (index >= lines.length) { hacking = false; done?.(); return; }
+      print(lines[index][0], lines[index][1]);
+      index += 1;
+      setTimeout(tick, 420 + Math.random() * 380);
+    };
+    tick();
+  };
+  const commands = {
+    help: () => print("Commands: <b>ls</b>, <b>whoami</b>, <b>passwd</b>, <b>hack</b>, <b>steal keys</b>, <b>sudo make-me-rich</b>, <b>clear</b>, <b>exit</b>"),
+    ls: () => print("api_keys.env&nbsp;&nbsp;bank_details.txt&nbsp;&nbsp;definitely_not_a_honeypot/&nbsp;&nbsp;vibes.config"),
+    whoami: () => print("script_kiddie_" + Math.floor(100 + Math.random() * 900)),
+    passwd: () => print("Hint: it is NOT shreyas123. He is 17, not stupid."),
+    clear: () => { output.innerHTML = ""; },
+    exit: () => { print("Session logged. Your IP has been reported to Shreyas's mom."); setTimeout(() => closeWindow(win), 1400); },
+    "sudo make-me-rich": () => print("Permission granted. Step 1: close this window and go build something."),
+  };
+  const runHack = () => sequence([
+    ["Scanning shreyasraj.com for vulnerabilities...", ""],
+    ["Found 0 open ports. Found 1 open personality.", ""],
+    ["Bypassing vibe-coded authentication layer...", ""],
+    ["Trying password: shreyas123... <b>REJECTED</b>", ""],
+    ["Trying password: password123... <b>REJECTED (embarrassing for you)</b>", ""],
+    ["Brute-forcing with 4.2 million leaked passwords...", ""],
+    ["ACCESS GRANTED. Downloading api_keys.env...", "hack-success"],
+  ], () => {
+    print("Wait. These keys look...", "");
+    setTimeout(() => { openApp("keys"); print("Fake. They were fake the whole time. Real secrets never ship to the browser.", "hack-success"); }, 900);
   });
-  exit.addEventListener("click", () => closeWindow(win));
+  input.addEventListener("keydown", event => {
+    if (event.key !== "Enter" || hacking) return;
+    const raw = input.value.trim();
+    if (!raw) return;
+    print(`root@rajos:~$ ${raw}`, "hack-echo");
+    input.value = "";
+    const cmd = raw.toLowerCase();
+    if (commands[cmd]) commands[cmd]();
+    else if (/^(hack|sudo hack|attack|breach|exploit)$/.test(cmd)) runHack();
+    else if (/steal|keys|api/.test(cmd)) runHack();
+    else if (/rm -rf|format|delete/.test(cmd)) { print("Nice try. That trick is older than this founder."); }
+    else if (/hello|hi|hey/.test(cmd)) print("This is a hacking terminal, not a networking event.");
+    else print(`'${raw}' is not recognized. Neither is your hacking ability. Type <b>help</b>.`);
+  });
+  setTimeout(() => input.focus({ preventScroll: true }), 300);
 }
 
 function updateMusicDeck() {
@@ -2080,6 +2190,71 @@ function initDailyTransmission() {
 }
 initDailyTransmission();
 
+function powerDown(message) {
+  const screen = document.querySelector("#shutdown-screen");
+  const line = screen.querySelector("[data-shutdown-line]");
+  const power = screen.querySelector("[data-power-on]");
+  screen.hidden = false;
+  document.body.classList.add("crt-off");
+  line.textContent = message || "SHREYAS OS is shutting down...";
+  power.hidden = true;
+  setTimeout(() => {
+    line.textContent = "It is now safe to turn off your founder.";
+    power.hidden = false;
+  }, 1600);
+}
+
+function initSystemMenu() {
+  const brandButton = document.querySelector("[data-brand-menu]");
+  const dropdown = document.querySelector("[data-brand-dropdown]");
+  if (!brandButton || !dropdown) return;
+  const closeMenu = () => { dropdown.hidden = true; brandButton.setAttribute("aria-expanded", "false"); };
+  brandButton.addEventListener("click", event => {
+    event.stopPropagation();
+    const willOpen = dropdown.hidden;
+    dropdown.hidden = !willOpen;
+    brandButton.setAttribute("aria-expanded", String(willOpen));
+  });
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".brand-cluster")) closeMenu();
+  });
+  dropdown.addEventListener("click", event => {
+    if (event.target.closest("button")) closeMenu();
+  });
+  document.querySelector("[data-system-restart]")?.addEventListener("click", () => {
+    toast("SYSTEM RESTART", "Rebooting Shreyas OS...");
+    setTimeout(() => window.location.reload(), 700);
+  });
+  document.querySelector("[data-system-shutdown]")?.addEventListener("click", () => powerDown());
+  document.querySelector("[data-power-on]")?.addEventListener("click", () => window.location.reload());
+  document.querySelector("[data-transmission-open]")?.addEventListener("click", () => {
+    const stack = document.querySelector(".motivation-stack");
+    if (!stack) return;
+    localStorage.removeItem("raj-os-transmission-dismissed");
+    stack.classList.remove("closing");
+    stack.hidden = false;
+    toast("DAILY TRANSMISSION", "Back on the desk.");
+  });
+}
+initSystemMenu();
+
+function initModeToggle() {
+  const button = document.querySelector("[data-mode-toggle]");
+  const label = document.querySelector("[data-mode-label]");
+  if (!button) return;
+  const stored = localStorage.getItem("raj-os-mode");
+  const startDark = stored === "dark";
+  if (startDark) applyTheme("dark");
+  if (label) label.textContent = startDark ? "LIGHT" : "DARK";
+  button.addEventListener("click", () => {
+    const goingDark = os.dataset.theme !== "dark";
+    applyTheme(goingDark ? "dark" : "day");
+    localStorage.setItem("raj-os-mode", goingDark ? "dark" : "day");
+    if (label) label.textContent = goingDark ? "LIGHT" : "DARK";
+  });
+}
+initModeToggle();
+
 function initDockAutoHide() {
   const dock = document.querySelector(".dock");
   if (!dock) return;
@@ -2114,7 +2289,7 @@ function updateClock() {
   document.querySelector("#timezone").textContent = zone ? zone.value.toUpperCase() : "LOCAL";
 }
 updateClock();
-applyTheme("day");
+applyTheme(localStorage.getItem("raj-os-mode") === "dark" ? "dark" : "day");
 syncWorld();
 setInterval(updateClock, 30000);
 setTimeout(finishBoot, 2450);

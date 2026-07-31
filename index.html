@@ -78,15 +78,26 @@
 
     <main id="os" class="os" data-theme="day" aria-label="Shreyas Raj AI OS desktop">
       <header class="menubar">
-        <button class="brand-menu" type="button" data-home>
-          <span class="brand-pixel sprite-brand"><img src="./assets/raj-front.png" alt="" /></span><strong>SHREYAS RAJ OS</strong>
-        </button>
+        <div class="brand-cluster">
+          <button class="brand-menu" type="button" data-brand-menu aria-haspopup="true" aria-expanded="false">
+            <span class="brand-pixel sprite-brand"><img src="./assets/raj-front.png" alt="" /></span><strong>SHREYAS RAJ OS</strong><i class="brand-caret" aria-hidden="true">▾</i>
+          </button>
+          <div class="brand-dropdown" data-brand-dropdown hidden>
+            <button type="button" data-home>Show Desktop</button>
+            <button type="button" data-transmission-open>Daily Transmission</button>
+            <button type="button" data-open="hack">Hack Raj OS</button>
+            <span class="brand-dropdown-divider"></span>
+            <button type="button" data-system-restart>Restart</button>
+            <button type="button" data-system-shutdown>Shut Down</button>
+          </div>
+        </div>
         <nav class="menu-links" aria-label="System menu">
           <button type="button" data-open="projects">Work</button>
           <button type="button" data-open="revenue">Proof</button>
           <button type="button" data-open="journey">Journey</button>
           <button type="button" data-command>Search</button>
         </nav>
+        <button class="mode-toggle" type="button" data-mode-toggle aria-label="Toggle dark mode"><span data-mode-label>DARK</span></button>
         <div class="system-status">
           <span class="status-live"><i></i> BUILDING</span>
           <span class="signal" aria-label="Signal connected"><i></i><i></i><i></i></span>
@@ -101,7 +112,6 @@
         <div class="cloud cloud-a" aria-hidden="true"></div>
         <div class="cloud cloud-b" aria-hidden="true"></div>
         <div class="cloud cloud-c" aria-hidden="true"></div>
-        <div class="theme-orb" aria-hidden="true"><i></i></div>
         <aside class="activity-stack motivation-stack" data-movable-widget="daily-transmission" aria-label="Daily motivation">
           <header><span>DAILY TRANSMISSION</span><button class="motivation-close" type="button" data-motivation-close aria-label="Close daily transmission">×</button></header>
           <div class="motivation-card">
@@ -214,7 +224,7 @@
         <audio id="music-audio" preload="metadata"></audio>
 
         <nav class="dock" aria-label="Application dock">
-          <button type="button" data-home aria-label="Show desktop"><span class="dock-icon home-glyph"></span><small>Desktop</small></button>
+          <button type="button" data-home aria-label="Show desktop"><span class="dock-icon"><img src="./assets/icons-v4/home.svg" alt="" /></span><small>Desktop</small></button>
           <button type="button" data-open="projects" aria-label="Open projects"><span class="dock-icon"><img src="./assets/icons-v4/projects.png" alt="" /></span><small>Projects</small></button>
           <button type="button" data-open="revenue" aria-label="Open public results"><span class="dock-icon"><img src="./assets/icons-v4/revenue.png" alt="" /></span><small>Results</small></button>
           <button type="button" data-open="journey" aria-label="Open journey"><span class="dock-icon"><img src="./assets/icons-v4/journey.png" alt="" /></span><small>Journey</small></button>
@@ -256,6 +266,14 @@
     </div>
 
     <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+    <div id="shutdown-screen" class="shutdown-screen" hidden>
+      <div class="shutdown-inner">
+        <p class="shutdown-line" data-shutdown-line>SHREYAS OS is shutting down...</p>
+        <button class="shutdown-power" type="button" data-power-on hidden><i></i><span>POWER ON</span></button>
+      </div>
+    </div>
+
     <script src="./app.js?v=5.4"></script>
   </body>
 </html>
