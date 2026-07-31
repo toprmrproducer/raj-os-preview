@@ -2516,25 +2516,43 @@ function initWallpaperRotator() {
   const rotator = document.querySelector("[data-wallpaper-rotator]");
   if (!rotator) return;
   const layers = [...rotator.querySelectorAll("[data-wallpaper-layer]")];
+  // wallpapers that have a looping ambient video (drifting clouds); the rest are static
+  // (enabled once the video actually animates HIS exact image, not a reinterpretation)
+  const animated = {};
   const lightSet = ["cotton-candy-dawn", "anime-sky", "paramo-sunrise", "warm-aurora", "retro-grid"];
   const darkSet = ["deep-space", "retro-grid", "cotton-candy-dawn"];
   const base = "./assets/wallpapers/";
-  const V = "?v=chatgpt6";                 // cache-bust: force the CDN/browser to fetch the new ChatGPT images
-  const url = name => `${base}${name}.jpg${V}`;
+  const V = "?v=chatgpt7";                 // cache-bust
+  const imgUrl = name => `${base}${name}.jpg${V}`;
+  const setLayer = (layer, name) => {
+    const existing = layer.querySelector("video");
+    if (existing) existing.remove();
+    if (animated[name]) {
+      layer.style.backgroundImage = "";
+      const v = document.createElement("video");
+      v.className = "wallpaper-video is-active";
+      v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+      v.src = `${base}${name}.mp4${V}`;
+      layer.appendChild(v);
+      v.play().catch(() => {});
+    } else {
+      layer.style.backgroundImage = `url(${imgUrl(name)})`;
+    }
+  };
   const pick = () => (os.dataset.theme === "dark" ? darkSet : lightSet);
   let set = pick();
   let index = 0;
   let activeLayer = 0;
-  // preload
-  set.forEach(name => { const img = new Image(); img.src = url(name); });
-  layers[0].style.backgroundImage = `url(${url(set[0])})`;
+  // preload the still frames
+  set.forEach(name => { if (!animated[name]) { const img = new Image(); img.src = imgUrl(name); } });
+  setLayer(layers[0], set[0]);
   rotator.classList.add("wallpaper-on");
   const advance = () => {
     set = pick();
     index = (index + 1) % set.length;
     const next = (activeLayer + 1) % 2;
-    layers[next].style.backgroundImage = `url(${url(set[index])})`;
-    const preloadImg = new Image(); preloadImg.src = layers[next].style.backgroundImage.slice(5, -2);
+    setLayer(layers[next], set[index]);
     layers[next].classList.add("is-active");
     layers[activeLayer].classList.remove("is-active");
     activeLayer = next;
