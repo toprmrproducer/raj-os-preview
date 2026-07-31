@@ -2133,11 +2133,16 @@ body.crt-off .os { animation: crtCollapse .5s ease forwards; }
   transition: opacity 2.4s cubic-bezier(.4, 0, .2, 1);
 }
 .wallpaper-layer.is-active { opacity: 1; }
-/* the wallpaper shows at full untouched contrast: no scrim, no white overlay, no black tint.
-   the fallback under the video is a soft warm tone (never black/white) in case of a load flash */
+/* the wallpaper shows at full untouched contrast: NOTHING layered over it — no scrim, no
+   white gradient, no black tint, no noise. the fallback is a soft warm tone (never black/white) */
 .desktop:has(.wallpaper-rotator.wallpaper-on) { background: #e6a9b4; }
+.desktop:has(.wallpaper-rotator.wallpaper-on)::before,
+.desktop:has(.wallpaper-rotator.wallpaper-on)::after { display: none !important; background: none !important; content: none !important; }
+.os:has(.wallpaper-rotator.wallpaper-on)::after { display: none !important; background: none !important; content: none !important; }
 .wallpaper-rotator.wallpaper-on ~ .desktop-glow,
 .wallpaper-rotator.wallpaper-on ~ .ambient-grid { opacity: 0; }
+/* founder-window keeps its natural orientation (window on the right) while the layer is flipped */
+.wallpaper-layer video.no-flip { transform: scaleX(-1); }
 /* video wallpaper layer (looping ambient animation) fills its layer and inherits the flip */
 .wallpaper-layer video,
 .wallpaper-video {

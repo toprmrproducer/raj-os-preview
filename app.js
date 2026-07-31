@@ -2521,7 +2521,8 @@ function initWallpaperRotator() {
   const lightSet = ["cotton-candy-dawn", "anime-sky", "founder-window"];
   const darkSet = ["deep-space", "cotton-candy-dawn", "founder-window"];
   const base = "./assets/wallpapers/";
-  const V = "?v=vid1";                      // cache-bust (new video assets)
+  const V = "?v=vid2";                      // cache-bust (contrast-boosted video assets)
+  const noFlip = { "founder-window": true }; // keeps its natural orientation
   const imgUrl = name => `${base}${name}.jpg${V}`;
   const setLayer = (layer, name) => {
     const existing = layer.querySelector("video");
@@ -2529,7 +2530,7 @@ function initWallpaperRotator() {
     if (animated[name]) {
       layer.style.backgroundImage = "";
       const v = document.createElement("video");
-      v.className = "wallpaper-video is-active";
+      v.className = "wallpaper-video is-active" + (noFlip[name] ? " no-flip" : "");
       v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
       v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
       v.src = `${base}${name}.mp4${V}`;
