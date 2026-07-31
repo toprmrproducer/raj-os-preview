@@ -2516,10 +2516,10 @@ function initWallpaperRotator() {
   const rotator = document.querySelector("[data-wallpaper-rotator]");
   if (!rotator) return;
   const layers = [...rotator.querySelectorAll("[data-wallpaper-layer]")];
-  // wallpapers that have a looping ambient video (Shreyas's exact image animated)
+  // ONLY the video wallpapers rotate (Shreyas's exact images animated) — no static images
   const animated = { "cotton-candy-dawn": true, "anime-sky": true, "deep-space": true, "founder-window": true };
-  const lightSet = ["cotton-candy-dawn", "anime-sky", "founder-window", "paramo-sunrise", "warm-aurora", "retro-grid"];
-  const darkSet = ["deep-space", "cotton-candy-dawn", "founder-window", "retro-grid"];
+  const lightSet = ["cotton-candy-dawn", "anime-sky", "founder-window"];
+  const darkSet = ["deep-space", "cotton-candy-dawn", "founder-window"];
   const base = "./assets/wallpapers/";
   const V = "?v=vid1";                      // cache-bust (new video assets)
   const imgUrl = name => `${base}${name}.jpg${V}`;
