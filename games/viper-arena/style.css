@@ -148,6 +148,25 @@ canvas#game {
   margin-top: 2px;
 }
 
+.stamina-bar {
+  margin-top: 6px;
+  height: 10px;
+  border: 2px solid rgba(255, 196, 75, 0.35);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6) inset;
+}
+
+.stamina-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ffc24b, #ff8a2b);
+  box-shadow: 0 0 14px rgba(255, 194, 75, 0.7);
+  transition: width 0.12s linear, background 0.2s;
+}
+.stamina-fill.empty { background: rgba(255, 255, 255, 0.12); box-shadow: none; }
+
 .hud-weapon { text-align: right; }
 
 .weapon-name {
@@ -904,6 +923,27 @@ input:focus-visible {
   .touch-fire.pressed {
     color: var(--bg) !important;
     background: var(--orange-hot) !important;
+  }
+
+  .touch-actions {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .touch-boost {
+    width: 60px;
+    height: 60px;
+    border-color: rgba(255, 196, 75, 0.8) !important;
+    color: #ffc24b !important;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .touch-boost.pressed {
+    color: var(--bg) !important;
+    background: #ffc24b !important;
   }
 }
 

@@ -17,7 +17,11 @@
   const PLAYER_SPEED = 320;             // px/s
   const TURN_RATE = 7.5;                // rad/s steering
   const START_LEN = 14;                 // body points
-  const MAX_HP = 100;
+  const MAX_HP = 145;
+  const MAX_STAMINA = 100;              // base stamina pool, grows as the snake eats
+  const BOOST_MULT = 1.65;              // speed multiplier while boosting
+  const BOOST_DRAIN = 34;               // stamina/sec consumed while boosting
+  const STAMINA_REGEN = 14;             // stamina/sec regenerated while not boosting
 
   // ---------- rng ----------
   function mulberry32(a) {
@@ -73,15 +77,15 @@
   const LOADOUTS = {
     overdrive: {
       name: 'OVERDRIVE FINS', color: '#7CF9FF', speedMult: 1.10,
-      maxHp: 100, damageScale: 1, startWeapon: 'smg', startAmmo: 54
+      maxHp: 145, damageScale: 1, startWeapon: 'smg', startAmmo: 54
     },
     bulwark: {
       name: 'BULWARK PLATING', color: '#FFC24B', speedMult: 0.94,
-      maxHp: 140, damageScale: 0.72, startWeapon: 'shotgun', startAmmo: 12
+      maxHp: 195, damageScale: 0.72, startWeapon: 'shotgun', startAmmo: 12
     },
     arc: {
       name: 'ARC COIL', color: '#FF4D9D', speedMult: 1,
-      maxHp: 88, damageScale: 1.08, startWeapon: 'railgun', startAmmo: 3
+      maxHp: 128, damageScale: 1.08, startWeapon: 'railgun', startAmmo: 3
     }
   };
 
@@ -162,13 +166,20 @@
     const p = this.player;
     p.loadout = LOADOUTS[key] ? key : 'overdrive';
     p.equipmentColor = loadout.color;
+    p.baseMaxHp = loadout.maxHp;
     p.maxHp = loadout.maxHp;
     p.hp = loadout.maxHp;
     p.speed = PLAYER_SPEED * loadout.speedMult;
     p.damageScale = loadout.damageScale;
     p.weapon = loadout.startWeapon;
     p.ammo = loadout.startAmmo;
+    p.maxStamina = MAX_STAMINA;
+    p.stamina = MAX_STAMINA;
+    p.wantBoost = false;
+    p.boosting = false;
   };
+
+  Game.prototype.setBoost = function (down) { this.player.wantBoost = !!down; };
 
   Game.prototype.emit = function (e) { this.events.push(e); };
 
@@ -440,8 +451,9 @@
   Game.prototype._moveSnake = function (s) {
     s.heading = angLerp(s.heading, s.targetHeading, TURN_RATE * DT);
     const head = s.pts[0];
-    const nx = clamp(head.x + Math.cos(s.heading) * s.speed * DT, HEAD_R, W - HEAD_R);
-    const ny = clamp(head.y + Math.sin(s.heading) * s.speed * DT, HEAD_R, H - HEAD_R);
+    const spd = (s.isPlayer && s.boosting) ? s.speed * BOOST_MULT : s.speed;
+    const nx = clamp(head.x + Math.cos(s.heading) * spd * DT, HEAD_R, W - HEAD_R);
+    const ny = clamp(head.y + Math.sin(s.heading) * spd * DT, HEAD_R, H - HEAD_R);
     // prepend new head, keep spacing follow
     head.px = head.x; head.py = head.y;
     head.x = nx; head.y = ny;
@@ -485,6 +497,11 @@
     if (p.recoil > 0) p.recoil = Math.max(0, p.recoil - 900 * dt);
     if (p.hitFlash > 0) p.hitFlash -= dt;
     if (p.damageFlash > 0) p.damageFlash -= dt;
+
+    // boost / stamina
+    p.boosting = !!(p.wantBoost && p.stamina > 0);
+    if (p.boosting) p.stamina = Math.max(0, p.stamina - BOOST_DRAIN * dt);
+    else p.stamina = Math.min(p.maxStamina, p.stamina + STAMINA_REGEN * dt);
 
     // move player
     this._moveSnake(p);
@@ -571,7 +588,12 @@
         pel.dead = true;
         this._grow(this.player, 3);
         this.score += Math.round(10 * this.combo);
-        this.player.hp = Math.min(this.player.maxHp, this.player.hp + 2);
+        const pl = this.player;
+        // eating grows the pools themselves (capped), not just tops them up
+        pl.maxHp = Math.min(pl.baseMaxHp + 60, pl.maxHp + 0.6);
+        pl.maxStamina = Math.min(MAX_STAMINA + 100, pl.maxStamina + 1.2);
+        pl.hp = Math.min(pl.maxHp, pl.hp + 5);
+        pl.stamina = Math.min(pl.maxStamina, pl.stamina + 6);
         this.emit({ type: 'pop', x: pel.x, y: pel.y });
         this.emit({ type: 'sfx', name: 'pellet' });
       }
@@ -635,6 +657,9 @@
       score: this.score,
       wave: this.wave,
       health: Math.max(0, Math.round(p.hp)),
+      stamina: Math.max(0, Math.round(p.stamina)),
+      maxStamina: Math.round(p.maxStamina),
+      boosting: !!p.boosting,
       ammo: p.ammo === Infinity ? Infinity : p.ammo,
       weapon: p.weapon,
       headX: Math.round(p.pts[0].x),
@@ -664,6 +689,6 @@
 
   return {
     Game, WEAPONS, WEAPON_ORDER, LOADOUTS, BOSS_MISSIONS,
-    W, H, DT, SEG, HEAD_R, BODY_R, MAX_HP, mulberry32
+    W, H, DT, SEG, HEAD_R, BODY_R, MAX_HP, MAX_STAMINA, BOOST_MULT, mulberry32
   };
 });

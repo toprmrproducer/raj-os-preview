@@ -40,6 +40,7 @@
         <div class="hud-label">VITALS</div>
         <div class="health-bar"><div id="health-fill" class="health-fill"></div></div>
         <div id="hud-health-num" class="health-num">100</div>
+        <div class="stamina-bar"><div id="stamina-fill" class="stamina-fill"></div></div>
         <div id="hud-loadout" class="loadout-chip">OVERDRIVE FINS</div>
       </div>
       <div class="hud-weapon">
@@ -57,7 +58,10 @@
         <button type="button" data-touch-key="down" aria-label="Move down">↓</button>
         <button type="button" data-touch-key="right" aria-label="Move right">→</button>
       </div>
-      <button type="button" class="touch-fire" data-touch-fire aria-label="Fire weapon">FIRE</button>
+      <div class="touch-actions">
+        <button type="button" class="touch-boost" data-touch-boost aria-label="Boost">BOOST</button>
+        <button type="button" class="touch-fire" data-touch-fire aria-label="Fire weapon">FIRE</button>
+      </div>
     </div>
   </div>
 
@@ -104,6 +108,7 @@
           <span><b>WASD</b> steer</span>
           <span><b>MOUSE</b> aim</span>
           <span><b>CLICK / SPACE</b> fire</span>
+          <span><b>SHIFT</b> boost</span>
         </div>
       </section>
 

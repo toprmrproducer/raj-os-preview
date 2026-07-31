@@ -24,7 +24,7 @@
     hud: $('hud'), score: $('hud-score'), wave: $('hud-wave'), combo: $('hud-combo'),
     enemies: $('hud-enemies'), progress: $('hud-progress'), mission: $('hud-mission'),
     player: $('hud-player'), banner: $('wave-banner'), healthFill: $('health-fill'),
-    healthNum: $('hud-health-num'), weapon: $('hud-weapon'), ammo: $('hud-ammo'),
+    healthNum: $('hud-health-num'), staminaFill: $('stamina-fill'), weapon: $('hud-weapon'), ammo: $('hud-ammo'),
     loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'),
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
     title: $('title'), username: $('username'), usernameError: $('username-error'),
@@ -43,6 +43,7 @@
   let running = false;
   let started = false;
   let firing = false;
+  let boosting = false;
   let touchMode = false;
   let acc = 0;
   let lastT = 0;
@@ -188,6 +189,7 @@
     const dir = keymap[code];
     if (dir) { keys[dir] = down; return true; }
     if (code === 'Space') { firing = down; return true; }
+    if (code === 'ShiftLeft' || code === 'ShiftRight') { boosting = down; return true; }
     if (code === 'KeyR' && down && started) { restartDirect(); return true; }
     return false;
   }
@@ -216,6 +218,7 @@
   function resetInput() {
     keys.up = keys.down = keys.left = keys.right = false;
     firing = false;
+    boosting = false;
   }
 
   document.querySelectorAll('[data-loadout]').forEach(function (button) {
@@ -288,6 +291,22 @@
     firing = true;
     touchFire.classList.add('pressed');
     if (touchFire.setPointerCapture && event.pointerId !== undefined) touchFire.setPointerCapture(event.pointerId);
+  });
+
+  const touchBoost = document.querySelector('[data-touch-boost]');
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (type) {
+    touchBoost.addEventListener(type, function (event) {
+      event.preventDefault();
+      boosting = false;
+      touchBoost.classList.remove('pressed');
+    });
+  });
+  touchBoost.addEventListener('pointerdown', function (event) {
+    event.preventDefault();
+    touchMode = true;
+    boosting = true;
+    touchBoost.classList.add('pressed');
+    if (touchBoost.setPointerCapture && event.pointerId !== undefined) touchBoost.setPointerCapture(event.pointerId);
   });
 
   function currentAimWorld() {
@@ -405,7 +424,10 @@
     const health = Math.max(0, Math.min(100, (state.health / (game.player.maxHp || 100)) * 100));
     el.healthFill.style.width = health + '%';
     el.healthFill.classList.toggle('low', health <= 30);
-    el.healthNum.textContent = state.health + ' / ' + game.player.maxHp;
+    el.healthNum.textContent = state.health + ' / ' + Math.round(game.player.maxHp);
+    const staminaPct = Math.max(0, Math.min(100, (state.stamina / (state.maxStamina || 100)) * 100));
+    el.staminaFill.style.width = staminaPct + '%';
+    el.staminaFill.classList.toggle('empty', staminaPct <= 0);
     el.loadout.textContent = LOADOUTS[state.loadout].name;
     el.loadout.style.setProperty('--loadout-color', LOADOUTS[state.loadout].color);
 
@@ -442,6 +464,7 @@
     const aim = currentAimWorld();
     game.setAim(aim.x, aim.y);
     game.setFire(firing);
+    game.setBoost(boosting);
     game.step();
     processEvents();
     if (waveBannerT > 0) waveBannerT -= DT;
