@@ -405,34 +405,6 @@
 }
 .dock button small { bottom: 54px; }
 
-.games-glyph {
-  position: relative;
-  border: 2px solid var(--desktop-ink);
-  background: #c7f36b;
-  box-shadow: 2px 2px 0 rgba(23,19,27,.2);
-}
-.dock-icon.games-glyph { font-size: 34px; }
-.pixel-icon.games-glyph { font-size: 50px; }
-.games-glyph::before {
-  content: "";
-  position: absolute;
-  left: .22em;
-  top: .42em;
-  width: .16em;
-  height: .16em;
-  background: var(--desktop-ink);
-  box-shadow: -.24em 0 0 var(--desktop-ink), .24em 0 0 var(--desktop-ink), 0 -.24em 0 var(--desktop-ink), 0 .24em 0 var(--desktop-ink);
-}
-.games-glyph i {
-  position: absolute;
-  width: .16em;
-  height: .16em;
-  border-radius: 50%;
-  background: var(--desktop-ink);
-}
-.games-glyph i:nth-child(1) { right: .2em; top: .3em; }
-.games-glyph i:nth-child(2) { right: .42em; top: .5em; }
-
 .journey-list { margin-top: 24px; display: grid; }
 .journey-entry {
   display: grid;
