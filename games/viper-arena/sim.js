@@ -9,7 +9,8 @@
   'use strict';
 
   // ---------- constants ----------
-  const W = 2400, H = 1600;             // arena world size
+  const W = 4200, H = 2800;             // arena world size (big enough that threats travel in from off-screen)
+  const SAFE_SPAWN_R = 1250;            // enemies may NEVER spawn closer than this: past the zoomed-out view edge
   const DT = 1 / 60;                    // fixed timestep
   const SEG = 9;                        // spacing between body points (px)
   const HEAD_R = 12;                    // head radius
@@ -18,6 +19,7 @@
   const TURN_RATE = 7.5;                // rad/s steering
   const START_LEN = 14;                 // body points
   const MAX_HP = 145;
+  const WAVES_PER_LEVEL = 5;            // a level is five waves, so level 3 starts at wave 11
   const MAX_STAMINA = 100;              // base stamina pool, grows as the snake eats
   const BOOST_MULT = 1.65;              // speed multiplier while boosting
   const BOOST_DRAIN = 34;               // stamina/sec consumed while boosting
@@ -47,37 +49,43 @@
   // fire() returns array of projectile specs relative to muzzle; sim adds owner/pos.
   const WEAPONS = {
     pistol: {
-      name: 'PISTOL', ammo: Infinity, cd: 0.22, spread: 0.02, pellets: 1,
-      speed: 1100, dmg: 26, life: 1.1, radius: 4, recoil: 90, shake: 3,
-      knock: 60, pierce: 0, color: '#7CF9FF', kind: 'bullet'
+      name: 'PISTOL', ammo: Infinity, magSize: 5, reload: 1.05, cd: 0.22, spread: 0.02, pellets: 1,
+      speed: 1100, dmg: 18, life: 1.1, radius: 4, recoil: 90, shake: 3,
+      knock: 60, pierce: 0, color: '#7CF9FF', kind: 'bullet', style: 'dart',
     },
     shotgun: {
-      name: 'SHOTGUN', ammo: 20, cd: 0.62, spread: 0.44, pellets: 11,
+      name: 'SHOTGUN', ammo: 24, magSize: 6, reload: 2.0, cd: 0.62, spread: 0.44, pellets: 11,
       speed: 940, dmg: 16, life: 0.72, radius: 3, recoil: 260, shake: 12,
-      knock: 340, pierce: 0, color: '#FFC24B', kind: 'bullet'
+      knock: 340, pierce: 0, color: '#FFC24B', kind: 'bullet', style: 'slug',
     },
     smg: {
-      name: 'SMG', ammo: 90, cd: 0.065, spread: 0.14, pellets: 1,
+      name: 'SMG', ammo: 120, magSize: 30, reload: 1.55, cd: 0.065, spread: 0.14, pellets: 1,
       speed: 1250, dmg: 12, life: 0.9, radius: 3, recoil: 55, shake: 2.4,
-      knock: 40, pierce: 0, color: '#8CFF6B', kind: 'bullet'
+      knock: 40, pierce: 0, color: '#8CFF6B', kind: 'bullet', style: 'dart',
     },
     railgun: {
-      name: 'RAILGUN', ammo: 6, cd: 0.9, spread: 0, pellets: 1, charge: 0.55,
+      name: 'RAILGUN', ammo: 12, magSize: 3, reload: 2.4, cd: 0.9, spread: 0, pellets: 1, charge: 0.55,
       speed: 0, dmg: 120, life: 0, radius: 0, recoil: 320, shake: 20,
       knock: 260, pierce: 999, color: '#FF4D6D', kind: 'beam', range: 3200
     },
     flamethrower: {
-      name: 'FLAME', ammo: 200, cd: 0.03, spread: 0.5, pellets: 2,
+      name: 'FLAME', ammo: 240, magSize: 80, reload: 2.1, cd: 0.03, spread: 0.5, pellets: 2,
       speed: 560, dmg: 4.5, life: 0.28, radius: 10, recoil: 30, shake: 1.6,
-      knock: 12, pierce: 999, color: '#FF8A2B', kind: 'flame'
+      knock: 12, pierce: 999, color: '#FF8A2B', kind: 'flame', style: 'flame',
+    },
+    minigun: {
+      name: 'MINIGUN', ammo: 600, magSize: 150, reload: 3.4, cd: 0.045, spread: 0.19, pellets: 1,
+      spinup: 0.85,
+      speed: 1150, dmg: 11, life: 0.85, radius: 3, recoil: 45, shake: 2.6,
+      knock: 34, pierce: 0, color: '#C2B2E9', kind: 'bullet', style: 'dart',
     },
     sniper: {
-      name: 'SNIPER', ammo: 8, cd: 1.15, spread: 0, pellets: 1,
+      name: 'SNIPER', ammo: 20, magSize: 4, reload: 2.5, cd: 1.15, spread: 0, pellets: 1,
       speed: 1900, dmg: 90, life: 1.4, radius: 5, recoil: 300, shake: 14,
-      knock: 420, pierce: 1, color: '#F7E45E', kind: 'bullet'
+      knock: 420, pierce: 1, color: '#F7E45E', kind: 'bullet', style: 'lance',
     }
   };
-  const WEAPON_ORDER = ['pistol', 'shotgun', 'smg', 'railgun', 'flamethrower', 'sniper'];
+  const WEAPON_ORDER = ['pistol', 'shotgun', 'smg', 'railgun', 'flamethrower', 'sniper', 'minigun'];
 
   const LOADOUTS = {
     overdrive: {
@@ -105,6 +113,11 @@
       name: 'TITAN CORE', color: '#C2B2E9', speedMult: 0.86,
       maxHp: 250, damageScale: 0.6, startWeapon: 'shotgun', startAmmo: 16,
       staminaMult: 0.7
+    },
+    juggernaut: {
+      name: 'JUGGERNAUT', color: '#9A8FB8', speedMult: 0.62,
+      maxHp: 340, damageScale: 0.5, startWeapon: 'minigun', startAmmo: 600,
+      staminaMult: 0.55, turnMult: 0.6
     }
   };
 
@@ -115,7 +128,8 @@
     arc: { name: 'EMP BURST', desc: 'Zap + shove everything near you', cd: 12, dur: 0 },
     inferno: { name: 'FIRE RING', desc: 'Ring of flame in every direction', cd: 11, dur: 0 },
     phantom: { name: 'GHOST STEP', desc: 'Untouchable + faster for 2.2s', cd: 13, dur: 2.2 },
-    titan: { name: 'SHOCKWAVE', desc: 'Stun + hurl back every enemy', cd: 15, dur: 0 }
+    titan: { name: 'SHOCKWAVE', desc: 'Stun + hurl back every enemy', cd: 15, dur: 0 },
+    juggernaut: { name: 'SIEGE MODE', desc: 'Rooted, invincible, barrel already spun', cd: 18, dur: 4 }
   };
 
   // ---------- boss roster: a boss every 3rd wave, 50 unique bosses deep ----------
@@ -190,6 +204,84 @@
   const ENEMY_NAMES = ['VENOM', 'KRAIT', 'MAMBA', 'COBRA', 'ASP', 'RATTLER',
     'BOA', 'PYTHON', 'ADDER', 'TAIPAN', 'SIDEWINDER', 'FANG'];
 
+  // ---------- personalities: every archetype has its own voice ----------
+  const PERSONALITIES = {
+    grunt: {
+      label: 'GRUNT', temper: 'overconfident nobody',
+      spawn: ['You lost, lizard.', 'Turn back.', 'Another one for the pile.', 'She is not up here.'],
+      hurt: ['Lucky shot!', 'Ow. Rude.', 'That actually hurt.'],
+      death: ['...not like this.', 'Tell my wife.', 'Worth it.']
+    },
+    runner: {
+      label: 'RUNNER', temper: 'cocky speedster',
+      spawn: ['Too slow!', 'Catch me. Go on.', 'Blink and I am behind you.'],
+      hurt: ['You clipped me!', 'Fine. FINE.', 'That was a fluke.'],
+      death: ['I was... faster...', 'Unfair.', 'Ugh.']
+    },
+    brute: {
+      label: 'BRUTE', temper: 'slow immovable wall',
+      spawn: ['YOU SHALL NOT PASS.', 'The road ends here.', 'I am the door.'],
+      hurt: ['Barely felt it.', 'Is that all?', 'Keep going. I like it.'],
+      death: ['The wall... falls...', 'Someone else... will hold...', 'Hah. Good.']
+    },
+    sniper: {
+      label: 'SNIPER', temper: 'twitchy coward with a scope',
+      spawn: ['Do not come closer.', 'I can see you from here.', 'Stay right there. Perfect.'],
+      hurt: ['Too close! Too close!', 'Get back!', 'No no no.'],
+      death: ['Should have... kept my distance...', 'Missed.', 'I hate this job.']
+    },
+    rusher: {
+      label: 'RUSHER', temper: 'unhinged kamikaze',
+      spawn: ['YOUR FACE. MINE.', 'HELLO HELLO HELLO', 'NO BRAKES!'],
+      hurt: ['MORE!', 'HAHA! AGAIN!', 'TICKLES!'],
+      death: ['WORTH IIIIT', 'SEE YOU DOWN THERE', 'BOOM.']
+    },
+    reaper: {
+      label: 'THE REAPER', temper: 'cold patient predator',
+      spawn: ['I have been sent for you.', 'Do not run. It is worse when you run.', 'The circle is already closing.'],
+      hurt: ['Interesting.', 'You have teeth. Good.', 'Noted.'],
+      death: ['Another... will be sent...', 'You are still in the circle.', 'She is still up there. Good luck.']
+    }
+  };
+
+  // ---------- story: the viper is climbing the gauntlet to get his princess back ----------
+  const STORY = {
+    intro: [
+      'They took her at dawn. Dragged her up the gauntlet, past fifty wardens.',
+      'You are one snake with a borrowed pistol and five rounds in it.',
+      'That has to be enough.'
+    ],
+    beats: {
+      2: 'A scale on the floor. Hers. You are on the right road.',
+      5: 'The wardens are talking to each other now. They know you are coming.',
+      8: 'Someone scratched a message into the wall: SHE IS STILL ALIVE. KEEP CLIMBING.',
+      12: 'Halfway. Your ammo count is a rumour and your tail is shorter than it was.',
+      18: 'You hear her. Faint, far up, still fighting. Move.',
+      25: 'The air is hot. Whatever is holding her is close now.',
+      40: 'The last wardens do not taunt any more. That is worse.'
+    },
+    bossTauntFallback: [
+      'YOU SHALL NOT PASS.',
+      'The road ends here, little viper.',
+      'She is one floor up. You will not see it.',
+      'Everyone who came this far is under my coils.',
+      'Turn around. I will pretend I never saw you.',
+      'You are late. She stopped waiting.',
+      'I was told to make an example. Hold still.',
+      'Fifty of us. You are ONE.'
+    ],
+    bossTaunts: {
+      'VENOM TITAN': 'YOU SHALL NOT PASS. I have eaten braver snakes for less.',
+      'RAIL WYRM': 'I can put a hole through you from the other side of this arena. Watch.',
+      'INFERNO HYDRA': 'Everything you love burns eventually. Let us start with you.',
+      'NIGHT ADDER': 'You brought a pistol to my dark. How sweet.',
+      'IRON BASILISK': 'Bullets bounce. Hope does not. Try me.',
+      'THE REAPER': 'I am not a warden. I am what they call when the wardens fail.',
+      'OMEGA LEVIATHAN': 'She is behind me. She has been watching you climb. Do not disappoint her now.'
+    },
+    victory: 'The last coil falls. She is there. You did not stop.'
+  };
+
   // ---------- snake ----------
   function makeSnake(x, y, heading, len, isPlayer) {
     const pts = [];
@@ -198,9 +290,10 @@
       pts, heading, targetHeading: heading, isPlayer,
       hp: isPlayer ? MAX_HP : 60, maxHp: isPlayer ? MAX_HP : 60,
       len, alive: true, speed: isPlayer ? PLAYER_SPEED : 210,
-      weapon: 'pistol', ammo: Infinity, cd: 0, charging: 0, wantFire: false,
+      weapon: 'pistol', ammo: Infinity, mag: 5, cd: 0, charging: 0, wantFire: false,
+      reloading: false, reloadT: 0, spin: 0, turnMult: 1,
       recoil: 0, aimAng: heading, name: isPlayer ? 'YOU' : 'ENEMY',
-      hitFlash: 0, color: isPlayer ? '#39FF9E' : '#FF5A5A', damageDir: 0, damageFlash: 0,
+      hitFlash: 0, color: isPlayer ? '#39FF9E' : '#FF5A5A', damageDir: 0, damageFlash: 0, coilCd: 0,
       brain: { reactT: 0, strafe: 1, dodgeT: 0, dodgeAng: 0 }
     };
   }
@@ -226,8 +319,13 @@
     this.score = 0;
     this.combo = 1;
     this.comboT = 0;
-    this.wave = 0;
+    this.startLevel = Math.max(1, Math.round(this.options.level || 1));
+    this.wave = (this.startLevel - 1) * WAVES_PER_LEVEL;
     this.waveGoal = 0;
+    this.coins = 0;
+    this.fangs = 0;
+    this.revives = 0;
+    this.lastStands = 0;
     this.waveKills = 0;
     this.currentMission = null;
     this.waveCountdown = 1.2;
@@ -253,6 +351,9 @@
     p.damageScale = loadout.damageScale;
     p.weapon = loadout.startWeapon;
     p.ammo = loadout.startAmmo;
+    p.mag = WEAPONS[loadout.startWeapon].magSize;
+    p.reloading = false; p.reloadT = 0; p.spin = 0;
+    p.turnMult = loadout.turnMult || 1;
     p.maxStamina = Math.round(MAX_STAMINA * (loadout.staminaMult || 1));
     p.stamina = p.maxStamina;
     p.wantBoost = false;
@@ -270,7 +371,7 @@
     p.abilityCdT = ab.cd;
     const head = p.pts[0];
     if (ab.dur > 0) p.abilityActiveT = ab.dur;
-    if (p.loadout === 'bulwark' || p.loadout === 'phantom') p.invincibleT = ab.dur;
+    if (p.loadout === 'bulwark' || p.loadout === 'phantom' || p.loadout === 'juggernaut') p.invincibleT = ab.dur;
     if (p.loadout === 'arc') {
       for (const e of this.enemies) {
         if (!e.alive) continue;
@@ -316,11 +417,71 @@
 
   Game.prototype.setBoost = function (down) { this.player.wantBoost = !!down; };
 
+  // paid revive: puts the player back on the field mid-wave without losing the run
+  Game.prototype.revive = function () {
+    if (!this.gameOver) return false;
+    const p = this.player;
+    this.gameOver = false;
+    this.deathCause = '';
+    p.alive = true;
+    p.hp = p.maxHp;
+    p.stamina = p.maxStamina;
+    p.invincibleT = 3.0;
+    p.mag = WEAPONS[p.weapon].magSize;
+    p.reloading = false; p.reloadT = 0;
+    this.revives++;
+    // shove every live enemy away so the revive is not instantly wasted
+    const head = p.pts[0];
+    for (const e of this.enemies) {
+      if (!e.alive) continue;
+      const eh = e.pts[0];
+      const d = Math.hypot(eh.x - head.x, eh.y - head.y) || 1;
+      if (d < 900) {
+        const ang = Math.atan2(eh.y - head.y, eh.x - head.x);
+        eh.x = clamp(head.x + Math.cos(ang) * 950, 60, W - 60);
+        eh.y = clamp(head.y + Math.sin(ang) * 950, 60, H - 60);
+      }
+    }
+    this.emit({ type: 'revive' });
+    this.emit({ type: 'shake', amt: 18 });
+    return true;
+  };
+
   Game.prototype.emit = function (e) { this.events.push(e); };
 
   Game.prototype._rndPos = function (margin) {
     margin = margin || 120;
     return { x: margin + this.rng() * (W - margin * 2), y: margin + this.rng() * (H - margin * 2) };
+  };
+
+  // pick a spawn far from the player, preferring the arena rim so threats visibly travel in
+  Game.prototype._spawnPos = function () {
+    const pl = this.player.pts[0];
+    let best = null, bestD = -1;
+    for (let i = 0; i < 24; i++) {
+      // bias toward the rim: pick an edge band, then a position along it
+      let x, y;
+      if (this.rng() < 0.72) {
+        const side = (this.rng() * 4) | 0;
+        const band = 140 + this.rng() * 220;
+        if (side === 0) { x = band; y = 120 + this.rng() * (H - 240); }
+        else if (side === 1) { x = W - band; y = 120 + this.rng() * (H - 240); }
+        else if (side === 2) { x = 120 + this.rng() * (W - 240); y = band; }
+        else { x = 120 + this.rng() * (W - 240); y = H - band; }
+      } else {
+        x = 140 + this.rng() * (W - 280);
+        y = 140 + this.rng() * (H - 280);
+      }
+      const d = Math.hypot(x - pl.x, y - pl.y);
+      if (d >= SAFE_SPAWN_R) return { x: x, y: y };   // good enough, take it
+      if (d > bestD) { bestD = d; best = { x: x, y: y }; }
+    }
+    // every candidate was close (tiny arena / player hugging centre): push the best one out hard
+    const ang = Math.atan2(best.y - pl.y, best.x - pl.x) || 0;
+    return {
+      x: clamp(pl.x + Math.cos(ang) * SAFE_SPAWN_R, 120, W - 120),
+      y: clamp(pl.y + Math.sin(ang) * SAFE_SPAWN_R, 120, H - 120)
+    };
   };
 
   Game.prototype._spawnPellets = function (n) {
@@ -336,20 +497,19 @@
 
   Game.prototype.spawnEnemy = function (hp, options) {
     options = options || {};
-    const p = this._rndPos(160);
-    // keep away from player spawn
-    const pl = this.player.pts[0];
-    if (dist2(p.x, p.y, pl.x, pl.y) < 420 * 420) { p.x = clamp(p.x + 520, 120, W - 120); }
+    const p = this._spawnPos();
     // pick an archetype for regular enemies: mixed sizes and behaviours
     let arch = options.archetype || 'grunt';
     if (!options.boss && !options.archetype) {
       const roll = this.rng();
+      const w = this.wave;
       const reaperAlive = this.enemies.some(e => e.alive && e.archetype === 'reaper');
-      if (this.wave >= 5 && !reaperAlive && roll < 0.10) arch = 'reaper';
-      else if (roll < 0.28) arch = 'runner';
-      else if (roll < 0.46) arch = 'brute';
-      else if (this.wave >= 4 && roll < 0.58) arch = 'sniper';
-      else if (this.wave >= 3 && roll < 0.72) arch = 'rusher';
+      // waves 1-2 are deliberately calm: plain grunts only, so a new player can learn the controls
+      if (w >= 9 && !reaperAlive && roll < 0.10) arch = 'reaper';
+      else if (w >= 3 && roll < 0.26) arch = 'runner';
+      else if (w >= 4 && roll < 0.44) arch = 'brute';
+      else if (w >= 6 && roll < 0.58) arch = 'sniper';
+      else if (w >= 7 && roll < 0.70) arch = 'rusher';
     }
     const baseLen = options.length ||
       (arch === 'reaper' ? 55 + ((this.rng() * 14) | 0) :
@@ -386,7 +546,7 @@
     } else if (arch === 'sniper') {
       s.weapon = 'sniper';
       s.ammo = Infinity;
-    } else if (this.wave >= 2) {
+    } else if (this.wave >= 3) {
       const pool = ['pistol', 'smg', 'shotgun'];
       s.weapon = pool[(this.rng() * (Math.min(pool.length, 1 + (this.wave / 2 | 0)))) | 0] || 'pistol';
       const wd = WEAPONS[s.weapon];
@@ -394,6 +554,14 @@
     }
     s.brain.strafe = this.rng() < 0.5 ? 1 : -1;
     this.enemies.push(s);
+    // personality: bosses and reapers always announce themselves, grunts only sometimes
+    if (s.boss) {
+      const taunt = STORY.bossTaunts[s.name] ||
+        STORY.bossTauntFallback[(this.rng() * STORY.bossTauntFallback.length) | 0];
+      this.emit({ type: 'say', who: s.name, line: taunt, x: s.pts[0].x, y: s.pts[0].y, color: s.color, boss: true });
+    } else if (s.archetype === 'reaper' || this.rng() < 0.22) {
+      this.say(s, 'spawn');
+    }
     return s;
   };
 
@@ -403,7 +571,7 @@
     this.waveKills = 0;
     const mission = BOSS_MISSIONS[this.wave] || null;
     this.currentMission = mission;
-    const count = 3 + Math.floor(this.wave * 1.7);
+    const count = this.wave <= 1 ? 3 : this.wave === 2 ? 4 : Math.round(3 + (this.wave - 2) * 1.5);
     if (mission) {
       this.spawnEnemy(mission.hp, {
         name: mission.name,
@@ -429,6 +597,7 @@
       wave: this.wave,
       title: mission ? mission.title : ('WAVE ' + this.wave)
     });
+    if (STORY.beats[this.wave]) this.emit({ type: 'story', line: STORY.beats[this.wave] });
   };
 
   // ---------- input surface ----------
@@ -450,14 +619,63 @@
     snake.weapon = type;
     const wd = WEAPONS[type];
     snake.ammo = wd.ammo === Infinity ? Infinity : wd.ammo;
+    snake.mag = wd.magSize;
     snake.cd = 0; snake.charging = 0;
+    snake.reloading = false; snake.reloadT = 0; snake.spin = 0;
+  };
+
+  // ---------- reload ----------
+  Game.prototype.startReload = function (snake) {
+    const wd = WEAPONS[snake.weapon];
+    if (snake.reloading) return false;
+    if (snake.mag >= wd.magSize) return false;
+    if (snake.ammo !== Infinity && snake.ammo <= 0) return false;
+    snake.reloading = true;
+    snake.reloadT = wd.reload;
+    snake.spin = 0;
+    if (snake.isPlayer) this.emit({ type: 'sfx', name: 'pickup' });
+    return true;
+  };
+
+  Game.prototype._tickReload = function (snake, dt) {
+    if (!snake.reloading) return;
+    snake.reloadT -= dt;
+    if (snake.reloadT > 0) return;
+    const wd = WEAPONS[snake.weapon];
+    const need = wd.magSize - snake.mag;
+    if (snake.ammo === Infinity) {
+      snake.mag = wd.magSize;
+    } else {
+      const take = Math.min(need, snake.ammo);
+      snake.mag += take;
+      snake.ammo -= take;
+    }
+    snake.reloading = false;
+    snake.reloadT = 0;
+    if (snake.isPlayer) this.emit({ type: 'reloaded', weapon: snake.weapon });
+  };
+
+  // ---------- dialogue ----------
+  Game.prototype.say = function (snake, kind) {
+    const p = PERSONALITIES[snake.archetype];
+    if (!p) return;
+    const pool = p[kind];
+    if (!pool || !pool.length) return;
+    const line = pool[(this.rng() * pool.length) | 0];
+    const head = snake.pts[0];
+    this.emit({ type: 'say', who: snake.name, line: line, x: head.x, y: head.y, color: snake.color, boss: !!snake.boss });
   };
 
   Game.prototype._doFire = function (snake, aimAng) {
     const wd = WEAPONS[snake.weapon];
     if (snake.cd > 0) return false;
-    if (snake.ammo !== Infinity && snake.ammo <= 0) {
-      if (snake.weapon !== 'pistol') this._equip(snake, 'pistol');
+    if (snake.reloading) return false;
+    // gatling spin-up: the barrel has to be turning before anything comes out
+    if (wd.spinup && snake.spin < wd.spinup) return false;
+    // magazine empty: out of spare ammo means fall back to the pistol, else reload
+    if (snake.mag <= 0) {
+      if (snake.ammo !== Infinity && snake.ammo <= 0 && snake.weapon !== 'pistol') this._equip(snake, 'pistol');
+      else this.startReload(snake);
       return false;
     }
     // railgun charge gate
@@ -468,7 +686,8 @@
     const my = head.y + Math.sin(aimAng) * (HEAD_R + 6);
     snake.cd = wd.cd;
     snake.charging = 0;
-    if (snake.ammo !== Infinity) snake.ammo--;
+    snake.mag--;
+    if (snake.mag <= 0) this.startReload(snake);
 
     if (wd.kind === 'beam') {
       // hitscan piercing beam
@@ -487,7 +706,7 @@
         this.projectiles.push({
           x: mx, y: my, vx: Math.cos(a) * wd.speed, vy: Math.sin(a) * wd.speed,
           dmg: wd.dmg, life: wd.life, r: wd.radius, owner: snake.isPlayer ? 'p' : 'e',
-          pierce: wd.pierce, knock: wd.knock, color: wd.color, kind: wd.kind, hitset: null
+          pierce: wd.pierce, knock: wd.knock, color: wd.color, kind: wd.kind, style: wd.style, hitset: null
         });
       }
       snake.recoil = wd.recoil;
@@ -543,6 +762,7 @@
     } else if (owner && owner.isPlayer) {
       this.emit({ type: 'hitmarker' });
       this.emit({ type: 'sfx', name: 'tick' });
+      if (this.rng() < 0.05) this.say(s, 'hurt');
     }
     this.emit({ type: 'blood', x: head.x, y: head.y, color: s.color, n: 6 });
     if (s.hp <= 0) this._killSnake(s, owner);
@@ -553,6 +773,20 @@
     s.alive = false;
     for (let i = 0; i < s.pts.length; i += 2) this.emit({ type: 'burst', x: s.pts[i].x, y: s.pts[i].y, color: s.color });
     if (s.isPlayer) {
+      // a Titan does not just fall over. heavy classes get more than one chance.
+      const allowed = (s.loadout === 'titan' || s.loadout === 'juggernaut') ? 2 : 1;
+      if (this.lastStands < allowed) {
+        this.lastStands++;
+        s.alive = true;
+        s.hp = Math.max(1, Math.round(s.maxHp * 0.30));
+        s.invincibleT = 1.8;
+        s.damageFlash = 0.6;
+        this.floaters.push({ x: s.pts[0].x, y: s.pts[0].y, txt: 'LAST STAND!', life: 1.6, color: '#FFE45E' });
+        this.emit({ type: 'lastStand', left: allowed - this.lastStands });
+        this.emit({ type: 'shake', amt: 22 });
+        this.emit({ type: 'sfx', name: 'hurt' });
+        return;
+      }
       this.gameOver = true;
       if (!this.deathCause) this.deathCause = (owner && owner.name) ? owner.name : 'THE ARENA';
       this.emit({ type: 'death', cause: this.deathCause });
@@ -562,6 +796,11 @@
       const gain = Math.round((s.boss ? s.bossScore : 100) * this.combo);
       this.score += gain;
       this.kills++;
+      // currency: coins from every kill, a premium FANG occasionally and always from a boss
+      this.coins += s.boss ? 120 : 4;
+      if (s.boss) this.fangs += 3;
+      else if (this.rng() < 0.03) this.fangs += 1;
+      if (this.rng() < 0.30) this.say(s, 'death');
       this.waveKills++;
       this.combo = Math.min(8, this.combo + 0.5);
       this.comboT = 3.2;
@@ -688,7 +927,7 @@
 
   // ---------- snake movement ----------
   Game.prototype._moveSnake = function (s) {
-    s.heading = angLerp(s.heading, s.targetHeading, TURN_RATE * DT);
+    s.heading = angLerp(s.heading, s.targetHeading, TURN_RATE * (s.turnMult || 1) * DT);
     const head = s.pts[0];
     let spd = s.boosting ? s.speed * BOOST_MULT : s.speed;
     if (s.isPlayer && s.speedBonus) spd *= s.speedBonus;
@@ -738,6 +977,15 @@
     if (p.hitFlash > 0) p.hitFlash -= dt;
     if (p.damageFlash > 0) p.damageFlash -= dt;
 
+    // reload + gatling spin
+    this._tickReload(p, dt);
+    const pwd = WEAPONS[p.weapon];
+    if (pwd.spinup) {
+      const siege = p.loadout === 'juggernaut' && p.abilityActiveT > 0;
+      if ((p.wantFire && !p.reloading) || siege) p.spin = Math.min(pwd.spinup, p.spin + dt);
+      else p.spin = Math.max(0, p.spin - dt * 1.7);
+    }
+
     // ability timers
     if (p.abilityCdT > 0) p.abilityCdT = Math.max(0, p.abilityCdT - dt);
     if (p.abilityActiveT > 0) p.abilityActiveT = Math.max(0, p.abilityActiveT - dt);
@@ -759,6 +1007,10 @@
     for (const e of this.enemies) {
       if (!e.alive) continue;
       if (e.cd > 0) e.cd -= dt;
+      if (e.coilCd > 0) e.coilCd -= dt;
+      this._tickReload(e, dt);
+      const ewd = WEAPONS[e.weapon];
+      if (ewd.spinup) e.spin = Math.min(ewd.spinup, e.spin + dt);
       if (e.hitFlash > 0) e.hitFlash -= dt;
       if (e.recoil > 0) e.recoil = Math.max(0, e.recoil - 900 * dt);
       this._thinkEnemy(e);
@@ -879,8 +1131,17 @@
         const rr2 = BODY_R + HEAD_R - 2;
         if (dist2(ehd.x, ehd.y, p.pts[j].x, p.pts[j].y) < rr2 * rr2) {
           this.deathCause = '';
-          this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COILED!', life: 1.1, color: '#39FF9E' });
-          this._killSnake(e, p);
+          if (e.boss || e.archetype === 'brute') {
+            // a Titan does not die to a rope. it hurts, and it gets shoved off.
+            if (e.coilCd > 0) break;
+            e.coilCd = 0.9;
+            const ang = Math.atan2(ehd.y - p.pts[j].y, ehd.x - p.pts[j].x);
+            this._hitSnake(e, Math.max(60, e.maxHp * 0.10), ang, 520, p);
+            this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COIL BURN', life: 1.0, color: '#FFC24B' });
+          } else {
+            this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COILED!', life: 1.1, color: '#39FF9E' });
+            this._killSnake(e, p);
+          }
           break;
         }
       }
@@ -922,6 +1183,18 @@
       stamina: Math.max(0, Math.round(p.stamina)),
       maxStamina: Math.round(p.maxStamina),
       boosting: !!p.boosting,
+      level: Math.floor((Math.max(1, this.wave) - 1) / WAVES_PER_LEVEL) + 1,
+      waveInLevel: ((Math.max(1, this.wave) - 1) % WAVES_PER_LEVEL) + 1,
+      wavesPerLevel: WAVES_PER_LEVEL,
+      mag: p.mag,
+      magSize: WEAPONS[p.weapon].magSize,
+      reloading: !!p.reloading,
+      reloadFrac: p.reloading ? clamp(1 - p.reloadT / WEAPONS[p.weapon].reload, 0, 1) : 1,
+      spinFrac: WEAPONS[p.weapon].spinup ? clamp(p.spin / WEAPONS[p.weapon].spinup, 0, 1) : 1,
+      coins: this.coins,
+      fangs: this.fangs,
+      lastStands: this.lastStands,
+      revives: this.revives,
       abilityName: (ABILITIES[p.loadout] || {}).name || '',
       abilityReady: p.abilityCdT <= 0,
       abilityCdFrac: (ABILITIES[p.loadout] && ABILITIES[p.loadout].cd) ? clamp(1 - p.abilityCdT / ABILITIES[p.loadout].cd, 0, 1) : 1,
@@ -955,7 +1228,7 @@
   };
 
   return {
-    Game, WEAPONS, WEAPON_ORDER, LOADOUTS, BOSS_MISSIONS, ABILITIES,
+    Game, WEAPONS, WEAPON_ORDER, LOADOUTS, BOSS_MISSIONS, ABILITIES, PERSONALITIES, STORY, WAVES_PER_LEVEL,
     W, H, DT, SEG, HEAD_R, BODY_R, MAX_HP, MAX_STAMINA, BOOST_MULT, mulberry32
   };
 });

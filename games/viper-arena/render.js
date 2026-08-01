@@ -40,8 +40,14 @@
   Renderer.prototype.resize = function () {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     this.dpr = dpr;
-    this.vw = window.innerWidth;
-    this.vh = window.innerHeight;
+    // guard against a zero-size viewport (webview mid-rotation, hidden tab, early boot):
+    // a 0-wide canvas renders nothing at all, so fall back to a sane frame
+    this.vw = window.innerWidth || document.documentElement.clientWidth || 960;
+    this.vh = window.innerHeight || document.documentElement.clientHeight || 640;
+    // zoomed out so the player can see threats travelling in from the rim
+    this.zoom = this.vw < 700 ? 0.62 : 0.70;
+    this.wvw = this.vw / this.zoom;   // world units visible horizontally
+    this.wvh = this.vh / this.zoom;
     this.canvas.width = Math.floor(this.vw * dpr);
     this.canvas.height = Math.floor(this.vh * dpr);
     this.canvas.style.width = this.vw + 'px';
@@ -105,6 +111,8 @@
           this.burst(e.x, e.y, '#FF4D9D', 48, 520, 1.3);
           this.addShake(30);
           break;
+        case 'say': this.speak(e.x, e.y, e.line, e.color, e.boss); break;
+        case 'lastStand': this.addShake(22); this.flashDamage(); break;
         case 'hitmarker': this.hitmarker(); break;
         case 'death': this.addShake(26); break;
         default: break;
@@ -120,9 +128,9 @@
     // clamp the camera inside the arena so the view never shows dead space
     // outside the border (only clamp on an axis where the arena is bigger
     // than the viewport, otherwise centre it).
-    const hw = this.vw / 2, hh = this.vh / 2;
-    this.camX = this.vw >= W ? W / 2 : Math.max(hw, Math.min(W - hw, this.camX));
-    this.camY = this.vh >= H ? H / 2 : Math.max(hh, Math.min(H - hh, this.camY));
+    const hw = this.wvw / 2, hh = this.wvh / 2;
+    this.camX = this.wvw >= W ? W / 2 : Math.max(hw, Math.min(W - hw, this.camX));
+    this.camY = this.wvh >= H ? H / 2 : Math.max(hh, Math.min(H - hh, this.camY));
     if (this.shake > 0) {
       this.shake = Math.max(0, this.shake - dt * 42);
       this.shakeX = (Math.random() - 0.5) * this.shake * 2;
@@ -130,6 +138,12 @@
     } else { this.shakeX = 0; this.shakeY = 0; }
     if (this.vignette > 0) this.vignette = Math.max(0, this.vignette - dt * 1.8);
     if (this.hitmarkerT > 0) this.hitmarkerT -= dt;
+    if (this.speech && this.speech.length) {
+      for (let i = this.speech.length - 1; i >= 0; i--) {
+        this.speech[i].life -= dt;
+        if (this.speech[i].life <= 0) this.speech.splice(i, 1);
+      }
+    }
     const ps = this.particles;
     for (let i = ps.length - 1; i >= 0; i--) {
       const p = ps[i];
@@ -141,8 +155,8 @@
     }
   };
 
-  Renderer.prototype._originX = function () { return this.camX - this.vw / 2 + this.shakeX; };
-  Renderer.prototype._originY = function () { return this.camY - this.vh / 2 + this.shakeY; };
+  Renderer.prototype._originX = function () { return this.camX - this.wvw / 2 + this.shakeX; };
+  Renderer.prototype._originY = function () { return this.camY - this.wvh / 2 + this.shakeY; };
 
   // ---- main draw ----
   Renderer.prototype.draw = function (game) {
@@ -152,6 +166,7 @@
     ctx.fillStyle = '#04070a';
     ctx.fillRect(0, 0, this.vw, this.vh);
     ctx.save();
+    ctx.scale(this.zoom, this.zoom);
     ctx.translate(-ox, -oy);   // -> world space
     this._drawGrid(ctx, ox, oy);
     this._drawBorder(ctx);
@@ -161,8 +176,10 @@
     this._drawProjectiles(ctx, game.projectiles);
     for (const e of game.enemies) if (e.alive) this._drawSnake(ctx, e, false);
     if (game.player.alive) this._drawSnake(ctx, game.player, true);
+    this._drawAimLine(ctx, game);
     this._drawParticles(ctx);
     this._drawFloaters(ctx, game.floaters);
+    this._drawSpeech(ctx);
     ctx.restore();             // -> screen space
     this._drawVignette(ctx, game.player);
     this._drawHitmarker(ctx);
@@ -171,7 +188,7 @@
 
   Renderer.prototype._drawGrid = function (ctx, ox, oy) {
     const step = 80;
-    const x1 = ox + this.vw, y1 = oy + this.vh;
+    const x1 = ox + this.wvw, y1 = oy + this.wvh;
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'rgba(124,249,255,0.05)';
     ctx.beginPath();
@@ -336,21 +353,109 @@
     }
   };
 
+  // trajectory line so you always know exactly where the shot goes
+  Renderer.prototype._drawAimLine = function (ctx, game) {
+    const p = game.player;
+    if (!p.alive || game.gameOver) return;
+    const head = p.pts[0];
+    const a = p.aimAng;
+    const wd = (game.constructor && game.WEAPONS) ? null : null;
+    const len = 620;
+    const sx = head.x + Math.cos(a) * 26, sy = head.y + Math.sin(a) * 26;
+    const ex = head.x + Math.cos(a) * len, ey = head.y + Math.sin(a) * len;
+    ctx.save();
+    // main dashed trajectory
+    const grad = ctx.createLinearGradient(sx, sy, ex, ey);
+    grad.addColorStop(0, 'rgba(124,249,255,0.55)');
+    grad.addColorStop(0.55, 'rgba(124,249,255,0.18)');
+    grad.addColorStop(1, 'rgba(124,249,255,0)');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([14, 12]);
+    ctx.lineDashOffset = -(this.time * 90) % 26;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.setLineDash([]);
+    // muzzle tick so the origin is unambiguous
+    ctx.strokeStyle = 'rgba(124,249,255,0.75)';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(sx, sy);
+    ctx.lineTo(head.x + Math.cos(a) * 54, head.y + Math.sin(a) * 54); ctx.stroke();
+    // small reticle where the shot lands
+    ctx.strokeStyle = 'rgba(124,249,255,0.5)';
+    ctx.lineWidth = 2;
+    const rx = head.x + Math.cos(a) * (len * 0.72), ry = head.y + Math.sin(a) * (len * 0.72);
+    ctx.beginPath(); ctx.arc(rx, ry, 9, 0, TAU); ctx.stroke();
+    ctx.restore();
+  };
+
+  Renderer.prototype.speak = function (x, y, line, color, boss) {
+    this.speech = this.speech || [];
+    this.speech.push({ x: x, y: y, line: line, color: color || '#fff', boss: !!boss, life: boss ? 4.2 : 2.6, max: boss ? 4.2 : 2.6 });
+    if (this.speech.length > 6) this.speech.shift();
+  };
+
+  Renderer.prototype._drawSpeech = function (ctx) {
+    if (!this.speech || !this.speech.length) return;
+    ctx.save();
+    ctx.textAlign = 'center';
+    for (const s of this.speech) {
+      const k = Math.min(1, s.life / 0.4);
+      const rise = (1 - s.life / s.max) * 26;
+      ctx.globalAlpha = k;
+      ctx.font = (s.boss ? '700 20px' : '600 15px') + " 'Courier New', monospace";
+      const w = ctx.measureText(s.line).width + 24;
+      const bx = s.x - w / 2, by = s.y - 52 - rise;
+      ctx.fillStyle = 'rgba(4,7,10,0.86)';
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(bx, by, w, 30, 6); else ctx.rect(bx, by, w, 30);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = s.boss ? s.color : '#e8f6ff';
+      ctx.fillText(s.line, s.x, by + 20);
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  };
+
   Renderer.prototype._drawProjectiles = function (ctx, projs) {
     ctx.save();
     ctx.lineCap = 'round';
     for (const p of projs) {
       const sp = Math.hypot(p.vx, p.vy) || 1;
-      const tl = Math.min(26, sp * 0.02);
-      const bx = p.x - (p.vx / sp) * tl, by = p.y - (p.vy / sp) * tl;
-      ctx.shadowColor = p.color; ctx.shadowBlur = 12;
+      const ux = p.vx / sp, uy = p.vy / sp;
+      // every weapon's round reads differently in flight
+      const style = p.style || (sp > 1700 ? 'lance' : p.kind === 'flame' ? 'flame' : sp > 1150 ? 'dart' : 'slug');
+      const tl = style === 'lance' ? 74 : style === 'dart' ? 30 : style === 'flame' ? 10 : 18;
+      const bx = p.x - ux * tl, by = p.y - uy * tl;
+      ctx.shadowColor = p.color; ctx.shadowBlur = style === 'lance' ? 20 : 12;
       const grad = ctx.createLinearGradient(bx, by, p.x, p.y);
       grad.addColorStop(0, 'rgba(255,255,255,0)');
       grad.addColorStop(1, p.color);
-      ctx.strokeStyle = grad; ctx.lineWidth = p.r * 1.6;
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = style === 'lance' ? p.r * 1.1 : style === 'slug' ? p.r * 2.1 : p.r * 1.6;
       ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(p.x, p.y); ctx.stroke();
-      ctx.fillStyle = p.kind === 'flame' ? p.color : '#ffffff';
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r + (p.kind === 'flame' ? 3 : 0.5), 0, TAU); ctx.fill();
+      if (style === 'flame') {
+        // soft blob that swells as it travels
+        ctx.fillStyle = p.color; ctx.globalAlpha = 0.85;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r + 3, 0, TAU); ctx.fill();
+        ctx.globalAlpha = 1;
+      } else if (style === 'lance') {
+        // long thin sabot with a white-hot tip
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 0.85, 0, TAU); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(p.x - ux * 20, p.y - uy * 20); ctx.lineTo(p.x, p.y); ctx.stroke();
+      } else if (style === 'slug') {
+        // fat pellet with a dark core so shotgun spray reads as mass
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r + 1.4, 0, TAU); ctx.fill();
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 0.5, 0, TAU); ctx.fill();
+      } else {
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r + 0.5, 0, TAU); ctx.fill();
+      }
     }
     ctx.restore();
   };

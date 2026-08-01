@@ -32,7 +32,15 @@
     btnStart: $('btn-start'), leaderboard: $('leaderboard'),
     gameover: $('gameover'), deathCause: $('death-cause'), finalPlayer: $('final-player'),
     finalScore: $('final-score'), finalWave: $('final-wave'), finalKills: $('final-kills'),
-    rankResult: $('rank-result'), btnRestart: $('btn-restart')
+    rankResult: $('rank-result'), btnRestart: $('btn-restart'),
+    coins: $('hud-coins'), fangs: $('hud-fangs'), levelLbl: $('hud-level'),
+    reloadWrap: $('reload-wrap'), reloadFill: $('reload-fill'),
+    spinWrap: $('spin-wrap'), spinFill: $('spin-fill'),
+    storyTicker: $('story-ticker'), storyIntro: $('story-intro'),
+    storyLines: $('story-lines'), btnStoryGo: $('btn-story-go'),
+    levelRow: $('level-row'), revivePanel: $('revive-panel'),
+    btnRevive: $('btn-revive'), reviveCost: $('revive-cost'), reviveNote: $('revive-note'),
+    musMenu: $('mus-menu'), musCombat: $('mus-combat'), musBoss: $('mus-boss')
   };
 
   const renderer = new VRender.Renderer(canvas, minimap);
@@ -51,6 +59,63 @@
   let waveBannerT = 0;
   let bannerText = '';
   let runSaved = false;
+  let runBanked = false;
+  let storyT = 0;
+  const WALLET_KEY = 'swg_wallet_v1';
+  const REVIVE_COST = 3;
+  let wallet = loadWallet();
+
+  function loadWallet() {
+    let w = null;
+    try { w = JSON.parse(safeRead(WALLET_KEY) || 'null'); } catch (_) { w = null; }
+    return {
+      coins: Math.max(0, Math.round((w && w.coins) || 0)),
+      fangs: Math.max(0, Math.round((w && w.fangs) || 5)),   // 5 free fangs so revive is discoverable
+      maxLevel: Math.max(1, Math.round((w && w.maxLevel) || 1)),
+      level: Math.max(1, Math.round((w && w.level) || 1))
+    };
+  }
+  function saveWallet() { safeWrite(WALLET_KEY, JSON.stringify(wallet)); }
+
+  // ---- music ----
+  const music = {
+    cur: null,
+    play: function (which) {
+      const map = { menu: el.musMenu, combat: el.musCombat, boss: el.musBoss };
+      const next = map[which];
+      if (!next || this.cur === next) return;
+      [el.musMenu, el.musCombat, el.musBoss].forEach(function (a) {
+        if (a && a !== next) { try { a.pause(); a.currentTime = 0; } catch (_) {} }
+      });
+      this.cur = next;
+      const muted = (VAudio.getMode ? VAudio.getMode() : profile.sound) === 'mute';
+      next.volume = muted ? 0 : 0.32;
+      next.play().catch(function () {});
+    },
+    setMuted: function (m) { if (this.cur) this.cur.volume = m ? 0 : 0.32; }
+  };
+
+  function renderLevelRow() {
+    if (!el.levelRow) return;
+    el.levelRow.replaceChildren();
+    for (let i = 1; i <= Math.max(6, wallet.maxLevel + 1); i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'level-chip' + (i === wallet.level ? ' selected' : '') + (i > wallet.maxLevel ? ' locked' : '');
+      b.textContent = i;
+      b.title = 'Level ' + i + ' (waves ' + ((i - 1) * 5 + 1) + ' to ' + (i * 5) + ')';
+      if (i > wallet.maxLevel) { b.disabled = true; }
+      else b.addEventListener('click', function () { wallet.level = i; saveWallet(); renderLevelRow(); });
+      el.levelRow.appendChild(b);
+    }
+  }
+
+  function showStory(lines, then) {
+    el.storyLines.replaceChildren();
+    lines.forEach(function (t) { const p = document.createElement('p'); p.textContent = t; el.storyLines.appendChild(p); });
+    el.storyIntro.classList.remove('hidden');
+    el.btnStoryGo.onclick = function () { el.storyIntro.classList.add('hidden'); then(); };
+  }
 
   function safeRead(key) {
     try { return window.localStorage.getItem(key); } catch (_) { return null; }
@@ -174,6 +239,8 @@
     VAudio.setMode(profile.sound);
     updateSoundLabel();
     renderLeaderboard();
+    renderLevelRow();
+    music.setMuted(profile.sound === 'mute');
   }
 
   function updateSoundLabel() {
@@ -192,7 +259,11 @@
     if (code === 'Space') { firing = down; return true; }
     if (code === 'ShiftLeft' || code === 'ShiftRight') { boosting = down; return true; }
     if (code === 'KeyE') { if (down && game && started) game.useAbility(); return true; }
-    if (code === 'KeyR' && down && started) { restartDirect(); return true; }
+    if (code === 'KeyR' && down && started) {
+      if (game && game.gameOver) restartDirect();
+      else if (game) game.startReload(game.player);
+      return true;
+    }
     return false;
   }
 
@@ -248,6 +319,21 @@
   el.username.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') start();
   });
+  el.btnRevive.addEventListener('click', function () {
+    if (!game || wallet.fangs < REVIVE_COST) return;
+    wallet.fangs -= REVIVE_COST;
+    saveWallet();
+    if (game.revive()) {
+      el.gameover.classList.add('hidden');
+      el.revivePanel.classList.add('hidden');
+      running = true;
+      runSaved = false;
+      runBanked = false;
+      lastT = performance.now();
+      music.play('combat');
+    }
+  });
+
   el.btnRestart.addEventListener('click', function () {
     running = false;
     started = false;
@@ -337,7 +423,7 @@
   }
 
   function newGame() {
-    game = new VIPER.Game((Date.now() & 0xffffff) || 1337, { loadout: profile.loadout });
+    game = new VIPER.Game((Date.now() & 0xffffff) || 1337, { loadout: profile.loadout, level: wallet.level });
     renderer.camX = game.player.pts[0].x;
     renderer.camY = game.player.pts[0].y;
     renderer.particles.length = 0;
@@ -347,6 +433,7 @@
     bannerText = '';
     acc = 0;
     runSaved = false;
+    runBanked = false;
   }
 
   function start() {
@@ -362,13 +449,24 @@
     el.usernameError.textContent = '';
     VAudio.setMode(profile.sound);
     VAudio.unlock();
-    newGame();
-    started = true;
-    running = true;
-    el.title.classList.add('hidden');
-    el.gameover.classList.add('hidden');
-    el.hud.classList.remove('hidden');
-    lastT = performance.now();
+    const launch = function () {
+      newGame();
+      started = true;
+      running = true;
+      el.title.classList.add('hidden');
+      el.gameover.classList.add('hidden');
+      el.hud.classList.remove('hidden');
+      music.play('combat');
+      lastT = performance.now();
+    };
+    // chapter one gets the story cold open, later chapters jump straight in
+    if (wallet.level === 1 && !safeRead('swg_seen_intro')) {
+      safeWrite('swg_seen_intro', '1');
+      el.title.classList.add('hidden');
+      showStory(VIPER.STORY.intro, launch);
+    } else {
+      launch();
+    }
     return true;
   }
 
@@ -402,6 +500,23 @@
     el.rankResult.textContent = rank > 0 && rank <= 10
       ? ('LOCAL RANK #' + rank + ' · PERSONAL BEST ' + personalBest.toLocaleString())
       : ('RUN ARCHIVED · PERSONAL BEST ' + personalBest.toLocaleString());
+    if (!runBanked) {
+      wallet.coins += state.coins;
+      wallet.fangs += state.fangs;
+      runBanked = true;
+      saveWallet();
+    }
+    el.reviveCost.textContent = REVIVE_COST;
+    if (game.revives < 3) {
+      el.revivePanel.classList.remove('hidden');
+      const afford = wallet.fangs >= REVIVE_COST;
+      el.btnRevive.disabled = !afford;
+      el.reviveNote.textContent = afford
+        ? ('You have ' + wallet.fangs + ' fangs. Bosses drop them.')
+        : ('Not enough fangs. You have ' + wallet.fangs + '. Kill bosses to earn more.');
+    } else {
+      el.revivePanel.classList.add('hidden');
+    }
     el.gameover.classList.remove('hidden');
   }
 
@@ -414,6 +529,19 @@
         bannerText = event.title || ('WAVE ' + event.wave);
         waveBannerT = event.type === 'bossWave' ? 2.25 : 1.1;
         VAudio.play(event.type === 'bossWave' ? 'bossWave' : 'wave');
+        music.play(event.type === 'bossWave' ? 'boss' : 'combat');
+        const lv = Math.floor((event.wave - 1) / VIPER.WAVES_PER_LEVEL) + 1;
+        if (lv > wallet.maxLevel) { wallet.maxLevel = lv; saveWallet(); }
+      }
+      else if (event.type === 'story') {
+        el.storyTicker.textContent = event.line;
+        el.storyTicker.classList.remove('hidden');
+        storyT = 6;
+      }
+      else if (event.type === 'lastStand') {
+        el.storyTicker.textContent = 'LAST STAND. ' + (event.left > 0 ? 'One more in you.' : 'That was the last one.');
+        el.storyTicker.classList.remove('hidden');
+        storyT = 3;
       }
     }
     renderer.consume(events);
@@ -437,6 +565,18 @@
     const staminaPct = Math.max(0, Math.min(100, (state.stamina / (state.maxStamina || 100)) * 100));
     el.staminaFill.style.width = staminaPct + '%';
     el.staminaFill.classList.toggle('empty', staminaPct <= 0);
+    el.ammo.textContent = state.mag + ' / ' + (state.ammo === Infinity ? '\u221E' : state.ammo);
+    if (state.reloading) {
+      el.reloadWrap.classList.remove('hidden');
+      el.reloadFill.style.width = (state.reloadFrac * 100) + '%';
+    } else el.reloadWrap.classList.add('hidden');
+    if (state.spinFrac < 1) {
+      el.spinWrap.classList.remove('hidden');
+      el.spinFill.style.width = (state.spinFrac * 100) + '%';
+    } else el.spinWrap.classList.add('hidden');
+    el.coins.textContent = (wallet.coins + state.coins).toLocaleString();
+    el.fangs.textContent = (wallet.fangs + state.fangs).toLocaleString();
+    el.levelLbl.textContent = 'LEVEL ' + state.level + ' \u00B7 ' + state.waveInLevel + '/' + state.wavesPerLevel;
     el.loadout.textContent = LOADOUTS[state.loadout].name;
     el.loadout.style.setProperty('--loadout-color', LOADOUTS[state.loadout].color);
     el.abilityLabel.textContent = state.abilityName + (state.abilityReady ? ' [E]' : '');
@@ -481,6 +621,7 @@
     game.step();
     processEvents();
     if (waveBannerT > 0) waveBannerT -= DT;
+    if (storyT > 0) { storyT -= DT; if (storyT <= 0) el.storyTicker.classList.add('hidden'); }
   }
 
   function frame(now) {
@@ -571,6 +712,11 @@
       }
       return game ? game.getState() : null;
     },
+    wallet: function () { return Object.assign({}, wallet); },
+    setWallet: function (w) { Object.assign(wallet, w); saveWallet(); renderLevelRow(); return Object.assign({}, wallet); },
+    reload: function () { return game ? game.startReload(game.player) : false; },
+    revive: function () { return el.btnRevive.click(); },
+    music: function () { return music.cur ? music.cur.id : null; },
     game: function () { return game; },
     renderer: function () { return renderer; }
   };

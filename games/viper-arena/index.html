@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>VIPER ARENA</title>
+<title>SNAKES WITH GUNS</title>
 <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
   <canvas id="game"></canvas>
+  <audio id="mus-menu" src="./audio/menu.mp3" loop preload="auto"></audio>
+  <audio id="mus-combat" src="./audio/combat.mp3" loop preload="auto"></audio>
+  <audio id="mus-boss" src="./audio/boss.mp3" loop preload="auto"></audio>
 
   <!-- ===== HUD ===== -->
   <div id="hud" class="hidden">
@@ -16,10 +19,12 @@
         <div class="hud-label">SCORE</div>
         <div id="hud-score" class="hud-value">0</div>
         <div id="hud-player" class="hud-meta">ROOKIE</div>
+        <div class="purse"><span id="hud-coins" class="coin-chip">0</span><span id="hud-fangs" class="fang-chip">0</span></div>
       </div>
       <div class="hud-block hud-center">
         <div id="hud-mission" class="hud-label">WAVE</div>
         <div id="hud-wave" class="hud-value">1</div>
+        <div id="hud-level" class="hud-meta">LEVEL 1</div>
         <div id="hud-combo" class="hud-combo"></div>
       </div>
       <div class="hud-block hud-right">
@@ -30,6 +35,7 @@
     </div>
 
     <div id="wave-banner" class="wave-banner hidden"></div>
+    <div id="story-ticker" class="story-ticker hidden"></div>
     <div id="boss-meter" class="boss-meter hidden">
       <div class="boss-meter-line"><span id="boss-name">BOSS</span><span id="boss-hp-text">100%</span></div>
       <div class="boss-bar"><div id="boss-fill" class="boss-fill"></div></div>
@@ -48,7 +54,9 @@
       </div>
       <div class="hud-weapon">
         <div id="hud-weapon" class="weapon-name">PISTOL</div>
-        <div id="hud-ammo" class="weapon-ammo">&#8734;</div>
+        <div id="hud-ammo" class="weapon-ammo">5 / &#8734;</div>
+        <div id="reload-wrap" class="reload-wrap hidden"><i id="reload-fill"></i><span>RELOADING</span></div>
+        <div id="spin-wrap" class="spin-wrap hidden"><i id="spin-fill"></i><span>SPINNING UP</span></div>
       </div>
     </div>
 
@@ -69,13 +77,21 @@
     </div>
   </div>
 
+  <div id="story-intro" class="overlay hidden">
+    <div class="overlay-inner story-inner">
+      <p class="eyebrow">CHAPTER ONE</p>
+      <div id="story-lines" class="story-lines"></div>
+      <button id="btn-story-go" class="btn" type="button">CLIMB</button>
+    </div>
+  </div>
+
   <!-- ===== TITLE ===== -->
   <div id="title" class="overlay">
     <div class="title-shell">
       <section class="launch-panel">
         <p class="eyebrow">RAJ OS // GAME ROOM</p>
-        <h1 class="logo">VIPER<span class="logo-accent">ARENA</span></h1>
-        <p class="tagline">EAT. GROW. ANNIHILATE.</p>
+        <h1 class="logo">SNAKES<span class="logo-accent">WITH GUNS</span></h1>
+        <p class="tagline">SHE IS FIFTY WARDENS UP. START CLIMBING.</p>
 
         <label class="username-field" for="username">
           <span>PILOT NAME</span>
@@ -110,6 +126,10 @@
             <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="4"/><path d="M20 14v12M14 20h12"/></svg>
             <span><b>TITAN CORE</b><small>250 armour · shockwave</small></span>
           </button>
+          <button class="loadout-card" type="button" data-loadout="juggernaut" aria-pressed="false">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="14" width="19" height="12" rx="2"/><circle cx="30" cy="20" r="5"/><path d="M25 17h4M25 23h4M10 26v6M20 26v6"/></svg>
+            <span><b>JUGGERNAUT</b><small>Minigun · slow · siege mode</small></span>
+          </button>
         </fieldset>
 
         <div class="sound-picker" role="group" aria-label="Sound mode">
@@ -119,13 +139,20 @@
           <button type="button" data-sound-mode="mute" aria-pressed="false">MUTE</button>
         </div>
 
-        <button id="btn-start" class="btn" type="button">ENTER ARENA</button>
+        <fieldset class="level-picker">
+          <legend>CHAPTER</legend>
+          <div id="level-row" class="level-row"></div>
+          <p class="level-note">Five waves per level. Beat a level to unlock the next.</p>
+        </fieldset>
+
+        <button id="btn-start" class="btn btn-play" type="button">&#9654; PLAY</button>
         <div class="controls-hint">
           <span><b>WASD</b> steer</span>
           <span><b>MOUSE</b> aim</span>
           <span><b>CLICK / SPACE</b> fire</span>
           <span><b>SHIFT</b> boost</span>
           <span><b>E</b> ability</span>
+          <span><b>R</b> reload</span>
         </div>
 
         <details class="how-to-play">
@@ -171,6 +198,11 @@
       <h1 class="dead">TERMINATED</h1>
       <p id="death-cause" class="death-cause">KILLED BY THE ARENA</p>
       <p id="rank-result" class="rank-result">RUN ARCHIVED</p>
+      <div id="revive-panel" class="revive-panel hidden">
+        <p class="revive-copy">Get back up and keep the run alive.</p>
+        <button id="btn-revive" class="btn btn-revive" type="button">REVIVE &#8226; <b id="revive-cost">3</b> FANGS</button>
+        <p id="revive-note" class="revive-note"></p>
+      </div>
       <div class="final-stats">
         <div><span class="stat-num" id="final-score">0</span><span class="stat-lbl">SCORE</span></div>
         <div><span class="stat-num" id="final-wave">0</span><span class="stat-lbl">WAVE</span></div>
