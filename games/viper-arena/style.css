@@ -167,6 +167,60 @@ canvas#game {
 }
 .stamina-fill.empty { background: rgba(255, 255, 255, 0.12); box-shadow: none; }
 
+.chip-row { display: flex; align-items: center; gap: 8px; }
+
+.ability-chip {
+  position: relative;
+  overflow: hidden;
+  margin-top: 6px;
+  padding: 5px 10px;
+  border: 1px solid rgba(124, 249, 255, 0.35);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.55);
+}
+.ability-chip i {
+  position: absolute; inset: 0; width: 0%;
+  background: rgba(124, 249, 255, 0.16);
+  transition: width 0.15s linear;
+}
+.ability-chip span { position: relative; }
+.ability-chip.ready { color: #7cf9ff; border-color: rgba(124, 249, 255, 0.8); }
+.ability-chip.ready i { background: rgba(124, 249, 255, 0.22); }
+.ability-chip.active { color: #06231f; background: #39ff9e; border-color: #39ff9e; }
+
+.how-to-play {
+  margin-top: 18px;
+  border: 1px solid rgba(124, 249, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+}
+.how-to-play summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  font-size: 12px;
+  color: #7cf9ff;
+  list-style: none;
+}
+.how-to-play summary::before { content: '▸ '; }
+.how-to-play[open] summary::before { content: '▾ '; }
+.htp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+  padding: 4px 16px 16px;
+}
+.htp-grid b { display: block; font-size: 10px; letter-spacing: 2px; color: #ffc24b; margin-bottom: 3px; }
+.htp-grid p { margin: 0; font-size: 11px; line-height: 1.55; color: rgba(255, 255, 255, 0.75); }
+@media (max-width: 620px) {
+  .htp-grid { grid-template-columns: 1fr; }
+}
+
 .hud-weapon { text-align: right; }
 
 .weapon-name {
@@ -451,6 +505,24 @@ input:focus-visible {
   background: rgba(255, 77, 157, 0.08);
   border-color: #ff4d9d;
   box-shadow: inset 0 -3px 0 #ff4d9d;
+}
+
+.loadout-card:nth-of-type(4).selected {
+  background: rgba(255, 138, 43, 0.08);
+  border-color: #ff8a2b;
+  box-shadow: inset 0 -3px 0 #ff8a2b;
+}
+
+.loadout-card:nth-of-type(5).selected {
+  background: rgba(140, 255, 107, 0.08);
+  border-color: #8cff6b;
+  box-shadow: inset 0 -3px 0 #8cff6b;
+}
+
+.loadout-card:nth-of-type(6).selected {
+  background: rgba(194, 178, 233, 0.1);
+  border-color: #c2b2e9;
+  box-shadow: inset 0 -3px 0 #c2b2e9;
 }
 
 .loadout-card svg {
@@ -939,6 +1011,20 @@ input:focus-visible {
     color: #ffc24b !important;
     font-size: 11px;
     letter-spacing: 0.5px;
+  }
+
+  .touch-ability {
+    width: 56px;
+    height: 56px;
+    border-color: rgba(124, 249, 255, 0.8) !important;
+    color: #7cf9ff !important;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .touch-ability.pressed {
+    color: var(--bg) !important;
+    background: #7cf9ff !important;
   }
 
   .touch-boost.pressed {

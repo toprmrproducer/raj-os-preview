@@ -155,12 +155,14 @@ export class World {
       const h = s.head();
       const magnet = s.power && s.power.key === 'magnet';
       const eatR = SNAKE.EAT_RADIUS + s.radius() - SNAKE.SEG_RADIUS;
-      const magR = magnet ? s.power.radius : 0;
+      // every snake has a small ambient magnet; the Magnet power supercharges it
+      const magR = magnet ? s.power.radius : eatR + 85;
+      const pull = magnet ? 0.35 : 0.22;
       for (const f of this.food.values()) {
         const d = dist(h.x, h.y, f.x, f.y);
         if (d <= eatR) { s.grow(FOOD.GROW_PER_ORB * f.v); eaten.push(f.id); }
-        else if (magnet && d <= magR) {
-          const t = clamp(1 - d / magR, 0, 1) * 0.35;
+        else if (d <= magR) {
+          const t = clamp(1 - d / magR, 0, 1) * pull;
           f.x += (h.x - f.x) * t; f.y += (h.y - f.y) * t;
         }
       }

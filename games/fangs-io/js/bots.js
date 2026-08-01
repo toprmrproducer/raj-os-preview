@@ -60,6 +60,24 @@ export class BotController {
       return;
     }
 
+    // 1.5) bullet evasion — juke perpendicular to any shot on a collision course
+    for (const p of w.projectiles.values()) {
+      if (p.owner === s.id || p.kind === 'mine') continue;
+      const spd2 = p.vx * p.vx + p.vy * p.vy;
+      if (spd2 < 1) continue;
+      const rx = h.x - p.x, ry = h.y - p.y;
+      const t = (rx * p.vx + ry * p.vy) / spd2;
+      if (t < 0 || t > 0.7) continue;
+      const cx = p.x + p.vx * t - h.x, cy = p.y + p.vy * t - h.y;
+      if (Math.hypot(cx, cy) < s.radius() + 42) {
+        const bulletA = Math.atan2(p.vy, p.vx);
+        const side = Math.sin(Math.atan2(ry, rx)) * Math.cos(bulletA) - Math.cos(Math.atan2(ry, rx)) * Math.sin(bulletA) >= 0 ? 1 : -1;
+        targetA = bulletA + side * (Math.PI / 2);
+        s.input.a = targetA; s.input.b = 1; s.input.f = 0;   // boost through the dodge
+        return;
+      }
+    }
+
     // gather nearby snakes once
     let flee = null, fleeD = 520, enemy = null, enemyD = 640, bodyThreat = null;
     const look = h.x + Math.cos(s.angle) * 90;

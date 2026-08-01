@@ -52,8 +52,8 @@
       knock: 60, pierce: 0, color: '#7CF9FF', kind: 'bullet'
     },
     shotgun: {
-      name: 'SHOTGUN', ammo: 18, cd: 0.62, spread: 0.32, pellets: 9,
-      speed: 900, dmg: 16, life: 0.42, radius: 3, recoil: 260, shake: 12,
+      name: 'SHOTGUN', ammo: 20, cd: 0.62, spread: 0.44, pellets: 11,
+      speed: 940, dmg: 16, life: 0.72, radius: 3, recoil: 260, shake: 12,
       knock: 340, pierce: 0, color: '#FFC24B', kind: 'bullet'
     },
     smg: {
@@ -70,9 +70,14 @@
       name: 'FLAME', ammo: 200, cd: 0.03, spread: 0.5, pellets: 2,
       speed: 560, dmg: 4.5, life: 0.28, radius: 10, recoil: 30, shake: 1.6,
       knock: 12, pierce: 999, color: '#FF8A2B', kind: 'flame'
+    },
+    sniper: {
+      name: 'SNIPER', ammo: 8, cd: 1.15, spread: 0, pellets: 1,
+      speed: 1900, dmg: 90, life: 1.4, radius: 5, recoil: 300, shake: 14,
+      knock: 420, pierce: 1, color: '#F7E45E', kind: 'bullet'
     }
   };
-  const WEAPON_ORDER = ['pistol', 'shotgun', 'smg', 'railgun', 'flamethrower'];
+  const WEAPON_ORDER = ['pistol', 'shotgun', 'smg', 'railgun', 'flamethrower', 'sniper'];
 
   const LOADOUTS = {
     overdrive: {
@@ -86,26 +91,101 @@
     arc: {
       name: 'ARC COIL', color: '#FF4D9D', speedMult: 1,
       maxHp: 128, damageScale: 1.08, startWeapon: 'railgun', startAmmo: 3
+    },
+    inferno: {
+      name: 'INFERNO GLANDS', color: '#FF8A2B', speedMult: 1.04,
+      maxHp: 150, damageScale: 1, startWeapon: 'flamethrower', startAmmo: 160
+    },
+    phantom: {
+      name: 'PHANTOM SCALES', color: '#8CFF6B', speedMult: 1.22,
+      maxHp: 112, damageScale: 1.18, startWeapon: 'pistol', startAmmo: Infinity,
+      staminaMult: 1.5
+    },
+    titan: {
+      name: 'TITAN CORE', color: '#C2B2E9', speedMult: 0.86,
+      maxHp: 250, damageScale: 0.6, startWeapon: 'shotgun', startAmmo: 16,
+      staminaMult: 0.7
     }
   };
 
-  const BOSS_MISSIONS = {
-    3: {
-      name: 'VENOM TITAN', title: 'BREAK THE TITAN',
-      hp: 520, speed: 235, length: 30, weapon: 'shotgun',
-      color: '#FFC24B', escorts: 2, score: 1600, scale: 1.34
-    },
-    6: {
-      name: 'RAIL WYRM', title: 'CUT THE RAIL WYRM',
-      hp: 880, speed: 275, length: 36, weapon: 'railgun',
-      color: '#FF4D9D', escorts: 4, score: 2800, scale: 1.45
-    },
-    9: {
-      name: 'INFERNO HYDRA', title: 'SURVIVE THE HYDRA',
-      hp: 1320, speed: 305, length: 44, weapon: 'flamethrower',
-      color: '#FF8A2B', escorts: 6, score: 4600, scale: 1.58
-    }
+  // ---------- class abilities (press E / ability button) ----------
+  const ABILITIES = {
+    overdrive: { name: 'OVERCLOCK', desc: 'Fire rate x2 + speed for 3.5s', cd: 14, dur: 3.5 },
+    bulwark: { name: 'IRON SHELL', desc: 'Invincible for 2.8s', cd: 16, dur: 2.8 },
+    arc: { name: 'EMP BURST', desc: 'Zap + shove everything near you', cd: 12, dur: 0 },
+    inferno: { name: 'FIRE RING', desc: 'Ring of flame in every direction', cd: 11, dur: 0 },
+    phantom: { name: 'GHOST STEP', desc: 'Untouchable + faster for 2.2s', cd: 13, dur: 2.2 },
+    titan: { name: 'SHOCKWAVE', desc: 'Stun + hurl back every enemy', cd: 15, dur: 0 }
   };
+
+  // ---------- boss roster: a boss every 3rd wave, 50 unique bosses deep ----------
+  const BOSS_ROSTER = [
+    ['VENOM TITAN', 'BREAK THE TITAN', 'shotgun', '#FFC24B'],
+    ['RAIL WYRM', 'CUT THE RAIL WYRM', 'railgun', '#FF4D9D'],
+    ['INFERNO HYDRA', 'SURVIVE THE HYDRA', 'flamethrower', '#FF8A2B'],
+    ['NIGHT ADDER', 'OUTLAST THE ADDER', 'smg', '#8CFF6B'],
+    ['IRON BASILISK', 'SHATTER THE BASILISK', 'shotgun', '#C2B2E9'],
+    ['STORM SERPENT', 'GROUND THE STORM', 'railgun', '#7CF9FF'],
+    ['MAGMA MAMBA', 'COOL THE MAMBA', 'flamethrower', '#FF5A5A'],
+    ['GHOST COIL', 'CATCH THE GHOST', 'smg', '#E8E8E8'],
+    ['DOOM KRAIT', 'DENY THE DOOM', 'shotgun', '#FFD95A'],
+    ['PLASMA PYTHON', 'VENT THE PLASMA', 'railgun', '#FF4D6D'],
+    ['CINDER COBRA', 'SMOTHER THE CINDER', 'flamethrower', '#FF9A5A'],
+    ['NEON TAIPAN', 'DIM THE NEON', 'smg', '#39FF9E'],
+    ['GRAVE BOA', 'BURY THE BOA', 'shotgun', '#B9DFE8'],
+    ['VOLT VIPER', 'SHORT THE VOLT', 'railgun', '#F7E45E'],
+    ['ASH RATTLER', 'SCATTER THE ASH', 'flamethrower', '#D0CFCB'],
+    ['RAZOR SIDEWINDER', 'DULL THE RAZOR', 'smg', '#A9E1D2'],
+    ['OBSIDIAN FANG', 'CRACK THE OBSIDIAN', 'shotgun', '#9A8FB8'],
+    ['PULSE LEVIATHAN', 'STILL THE PULSE', 'railgun', '#7CF9FF'],
+    ['FURNACE WYRM', 'QUENCH THE FURNACE', 'flamethrower', '#FF8A2B'],
+    ['SPECTER ASP', 'EXPOSE THE SPECTER', 'smg', '#CFE8B9'],
+    ['TITANIUM KRAIT', 'BEND THE TITANIUM', 'shotgun', '#C9D6DF'],
+    ['ARC BASILISK', 'BREAK THE ARC', 'railgun', '#FF4D9D'],
+    ['PYRE PYTHON', 'DROWN THE PYRE', 'flamethrower', '#FF6B4A'],
+    ['STATIC MAMBA', 'MUTE THE STATIC', 'smg', '#B5F44A'],
+    ['BULWARK BOA', 'PIERCE THE BULWARK', 'shotgun', '#FFC24B'],
+    ['ION SERPENT', 'DISCHARGE THE ION', 'railgun', '#8FD3FF'],
+    ['EMBER ADDER', 'STAMP THE EMBER', 'flamethrower', '#FF9E58'],
+    ['PHANTOM RATTLER', 'PIN THE PHANTOM', 'smg', '#A0FFB7'],
+    ['GRANITE COBRA', 'SPLIT THE GRANITE', 'shotgun', '#BFB8AE'],
+    ['TESLA TAIPAN', 'UNPLUG THE TESLA', 'railgun', '#7EE3FF'],
+    ['BLAZE SIDEWINDER', 'STARVE THE BLAZE', 'flamethrower', '#FF7B39'],
+    ['VAPOR FANG', 'CONDENSE THE VAPOR', 'smg', '#D8F7FF'],
+    ['ANVIL VIPER', 'LIFT THE ANVIL', 'shotgun', '#A8A29E'],
+    ['SURGE WYRM', 'DAM THE SURGE', 'railgun', '#66E0FF'],
+    ['SCORCH HYDRA', 'CHILL THE SCORCH', 'flamethrower', '#FF5F1F'],
+    ['WISP KRAIT', 'SNUFF THE WISP', 'smg', '#E5FFB8'],
+    ['FORTRESS BOA', 'STORM THE FORTRESS', 'shotgun', '#D4C7ED'],
+    ['DYNAMO ASP', 'STALL THE DYNAMO', 'railgun', '#5EEAD4'],
+    ['CALDERA COBRA', 'CAP THE CALDERA', 'flamethrower', '#FF4500'],
+    ['MIRAGE MAMBA', 'REVEAL THE MIRAGE', 'smg', '#B8E1FF'],
+    ['JUGGERNAUT PYTHON', 'HALT THE JUGGERNAUT', 'shotgun', '#8B8589'],
+    ['CAPACITOR KRAIT', 'DRAIN THE CAPACITOR', 'railgun', '#9BF6FF'],
+    ['SOLSTICE SERPENT', 'ECLIPSE THE SOLSTICE', 'flamethrower', '#FFB627'],
+    ['SHADOW TAIPAN', 'LIGHT THE SHADOW', 'smg', '#6B7280'],
+    ['RAMPART RATTLER', 'BREACH THE RAMPART', 'shotgun', '#E0C9A6'],
+    ['REACTOR WYRM', 'SCRAM THE REACTOR', 'railgun', '#4ADE80'],
+    ['PYROCLAST BOA', 'SETTLE THE PYROCLAST', 'flamethrower', '#F97316'],
+    ['WRAITH SIDEWINDER', 'BANISH THE WRAITH', 'smg', '#CBD5E1'],
+    ['MONOLITH ADDER', 'TOPPLE THE MONOLITH', 'shotgun', '#94A3B8'],
+    ['OMEGA LEVIATHAN', 'END THE OMEGA', 'railgun', '#FF2BD6']
+  ];
+
+  // waves 3, 6, 9, ... 150 — one boss per entry, stats scale with depth
+  const BOSS_MISSIONS = {};
+  BOSS_ROSTER.forEach(function (row, i) {
+    const wave = (i + 1) * 3;
+    BOSS_MISSIONS[wave] = {
+      name: row[0], title: row[1], weapon: row[2], color: row[3],
+      hp: Math.round(520 + i * 190 + i * i * 6),
+      speed: Math.min(420, 235 + i * 5),
+      length: Math.min(80, 30 + i * 2),
+      escorts: Math.min(10, 2 + Math.floor(i * 0.6)),
+      score: 1600 + i * 800,
+      scale: Math.min(2.4, 1.34 + i * 0.035)
+    };
+  });
 
   const ENEMY_NAMES = ['VENOM', 'KRAIT', 'MAMBA', 'COBRA', 'ASP', 'RATTLER',
     'BOA', 'PYTHON', 'ADDER', 'TAIPAN', 'SIDEWINDER', 'FANG'];
@@ -121,7 +201,7 @@
       weapon: 'pistol', ammo: Infinity, cd: 0, charging: 0, wantFire: false,
       recoil: 0, aimAng: heading, name: isPlayer ? 'YOU' : 'ENEMY',
       hitFlash: 0, color: isPlayer ? '#39FF9E' : '#FF5A5A', damageDir: 0, damageFlash: 0,
-      brain: { reactT: 0, strafe: 1 }
+      brain: { reactT: 0, strafe: 1, dodgeT: 0, dodgeAng: 0 }
     };
   }
 
@@ -157,7 +237,7 @@
     this.kills = 0;
     this.pid = 1;
     this.applyLoadout(this.options.loadout || 'overdrive');
-    this._spawnPellets(10);
+    this._spawnPellets(18);
     return this;
   };
 
@@ -173,10 +253,65 @@
     p.damageScale = loadout.damageScale;
     p.weapon = loadout.startWeapon;
     p.ammo = loadout.startAmmo;
-    p.maxStamina = MAX_STAMINA;
-    p.stamina = MAX_STAMINA;
+    p.maxStamina = Math.round(MAX_STAMINA * (loadout.staminaMult || 1));
+    p.stamina = p.maxStamina;
     p.wantBoost = false;
     p.boosting = false;
+    p.abilityCdT = 0;        // seconds until the ability is ready again
+    p.abilityActiveT = 0;    // seconds the ability effect has left
+    p.invincibleT = 0;
+  };
+
+  Game.prototype.useAbility = function () {
+    const p = this.player;
+    if (this.gameOver || !p.alive) return false;
+    const ab = ABILITIES[p.loadout];
+    if (!ab || p.abilityCdT > 0) return false;
+    p.abilityCdT = ab.cd;
+    const head = p.pts[0];
+    if (ab.dur > 0) p.abilityActiveT = ab.dur;
+    if (p.loadout === 'bulwark' || p.loadout === 'phantom') p.invincibleT = ab.dur;
+    if (p.loadout === 'arc') {
+      for (const e of this.enemies) {
+        if (!e.alive) continue;
+        const eh = e.pts[0];
+        const d = Math.hypot(eh.x - head.x, eh.y - head.y);
+        if (d < 430) {
+          const ang = Math.atan2(eh.y - head.y, eh.x - head.x);
+          this._hitSnake(e, 85, ang, 620, p);
+          e.brain.reactT = Math.max(e.brain.reactT, 0.9);
+        }
+      }
+      this.emit({ type: 'shake', amt: 14 });
+    }
+    if (p.loadout === 'inferno') {
+      for (let i = 0; i < 26; i++) {
+        const ang = (i / 26) * TAU;
+        this.projectiles.push({
+          x: head.x + Math.cos(ang) * 20, y: head.y + Math.sin(ang) * 20,
+          vx: Math.cos(ang) * 620, vy: Math.sin(ang) * 620,
+          life: 0.55, r: 10, dmg: 14, knock: 60, pierce: 2,
+          color: '#FF8A2B', owner: 'p', kind: 'flame'
+        });
+      }
+      this.emit({ type: 'shake', amt: 8 });
+    }
+    if (p.loadout === 'titan') {
+      for (const e of this.enemies) {
+        if (!e.alive) continue;
+        const eh = e.pts[0];
+        const d = Math.hypot(eh.x - head.x, eh.y - head.y);
+        if (d < 480) {
+          const ang = Math.atan2(eh.y - head.y, eh.x - head.x);
+          this._hitSnake(e, 40, ang, 980, p);
+          e.brain.reactT = Math.max(e.brain.reactT, 1.4);   // stunned
+        }
+      }
+      this.emit({ type: 'shake', amt: 20 });
+    }
+    this.emit({ type: 'ability', name: ab.name, x: head.x, y: head.y, loadout: p.loadout });
+    this.emit({ type: 'sfx', name: 'pickup' });
+    return true;
   };
 
   Game.prototype.setBoost = function (down) { this.player.wantBoost = !!down; };
@@ -205,19 +340,52 @@
     // keep away from player spawn
     const pl = this.player.pts[0];
     if (dist2(p.x, p.y, pl.x, pl.y) < 420 * 420) { p.x = clamp(p.x + 520, 120, W - 120); }
-    const s = makeSnake(p.x, p.y, this.rng() * TAU, options.length || (10 + ((this.rng() * 6) | 0)), false);
-    s.name = options.name || (ENEMY_NAMES[(this.rng() * ENEMY_NAMES.length) | 0] + '-' + (this.pid++));
-    s.maxHp = s.hp = hp || (55 + this.wave * 8);
-    s.speed = options.speed || (195 + Math.min(175, this.wave * 10) + this.rng() * 35);
+    // pick an archetype for regular enemies: mixed sizes and behaviours
+    let arch = options.archetype || 'grunt';
+    if (!options.boss && !options.archetype) {
+      const roll = this.rng();
+      const reaperAlive = this.enemies.some(e => e.alive && e.archetype === 'reaper');
+      if (this.wave >= 5 && !reaperAlive && roll < 0.10) arch = 'reaper';
+      else if (roll < 0.28) arch = 'runner';
+      else if (roll < 0.46) arch = 'brute';
+      else if (this.wave >= 4 && roll < 0.58) arch = 'sniper';
+      else if (this.wave >= 3 && roll < 0.72) arch = 'rusher';
+    }
+    const baseLen = options.length ||
+      (arch === 'reaper' ? 55 + ((this.rng() * 14) | 0) :
+       arch === 'brute' ? 22 + ((this.rng() * 10) | 0) :
+       arch === 'runner' ? 9 + ((this.rng() * 4) | 0) :
+       arch === 'sniper' ? 8 + ((this.rng() * 3) | 0) :
+       arch === 'rusher' ? 11 + ((this.rng() * 5) | 0) :
+       10 + ((this.rng() * 12) | 0));
+    const s = makeSnake(p.x, p.y, this.rng() * TAU, baseLen, false);
+    s.archetype = arch;
+    s.name = options.name || (
+      arch === 'reaper' ? 'THE REAPER' :
+      (ENEMY_NAMES[(this.rng() * ENEMY_NAMES.length) | 0] + '-' + (this.pid++)));
+    let baseHp = hp || (55 + this.wave * 8);
+    let baseSpd = options.speed || (195 + Math.min(175, this.wave * 10) + this.rng() * 35);
+    if (!options.boss && !hp) {
+      if (arch === 'runner') { baseHp *= 0.7; baseSpd += 85; s.color = '#5AA7FF'; s.scale = 0.88; }
+      if (arch === 'brute') { baseHp *= 2.1; baseSpd -= 45; s.color = '#B14AFF'; s.scale = 1.3; }
+      if (arch === 'reaper') { baseHp *= 1.9; baseSpd += 25; s.color = '#FF2BD6'; s.scale = 1.15; }
+      if (arch === 'sniper') { baseHp *= 0.45; baseSpd -= 30; s.color = '#F7E45E'; s.scale = 0.92; }
+      if (arch === 'rusher') { baseHp *= 0.8; baseSpd += 110; s.color = '#FF5F1F'; s.scale = 0.95; }
+    }
+    s.maxHp = s.hp = baseHp;
+    s.speed = baseSpd;
     s.boss = !!options.boss;
     s.bossScore = options.score || 0;
-    s.scale = options.scale || 1;
+    if (options.scale) s.scale = options.scale; else if (!s.scale) s.scale = 1;
     if (options.color) s.color = options.color;
     // arm enemies from wave 2+
     if (options.weapon) {
       s.weapon = options.weapon;
       const wd = WEAPONS[s.weapon];
       s.ammo = wd.ammo === Infinity ? Infinity : wd.ammo * 12;
+    } else if (arch === 'sniper') {
+      s.weapon = 'sniper';
+      s.ammo = Infinity;
     } else if (this.wave >= 2) {
       const pool = ['pistol', 'smg', 'shotgun'];
       s.weapon = pool[(this.rng() * (Math.min(pool.length, 1 + (this.wave / 2 | 0)))) | 0] || 'pistol';
@@ -352,7 +520,14 @@
   // ---------- damage ----------
   Game.prototype._hitSnake = function (s, dmg, ang, knock, owner) {
     if (!s.alive) return;
-    if (s.isPlayer) dmg *= s.damageScale || 1;
+    if (s.isPlayer) {
+      if (s.invincibleT > 0) {
+        this.emit({ type: 'spark', x: s.pts[0].x, y: s.pts[0].y, color: '#7CF9FF' });
+        return;   // ability shield: no damage, no knockback
+      }
+      dmg *= s.damageScale || 1;
+      if (this.wave <= 3) dmg *= 0.78;   // early-wave mercy so round two doesn't annihilate new players
+    }
     s.hp -= dmg;
     s.hitFlash = 0.14;
     // knockback nudges head
@@ -390,10 +565,18 @@
       this.waveKills++;
       this.combo = Math.min(8, this.combo + 0.5);
       this.comboT = 3.2;
-      // drop a pellet or crate
+      // drop orbs proportional to how big the snake got
       const hp0 = s.pts[0];
-      this.pellets.push({ x: hp0.x, y: hp0.y, r: 7, ph: 0 });
-      if (this.rng() < 0.22) this.crates.push({ x: hp0.x, y: hp0.y, type: WEAPON_ORDER[1 + ((this.rng() * 4) | 0)], r: 18, ph: 0 });
+      const drops = clamp(Math.round(s.pts.length / 5), 1, 14);
+      for (let i = 0; i < drops; i++) {
+        const a = this.rng() * TAU, rr = this.rng() * Math.min(140, 20 + s.pts.length * 2);
+        this.pellets.push({
+          x: clamp(hp0.x + Math.cos(a) * rr, 40, W - 40),
+          y: clamp(hp0.y + Math.sin(a) * rr, 40, H - 40),
+          r: 7, ph: this.rng() * TAU
+        });
+      }
+      if (this.rng() < 0.22) this.crates.push({ x: hp0.x, y: hp0.y, type: WEAPON_ORDER[1 + ((this.rng() * (WEAPON_ORDER.length - 1)) | 0)], r: 18, ph: 0 });
       this.floaters.push({ x: hp0.x, y: hp0.y, txt: '+' + gain, life: 1.0, color: '#FFE45E' });
       this.emit({ type: 'kill', x: hp0.x, y: hp0.y, name: s.name });
       if (s.boss) this.emit({ type: 'bossKill', x: hp0.x, y: hp0.y, name: s.name });
@@ -403,6 +586,26 @@
   };
 
   // ---------- enemy AI ----------
+  // returns the most dangerous incoming player bullet, or null
+  Game.prototype._incomingThreat = function (s) {
+    const eh = s.pts[0];
+    let worst = null, worstT = Infinity;
+    for (const pr of this.projectiles) {
+      if (pr.owner !== 'p' || pr.life <= 0) continue;
+      const rx = eh.x - pr.x, ry = eh.y - pr.y;
+      const spd2 = pr.vx * pr.vx + pr.vy * pr.vy;
+      if (spd2 < 1) continue;
+      // time until the bullet is closest to the enemy head
+      const t = (rx * pr.vx + ry * pr.vy) / spd2;
+      if (t < 0 || t > 0.65) continue;                 // already passed, or too far out to care
+      const cx = pr.x + pr.vx * t - eh.x;
+      const cy = pr.y + pr.vy * t - eh.y;
+      const miss = Math.hypot(cx, cy);
+      if (miss < HEAD_R + pr.r + 34 && t < worstT) { worstT = t; worst = pr; }
+    }
+    return worst;
+  };
+
   Game.prototype._thinkEnemy = function (s) {
     const ph = this.player.pts[0];
     const eh = s.pts[0];
@@ -414,12 +617,45 @@
     const tx = ph.x + pv.x * lead, ty = ph.y + pv.y * lead;
     const toAng = Math.atan2(ty - eh.y, tx - eh.x);
 
-    // desired: chase but keep a fighting distance + strafe
+    // bullet evasion: if a player shot is on a collision course, juke perpendicular to it
+    if (s.brain.dodgeT > 0) s.brain.dodgeT -= DT;
+    const threat = this._incomingThreat(s);
+    if (threat && s.brain.dodgeT <= 0) {
+      const bulletAng = Math.atan2(threat.vy, threat.vx);
+      // pick the perpendicular that also moves away from the bullet's line
+      const side = Math.sin(Math.atan2(eh.y - threat.y, eh.x - threat.x) - bulletAng) >= 0 ? 1 : -1;
+      s.brain.dodgeAng = bulletAng + side * (Math.PI / 2);
+      // bosses read shots faster and commit to cleaner dodges
+      s.brain.dodgeT = s.boss ? 0.34 : 0.26;
+      s.brain.strafe = side; // carry the juke into the orbit direction
+    }
+
+    // the rusher only wants one thing: your head. full-speed ramming runs.
+    if (s.archetype === 'rusher') {
+      s.brain.boostPhase = (s.brain.boostPhase || 0) + DT;
+      s.boosting = (s.brain.boostPhase % 1.8) < 1.0;
+    }
+
+    // the reaper hunts differently: boost in close and coil around the player
+    if (s.archetype === 'reaper') {
+      s.brain.boostPhase = (s.brain.boostPhase || 0) + DT;
+      s.boosting = d > 260 && (s.brain.boostPhase % 2.2) < 1.4;   // duty-cycle boost, always closing
+    }
+
+    // desired: chase, then circle the player at fighting distance
     let desired;
-    const ideal = 340;
-    if (d > ideal + 120) desired = toAng;                     // close in
+    const ideal = s.archetype === 'reaper' ? 165 :
+                  s.archetype === 'rusher' ? 0 :        // rusher: no standoff, ram the head
+                  s.archetype === 'sniper' ? 720 :      // sniper: stay far away
+                  (s.boss ? 300 : 340);
+    if (s.brain.dodgeT > 0) desired = s.brain.dodgeAng;       // mid-dodge: commit
+    else if (d > ideal + 120) desired = toAng;                // close in on the player
     else if (d < ideal - 120) desired = toAng + Math.PI;      // back off
-    else desired = toAng + s.brain.strafe * (Math.PI / 2) * 0.8; // orbit
+    else desired = toAng + s.brain.strafe * (Math.PI / 2) * (s.archetype === 'reaper' ? 1.05 : s.boss ? 0.92 : 0.8); // circle
+    // flip orbit direction now and then so the circle isn't predictable
+    if (s.brain.flipT === undefined) s.brain.flipT = 2 + this.rng() * 3;
+    s.brain.flipT -= DT;
+    if (s.brain.flipT <= 0) { s.brain.strafe *= -1; s.brain.flipT = 2 + this.rng() * 3; }
     // wall avoidance
     const m = 140;
     if (eh.x < m) desired = angLerp(desired, 0, 0.6);
@@ -433,11 +669,14 @@
     if (s.weapon !== 'pistol' || this.wave >= 2) {
       s.brain.reactT -= DT;
       const facing = Math.abs(((toAng - s.heading + Math.PI) % TAU) - Math.PI) < 0.5;
-      if (d < 900 && facing && s.brain.reactT <= 0) {
+      const range = s.archetype === 'sniper' ? 1600 : 900;
+      const wobble = s.archetype === 'sniper' ? 0.34 : 0.12;   // snipers hit hard but wander wide
+      if (s.archetype !== 'rusher' && d < range && facing && s.brain.reactT <= 0) {
         const enemyWeapon = WEAPONS[s.weapon];
         if (enemyWeapon.charge) s.charging = enemyWeapon.charge;
-        this._doFire(s, toAng + (this.rng() - 0.5) * 0.12);
-        s.brain.reactT = (s.boss ? 0.08 : 0.15) + this.rng() * (s.boss ? 0.12 : 0.25);
+        this._doFire(s, toAng + (this.rng() - 0.5) * wobble);
+        s.brain.reactT = s.archetype === 'sniper' ? (1.3 + this.rng() * 0.9) :
+          ((s.boss ? 0.08 : 0.15) + this.rng() * (s.boss ? 0.12 : 0.25));
       }
     }
   };
@@ -451,7 +690,8 @@
   Game.prototype._moveSnake = function (s) {
     s.heading = angLerp(s.heading, s.targetHeading, TURN_RATE * DT);
     const head = s.pts[0];
-    const spd = (s.isPlayer && s.boosting) ? s.speed * BOOST_MULT : s.speed;
+    let spd = s.boosting ? s.speed * BOOST_MULT : s.speed;
+    if (s.isPlayer && s.speedBonus) spd *= s.speedBonus;
     const nx = clamp(head.x + Math.cos(s.heading) * spd * DT, HEAD_R, W - HEAD_R);
     const ny = clamp(head.y + Math.sin(s.heading) * spd * DT, HEAD_R, H - HEAD_R);
     // prepend new head, keep spacing follow
@@ -498,6 +738,15 @@
     if (p.hitFlash > 0) p.hitFlash -= dt;
     if (p.damageFlash > 0) p.damageFlash -= dt;
 
+    // ability timers
+    if (p.abilityCdT > 0) p.abilityCdT = Math.max(0, p.abilityCdT - dt);
+    if (p.abilityActiveT > 0) p.abilityActiveT = Math.max(0, p.abilityActiveT - dt);
+    if (p.invincibleT > 0) p.invincibleT = Math.max(0, p.invincibleT - dt);
+    const overclocked = p.loadout === 'overdrive' && p.abilityActiveT > 0;
+    const ghosting = p.loadout === 'phantom' && p.abilityActiveT > 0;
+    p.speedBonus = (overclocked ? 1.15 : 1) * (ghosting ? 1.5 : 1);
+    if (overclocked && p.cd > 0) p.cd -= dt;   // second cd tick = double fire rate
+
     // boost / stamina
     p.boosting = !!(p.wantBoost && p.stamina > 0);
     if (p.boosting) p.stamina = Math.max(0, p.stamina - BOOST_DRAIN * dt);
@@ -538,7 +787,7 @@
     this._bodyCollisions();
 
     // keep pellets stocked
-    if (this.pellets.length < 8) this._spawnPellets(1);
+    if (this.pellets.length < 15) this._spawnPellets(2);
   };
 
   Game.prototype._projectileHits = function () {
@@ -592,7 +841,7 @@
         // eating grows the pools themselves (capped), not just tops them up
         pl.maxHp = Math.min(pl.baseMaxHp + 60, pl.maxHp + 0.6);
         pl.maxStamina = Math.min(MAX_STAMINA + 100, pl.maxStamina + 1.2);
-        pl.hp = Math.min(pl.maxHp, pl.hp + 5);
+        pl.hp = Math.min(pl.maxHp, pl.hp + 10);
         pl.stamina = Math.min(pl.maxStamina, pl.stamina + 6);
         this.emit({ type: 'pop', x: pel.x, y: pel.y });
         this.emit({ type: 'sfx', name: 'pellet' });
@@ -624,15 +873,28 @@
     // enemy bodies
     for (const e of this.enemies) {
       if (!e.alive) continue;
+      // coil kill: an enemy head that runs into YOUR tail dies — encircling is a real weapon
+      const ehd = e.pts[0];
+      for (let j = 4; j < p.pts.length; j++) {
+        const rr2 = BODY_R + HEAD_R - 2;
+        if (dist2(ehd.x, ehd.y, p.pts[j].x, p.pts[j].y) < rr2 * rr2) {
+          this.deathCause = '';
+          this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COILED!', life: 1.1, color: '#39FF9E' });
+          this._killSnake(e, p);
+          break;
+        }
+      }
+      if (!e.alive) continue;
       for (let i = 0; i < e.pts.length; i++) {
         const rr = (i === 0 ? HEAD_R : BODY_R) + HEAD_R - 2;
         if (dist2(head.x, head.y, e.pts[i].x, e.pts[i].y) < rr * rr) {
-          // head-on head = both take damage; body = player dies (classic)
           if (i === 0) {
-            this._hitSnake(e, 40, e.heading, 120, p);
-            this.deathCause = e.name;
-            this._killSnake(p, e);
+            // head-on head: a heavy trade with knockback, not an instant death
+            this._hitSnake(e, 44, e.heading, 420, p);
+            this._hitSnake(p, 30, p.heading + Math.PI, 420, e);
+            if (!p.alive) this.deathCause = e.name;
           } else {
+            // your head into their body: you die (classic snake rules)
             this.deathCause = e.name;
             this._killSnake(p, e);
           }
@@ -660,6 +922,11 @@
       stamina: Math.max(0, Math.round(p.stamina)),
       maxStamina: Math.round(p.maxStamina),
       boosting: !!p.boosting,
+      abilityName: (ABILITIES[p.loadout] || {}).name || '',
+      abilityReady: p.abilityCdT <= 0,
+      abilityCdFrac: (ABILITIES[p.loadout] && ABILITIES[p.loadout].cd) ? clamp(1 - p.abilityCdT / ABILITIES[p.loadout].cd, 0, 1) : 1,
+      abilityActive: p.abilityActiveT > 0,
+      invincible: p.invincibleT > 0,
       ammo: p.ammo === Infinity ? Infinity : p.ammo,
       weapon: p.weapon,
       headX: Math.round(p.pts[0].x),
@@ -688,7 +955,7 @@
   };
 
   return {
-    Game, WEAPONS, WEAPON_ORDER, LOADOUTS, BOSS_MISSIONS,
+    Game, WEAPONS, WEAPON_ORDER, LOADOUTS, BOSS_MISSIONS, ABILITIES,
     W, H, DT, SEG, HEAD_R, BODY_R, MAX_HP, MAX_STAMINA, BOOST_MULT, mulberry32
   };
 });

@@ -25,6 +25,7 @@
     enemies: $('hud-enemies'), progress: $('hud-progress'), mission: $('hud-mission'),
     player: $('hud-player'), banner: $('wave-banner'), healthFill: $('health-fill'),
     healthNum: $('hud-health-num'), staminaFill: $('stamina-fill'), weapon: $('hud-weapon'), ammo: $('hud-ammo'),
+    abilityChip: $('hud-ability'), abilityFill: $('ability-fill'), abilityLabel: $('ability-label'),
     loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'),
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
     title: $('title'), username: $('username'), usernameError: $('username-error'),
@@ -190,6 +191,7 @@
     if (dir) { keys[dir] = down; return true; }
     if (code === 'Space') { firing = down; return true; }
     if (code === 'ShiftLeft' || code === 'ShiftRight') { boosting = down; return true; }
+    if (code === 'KeyE') { if (down && game && started) game.useAbility(); return true; }
     if (code === 'KeyR' && down && started) { restartDirect(); return true; }
     return false;
   }
@@ -291,6 +293,13 @@
     firing = true;
     touchFire.classList.add('pressed');
     if (touchFire.setPointerCapture && event.pointerId !== undefined) touchFire.setPointerCapture(event.pointerId);
+  });
+
+  const touchAbility = document.querySelector('[data-touch-ability]');
+  touchAbility.addEventListener('pointerdown', function (event) {
+    event.preventDefault();
+    touchMode = true;
+    if (game && started) game.useAbility();
   });
 
   const touchBoost = document.querySelector('[data-touch-boost]');
@@ -430,6 +439,10 @@
     el.staminaFill.classList.toggle('empty', staminaPct <= 0);
     el.loadout.textContent = LOADOUTS[state.loadout].name;
     el.loadout.style.setProperty('--loadout-color', LOADOUTS[state.loadout].color);
+    el.abilityLabel.textContent = state.abilityName + (state.abilityReady ? ' [E]' : '');
+    el.abilityFill.style.width = (state.abilityCdFrac * 100) + '%';
+    el.abilityChip.classList.toggle('ready', state.abilityReady);
+    el.abilityChip.classList.toggle('active', state.abilityActive || state.invincible);
 
     const weapon = WEAPONS[state.weapon];
     el.weapon.textContent = weapon ? weapon.name : state.weapon.toUpperCase();

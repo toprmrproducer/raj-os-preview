@@ -41,7 +41,10 @@
         <div class="health-bar"><div id="health-fill" class="health-fill"></div></div>
         <div id="hud-health-num" class="health-num">100</div>
         <div class="stamina-bar"><div id="stamina-fill" class="stamina-fill"></div></div>
-        <div id="hud-loadout" class="loadout-chip">OVERDRIVE FINS</div>
+        <div class="chip-row">
+          <div id="hud-loadout" class="loadout-chip">OVERDRIVE FINS</div>
+          <div id="hud-ability" class="ability-chip"><i id="ability-fill"></i><span id="ability-label">ABILITY [E]</span></div>
+        </div>
       </div>
       <div class="hud-weapon">
         <div id="hud-weapon" class="weapon-name">PISTOL</div>
@@ -59,6 +62,7 @@
         <button type="button" data-touch-key="right" aria-label="Move right">→</button>
       </div>
       <div class="touch-actions">
+        <button type="button" class="touch-ability" data-touch-ability aria-label="Use ability">ABILITY</button>
         <button type="button" class="touch-boost" data-touch-boost aria-label="Boost">BOOST</button>
         <button type="button" class="touch-fire" data-touch-fire aria-label="Fire weapon">FIRE</button>
       </div>
@@ -92,7 +96,19 @@
           </button>
           <button class="loadout-card" type="button" data-loadout="arc" aria-pressed="false">
             <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="m22 7-8 14h7l-3 12 9-16h-7Z"/></svg>
-            <span><b>ARC COIL</b><small>Railgun start · volatile core</small></span>
+            <span><b>ARC COIL</b><small>Railgun start · EMP burst</small></span>
+          </button>
+          <button class="loadout-card" type="button" data-loadout="inferno" aria-pressed="false">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c3 6 9 8 9 16a9 9 0 1 1-18 0c0-5 3-7 4-11 2 3 4 4 5 3 1-2 0-5 0-8Z"/></svg>
+            <span><b>INFERNO GLANDS</b><small>Flamethrower start · fire ring</small></span>
+          </button>
+          <button class="loadout-card" type="button" data-loadout="phantom" aria-pressed="false">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5a11 11 0 0 0-11 11v18l5-4 6 4 6-4 5 4V16A11 11 0 0 0 20 5Z"/><circle cx="15" cy="17" r="2"/><circle cx="25" cy="17" r="2"/></svg>
+            <span><b>PHANTOM SCALES</b><small>Fastest · ghost step</small></span>
+          </button>
+          <button class="loadout-card" type="button" data-loadout="titan" aria-pressed="false">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="4"/><path d="M20 14v12M14 20h12"/></svg>
+            <span><b>TITAN CORE</b><small>250 armour · shockwave</small></span>
           </button>
         </fieldset>
 
@@ -109,7 +125,23 @@
           <span><b>MOUSE</b> aim</span>
           <span><b>CLICK / SPACE</b> fire</span>
           <span><b>SHIFT</b> boost</span>
+          <span><b>E</b> ability</span>
         </div>
+
+        <details class="how-to-play">
+          <summary>HOW TO PLAY</summary>
+          <div class="htp-grid">
+            <div><b>GOAL</b><p>Clear every wave. Every 3rd wave is a boss — there are 50 of them, each meaner than the last.</p></div>
+            <div><b>MOVE + SHOOT</b><p>Steer with WASD, aim with the mouse, fire with click or Space. On phones use the D-pad and FIRE.</p></div>
+            <div><b>BOOST</b><p>Hold Shift (or BOOST) to sprint at 1.65x speed. It drains the orange stamina bar, which refills when you ease off.</p></div>
+            <div><b>ABILITY</b><p>Every class has a signature power on E: invincibility, EMP, fire ring, ghost step, shockwave, or overclock. It recharges over time.</p></div>
+            <div><b>EAT ORBS</b><p>Green orbs heal you AND permanently grow your max health and stamina. Bigger kills scatter more orbs — farm the big snakes.</p></div>
+            <div><b>CRATES</b><p>Weapon crates drop every wave: shotgun, SMG, railgun, flamethrower. Grab them before the enemies out-gun you.</p></div>
+            <div><b>KNOW YOUR ENEMY</b><p>Blue runners are fast, purple brutes are tanks, yellow snipers snipe from across the arena, orange rushers charge straight at your head, and THE REAPER — a long pink snake — boosts in and coils around you. Do not let it close the circle.</p></div>
+            <div><b>COIL TO KILL</b><p>Your tail is a weapon. Any enemy that runs head-first into your body dies on the spot — encircle them, cut them off, farm the orbs they drop. Your own tail never hurts you.</p></div>
+            <div><b>SURVIVE</b><p>Enemies dodge your bullets and circle you. Head-on crashes hurt both of you badly. Lead your shots, keep moving, and never fight in a corner.</p></div>
+          </div>
+        </details>
       </section>
 
       <aside class="leaderboard-panel" aria-labelledby="leaderboard-title">
@@ -119,10 +151,14 @@
         </div>
         <ol id="leaderboard" class="leaderboard-list"></ol>
         <div class="mission-preview">
-          <span>BOSS PROTOCOLS</span>
+          <span>BOSS PROTOCOLS · 50 DEEP</span>
           <p><b>03</b> VENOM TITAN</p>
           <p><b>06</b> RAIL WYRM</p>
           <p><b>09</b> INFERNO HYDRA</p>
+          <p><b>12</b> NIGHT ADDER</p>
+          <p><b>15</b> IRON BASILISK</p>
+          <p><b>…</b> 45 MORE, ENDING AT</p>
+          <p><b>150</b> OMEGA LEVIATHAN</p>
         </div>
       </aside>
     </div>

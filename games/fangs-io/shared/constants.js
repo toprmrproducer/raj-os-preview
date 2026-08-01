@@ -14,7 +14,7 @@ export const SNAKE = {
   SEG_SPACING: 14,          // px between segments along path
   SEG_RADIUS: 11,           // collision + draw radius
   HEAD_RADIUS: 13,
-  START_SEGS: 12,
+  START_SEGS: 18,
   MIN_SEGS: 6,
   MAX_SEGS: 300,
   BOOST_DRAIN_SEGS_PER_S: 1.4,
@@ -24,7 +24,7 @@ export const SNAKE = {
 
 export const FOOD = {
   COUNT: 950,               // world keeps ~this many ambient orbs
-  GROW_PER_ORB: 0.5,        // segments per value-1 orb (v scales it)
+  GROW_PER_ORB: 0.7,        // segments per value-1 orb (v scales it)
   DEATH_ORB_VALUE: 2,       // orbs dropped by corpses are richer
 };
 
