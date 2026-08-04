@@ -5,6 +5,7 @@
 
   const VIPER = window.VIPER;
   const VRender = window.VRender;
+  const SerpentEngine = window.SerpentEngine || null;
   const VAudio = window.VAudio || {
     play: function () {}, unlock: function () {}, setMode: function () { return 'mute'; },
     getMode: function () { return 'mute'; }, cycleMode: function () { return 'mute'; }
@@ -12,6 +13,17 @@
   const DT = VIPER.DT, W = VIPER.W, H = VIPER.H;
   const WEAPONS = VIPER.WEAPONS;
   const LOADOUTS = VIPER.LOADOUTS;
+  const engineContent = SerpentEngine ? new SerpentEngine.ContentRegistry() : null;
+  if (engineContent) {
+    Object.keys(WEAPONS).forEach(function (key) {
+      engineContent.register('weapon', Object.assign({ id: key, version: 1 }, WEAPONS[key]));
+    });
+    if (window.SWGMaps && Array.isArray(window.SWGMaps.maps)) {
+      window.SWGMaps.maps.forEach(function (map) {
+        engineContent.register('map', Object.assign({ version: 1 }, map));
+      });
+    }
+  }
   const PROFILE_KEY = 'viper_arena_profile_v3';
   const SCORES_KEY = 'viper_arena_scores_v3';
   const COOKIE_NAME = 'viper_pilot';
@@ -946,8 +958,22 @@
     if (storyT > 0) { storyT -= DT; if (storyT <= 0) el.storyTicker.classList.add('hidden'); }
   }
 
-  function frame(now) {
-    requestAnimationFrame(frame);
+  function renderGameFrame(delta) {
+    if (!started || !game) return;
+    if (running && game.gameOver) {
+      game.step();
+      processEvents();
+      gameOverScreen();
+    }
+    const head = game.player.pts[0];
+    renderer.update(delta, head.x, head.y);
+    renderer.draw(game);
+    const now = performance.now();
+    if (now >= nextHudAt) { updateHud(); nextHudAt = now + 66; }
+  }
+
+  function legacyFrame(now) {
+    requestAnimationFrame(legacyFrame);
     if (!started || !game) return;
     let delta = (now - lastT) / 1000;
     lastT = now;
@@ -962,20 +988,21 @@
         steps++;
       }
       if (steps === MAX_STEPS) acc = 0;
-    } else if (running && game.gameOver) {
-      game.step();
-      processEvents();
-      gameOverScreen();
     }
-
-    const head = game.player.pts[0];
-    renderer.update(delta, head.x, head.y);
-    renderer.draw(game);
-    if (now >= nextHudAt) { updateHud(); nextHudAt = now + 66; }
+    renderGameFrame(delta);
   }
 
   syncMenu();
-  requestAnimationFrame(frame);
+  const engineRuntime = SerpentEngine ? new SerpentEngine.Engine({ fixedDelta: DT, maxCatchUpSteps: MAX_STEPS }) : null;
+  if (engineRuntime) {
+    engineRuntime.start({
+      shouldUpdate: function () { return !!(started && running && game && !game.gameOver); },
+      fixedUpdate: function () { tick(); },
+      render: function (_alpha, delta) { renderGameFrame(delta); }
+    });
+  } else {
+    requestAnimationFrame(legacyFrame);
+  }
 
   window.__viper = {
     start: start,
@@ -1044,6 +1071,7 @@
     revive: function () { return el.btnRevive.click(); },
     music: function () { return music.cur ? music.cur.id : null; },
     game: function () { return game; },
-    renderer: function () { return renderer; }
+    renderer: function () { return renderer; },
+    engine: function () { return { runtime: engineRuntime, content: engineContent, version: SerpentEngine ? SerpentEngine.VERSION : 0 }; }
   };
 })();

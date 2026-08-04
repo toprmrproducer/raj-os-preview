@@ -2,6 +2,20 @@
 
 A neon arcade snake shooter built as a mobile-ready Capacitor web app. The core loop is already playable: steer, aim, fire, collect orbs, swap weapons, survive escalating waves, and fight a boss every third wave.
 
+## Serpent Engine
+
+The game now boots through a clean-room TypeScript engine in `engine/` rather than owning its frame loop directly in the gameplay script. The first engine layer provides a deterministic fixed-step clock, lifecycle events, an ECS world, spatial hashing, validated content registries, semantic input actions, collision separation, tactical squad phases, versioned saves, seeded replay records, render commands, audio buses, and platform adapters.
+
+The current JavaScript simulation and renderer are connected as compatibility systems while they are migrated module-by-module. This keeps the playable build intact while establishing one authoritative runtime instead of attempting a risky rewrite. See `ENGINE_ARCHITECTURE.md` for the migration boundaries and `CLEAN_ROOM_APK_AUDIT.md` for the static reference audit and provenance warning.
+
+```sh
+pnpm engine:check
+pnpm engine:test
+pnpm engine:build
+```
+
+`engine:build` emits the browser bundle at `www/engine.js`, which must load before the game content and compatibility systems.
+
 ## Run locally
 
 ```sh
