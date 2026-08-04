@@ -38,7 +38,15 @@
     crate: './assets/generated/weapon-crate.png', orbs: './assets/generated/orbs.png',
     coins: './assets/generated/coins.png', combatFx: './assets/generated/combat-fx.png',
     arenaFloor: './assets/generated/arena-floor.png', grassFloor: './assets/generated/grass-floor.png',
-    arenaBorder: './assets/generated/arena-border.png',
+    arenaBorder: './assets/generated/arena-border.png'
+  };
+
+  const MAP_FLOOR_KEYS = {
+    neon_foundry: 'mapNeonFoundry', acid_marsh: 'mapAcidMarsh',
+    rail_yard: 'mapRailYard', frost_vault: 'mapFrostVault',
+    solar_temple: 'mapSolarTemple'
+  };
+  const MAP_SPRITE_PATHS = {
     mapNeonFoundry: './assets/generated/maps/neon-foundry.webp',
     mapAcidMarsh: './assets/generated/maps/acid-marsh.webp',
     mapRailYard: './assets/generated/maps/rail-yard.webp',
@@ -279,12 +287,10 @@
     // Every chapter has its own generated texture. Images are loaded once and
     // converted to cached CanvasPattern objects; the fallback palette still
     // renders immediately while a map-specific WebP decodes.
-    const mapFloors = {
-      neon_foundry: 'mapNeonFoundry', acid_marsh: 'mapAcidMarsh',
-      rail_yard: 'mapRailYard', frost_vault: 'mapFrostVault',
-      solar_temple: 'mapSolarTemple'
-    };
-    const floorKey = mapFloors[map.id] || (map.id === 'acid_marsh' ? 'grassFloor' : 'arenaFloor');
+    const floorKey = MAP_FLOOR_KEYS[map.id] || (map.id === 'acid_marsh' ? 'grassFloor' : 'arenaFloor');
+    if (!this.sprites[floorKey] && MAP_SPRITE_PATHS[floorKey]) {
+      this.sprites[floorKey] = loadSprite(MAP_SPRITE_PATHS[floorKey]);
+    }
     const floor = floorKey && this.sprites[floorKey];
     if (floor && floor.ready) {
       if (!this.floorPatterns[floorKey]) this.floorPatterns[floorKey] = ctx.createPattern(floor, 'repeat');
