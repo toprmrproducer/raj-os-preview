@@ -14,3 +14,6 @@ games/fangs-io/_archive-multiplayer/
 games/fangs-io/ads.txt
 games/fangs-io/package.json
 games/fangs-io/tools/
+
+# Local Netlify folder
+.netlify
