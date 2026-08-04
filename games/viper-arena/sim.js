@@ -114,47 +114,47 @@
 
   const LOADOUTS = {
     overdrive: {
-      name: 'OVERDRIVE FINS', color: '#7CF9FF', speedMult: 1.10,
-      maxHp: 145, damageScale: 1, startWeapon: 'smg', startAmmo: 54
+      name: 'OVERDRIVE FINS', color: '#7CF9FF', speedMult: 1.06,
+      maxHp: 140, damageScale: 1, startWeapon: 'smg', startAmmo: 72
     },
     bulwark: {
       name: 'BULWARK PLATING', color: '#FFC24B', speedMult: 0.94,
-      maxHp: 195, damageScale: 0.72, startWeapon: 'shotgun', startAmmo: 12
+      maxHp: 190, damageScale: 0.72, startWeapon: 'shotgun', startAmmo: 18
     },
     arc: {
       name: 'ARC COIL', color: '#FF4D9D', speedMult: 1,
-      maxHp: 128, damageScale: 1.08, startWeapon: 'railgun', startAmmo: 3
+      maxHp: 140, damageScale: 1, startWeapon: 'railgun', startAmmo: 6
     },
     inferno: {
       name: 'INFERNO GLANDS', color: '#FF8A2B', speedMult: 1.04,
-      maxHp: 150, damageScale: 1, startWeapon: 'flamethrower', startAmmo: 160
+      maxHp: 150, damageScale: 1, startWeapon: 'flamethrower', startAmmo: 240
     },
     phantom: {
-      name: 'PHANTOM SCALES', color: '#8CFF6B', speedMult: 1.22,
-      maxHp: 112, damageScale: 1.18, startWeapon: 'pistol', startAmmo: Infinity,
-      staminaMult: 1.5
+      name: 'PHANTOM SCALES', color: '#8CFF6B', speedMult: 1.15,
+      maxHp: 120, damageScale: 1.10, startWeapon: 'pistol', startAmmo: Infinity,
+      staminaMult: 1.35
     },
     titan: {
-      name: 'TITAN CORE', color: '#C2B2E9', speedMult: 0.86,
-      maxHp: 250, damageScale: 0.6, startWeapon: 'shotgun', startAmmo: 16,
-      staminaMult: 0.7
+      name: 'TITAN CORE', color: '#C2B2E9', speedMult: 0.88,
+      maxHp: 225, damageScale: 0.70, startWeapon: 'shotgun', startAmmo: 24,
+      staminaMult: 0.78
     },
     juggernaut: {
-      name: 'JUGGERNAUT', color: '#9A8FB8', speedMult: 0.62,
-      maxHp: 340, damageScale: 0.5, startWeapon: 'minigun', startAmmo: 600,
-      staminaMult: 0.55, turnMult: 0.6
+      name: 'JUGGERNAUT', color: '#9A8FB8', speedMult: 0.76,
+      maxHp: 285, damageScale: 0.62, startWeapon: 'minigun', startAmmo: 600,
+      staminaMult: 0.65, turnMult: 0.72
     }
   };
 
   // ---------- class abilities (press E / ability button) ----------
   const ABILITIES = {
-    overdrive: { name: 'OVERCLOCK', desc: 'Fire rate x2 + speed for 3.5s', cd: 14, dur: 3.5 },
-    bulwark: { name: 'IRON SHELL', desc: 'Invincible for 2.8s', cd: 16, dur: 2.8 },
-    arc: { name: 'EMP BURST', desc: 'Zap + shove everything near you', cd: 12, dur: 0 },
-    inferno: { name: 'FIRE RING', desc: 'Ring of flame in every direction', cd: 11, dur: 0 },
-    phantom: { name: 'GHOST STEP', desc: 'Untouchable + faster for 2.2s', cd: 13, dur: 2.2 },
-    titan: { name: 'SHOCKWAVE', desc: 'Stun + hurl back every enemy', cd: 15, dur: 0 },
-    juggernaut: { name: 'SIEGE MODE', desc: 'Rooted, invincible, barrel already spun', cd: 18, dur: 4 }
+    overdrive: { name: 'OVERCLOCK', desc: 'Fire rate x2 and +20% speed for 3.5s', cd: 15, dur: 3.5, sound: 'overclock' },
+    bulwark: { name: 'IRON SHELL', desc: 'Invulnerable for 2.1s and restore 12% HP', cd: 16, dur: 2.1, sound: 'ironShell' },
+    arc: { name: 'EMP BURST', desc: '520px shock, 70 damage and 1.1s disruption', cd: 13, dur: 0, sound: 'empBurst' },
+    inferno: { name: 'FIRE RING', desc: '32 long-range flames, 18 damage each', cd: 10, dur: 0, sound: 'fireRing' },
+    phantom: { name: 'GHOST STEP', desc: 'Untouchable and +45% speed for 1.6s', cd: 14, dur: 1.6, sound: 'ghostStep' },
+    titan: { name: 'SHOCKWAVE', desc: '540px stun with heavy knockback', cd: 14, dur: 0, sound: 'shockwave' },
+    juggernaut: { name: 'SIEGE MODE', desc: 'Rooted, collision-proof, invulnerable and fully spun', cd: 19, dur: 3, sound: 'siegeMode' }
   };
 
   // ---------- boss roster: a boss every 3rd wave, 50 unique bosses deep ----------
@@ -215,8 +215,16 @@
   const BOSS_MISSIONS = {};
   BOSS_ROSTER.forEach(function (row, i) {
     const wave = (i + 1) * 3;
+    const protocols = {
+      shotgun: { name: 'BULWARK GUARD', escorts: ['brute', 'rusher'] },
+      railgun: { name: 'RAIL PHALANX', escorts: ['sniper', 'grunt'] },
+      flamethrower: { name: 'EMBER PACK', escorts: ['rusher', 'runner'] },
+      smg: { name: 'HUNTING SWARM', escorts: ['runner', 'grunt'] }
+    };
+    const protocol = protocols[row[2]] || protocols.smg;
     BOSS_MISSIONS[wave] = {
       name: row[0], title: row[1], weapon: row[2], color: row[3],
+      protocol: protocol.name, escortTypes: protocol.escorts,
       hp: Math.round(520 + i * 190 + i * i * 6),
       speed: Math.min(420, 235 + i * 5),
       length: Math.min(80, 30 + i * 2),
@@ -357,14 +365,16 @@
     this.lastStands = 0;
     this.waveKills = 0;
     this.currentMission = null;
-    this.waveCountdown = 1.2;
+    this.chapterCompletionEmitted = false;
+    this.waveCountdown = this.startLevel >= 5 ? 6 : 2.8;
     this.betweenWaves = true;
     this.gameOver = false;
     this.deathCause = '';
     this.kills = 0;
     this.pid = 1;
     this.applyLoadout(this.options.loadout || 'overdrive');
-    this._spawnPellets(18);
+    this._spawnPellets(18 + Math.min(30, (this.startLevel - 1) * 3));
+    for (let i = 0; i < Math.min(3, Math.floor((this.startLevel - 1) / 3)); i++) this.spawnCrate();
     return this;
   };
 
@@ -404,26 +414,27 @@
     const head = p.pts[0];
     if (ab.dur > 0) p.abilityActiveT = ab.dur;
     if (p.loadout === 'bulwark' || p.loadout === 'phantom' || p.loadout === 'juggernaut') p.invincibleT = ab.dur;
+    if (p.loadout === 'bulwark') p.hp = Math.min(p.maxHp, p.hp + p.maxHp * 0.12);
     if (p.loadout === 'arc') {
       for (const e of this.enemies) {
         if (!e.alive) continue;
         const eh = e.pts[0];
         const d = Math.hypot(eh.x - head.x, eh.y - head.y);
-        if (d < 430) {
+        if (d < 520) {
           const ang = Math.atan2(eh.y - head.y, eh.x - head.x);
-          this._hitSnake(e, 85, ang, 620, p);
-          e.brain.reactT = Math.max(e.brain.reactT, 0.9);
+          this._hitSnake(e, 70, ang, 620, p);
+          e.brain.reactT = Math.max(e.brain.reactT, 1.1);
         }
       }
       this.emit({ type: 'shake', amt: 14 });
     }
     if (p.loadout === 'inferno') {
-      for (let i = 0; i < 26; i++) {
-        const ang = (i / 26) * TAU;
+      for (let i = 0; i < 32; i++) {
+        const ang = (i / 32) * TAU;
         this.projectiles.push({
           x: head.x + Math.cos(ang) * 20, y: head.y + Math.sin(ang) * 20,
-          vx: Math.cos(ang) * 620, vy: Math.sin(ang) * 620,
-          life: 0.55, r: 10, dmg: 14, knock: 60, pierce: 2,
+          vx: Math.cos(ang) * 760, vy: Math.sin(ang) * 760,
+          life: 0.9, r: 11, dmg: 18, knock: 70, pierce: 2,
           color: '#FF8A2B', owner: 'p', kind: 'flame'
         });
       }
@@ -434,7 +445,7 @@
         if (!e.alive) continue;
         const eh = e.pts[0];
         const d = Math.hypot(eh.x - head.x, eh.y - head.y);
-        if (d < 480) {
+        if (d < 540) {
           const ang = Math.atan2(eh.y - head.y, eh.x - head.x);
           this._hitSnake(e, 40, ang, 980, p);
           e.brain.reactT = Math.max(e.brain.reactT, 1.4);   // stunned
@@ -442,8 +453,7 @@
       }
       this.emit({ type: 'shake', amt: 20 });
     }
-    this.emit({ type: 'ability', name: ab.name, x: head.x, y: head.y, loadout: p.loadout });
-    this.emit({ type: 'sfx', name: 'pickup' });
+    this.emit({ type: 'ability', name: ab.name, desc: ab.desc, sound: ab.sound, x: head.x, y: head.y, loadout: p.loadout });
     return true;
   };
 
@@ -518,7 +528,14 @@
   };
 
   Game.prototype._spawnPellets = function (n) {
-    for (let i = 0; i < n; i++) { const p = this._rndPos(80); this.pellets.push({ x: p.x, y: p.y, r: 7, ph: this.rng() * TAU, kind: 'green' }); }
+    for (let i = 0; i < n; i++) {
+      const p = this._rndPos(80);
+      const roll = this.rng();
+      this.pellets.push({
+        x: p.x, y: p.y, r: roll < 0.025 ? 9 : 7, ph: this.rng() * TAU,
+        kind: roll < 0.025 ? 'rainbow' : (roll < 0.09 ? 'gold' : 'green')
+      });
+    }
   };
 
   Game.prototype.spawnCrate = function (type) {
@@ -570,8 +587,14 @@
     s.boss = !!options.boss;
     s.bossScore = options.score || 0;
     s.damageMult = options.damageMult || 1;
+    s.protocol = options.protocol || '';
     if (options.scale) s.scale = options.scale; else if (!s.scale) s.scale = 1;
     if (options.color) s.color = options.color;
+    if (!options.color && this.map && this.map.enemyTheme && this.map.enemyTheme.palette) {
+      const rawPalette = this.map.enemyTheme.palette;
+      const themed = Array.isArray(rawPalette) ? rawPalette : Object.keys(rawPalette).map(function (key) { return rawPalette[key]; });
+      s.color = themed[Math.abs(this.pid + s.pts.length) % themed.length] || s.color;
+    }
     // arm enemies from wave 2+
     if (options.weapon) {
       s.weapon = options.weapon;
@@ -605,13 +628,31 @@
     return s;
   };
 
+  Game.prototype._assignAttackWings = function () {
+    const candidates = this.enemies.filter(function (enemy) { return enemy.alive && !enemy.boss && !enemy.wingRole; });
+    const roles = ['bait', 'flank-left', 'flank-right', 'striker'];
+    for (let i = 0; i < candidates.length; i++) {
+      const enemy = candidates[i];
+      enemy.wingId = Math.floor(i / 4) + this.wave * 10;
+      enemy.wingRole = roles[i % roles.length];
+      enemy.brain.tacticT = 4.8;
+    }
+    if (candidates.length >= 4) {
+      this.emit({ type: 'story', line: 'ATTACK WING FORMING · BAIT / FLANK / STRIKE' });
+    }
+  };
+
   Game.prototype._startWave = function () {
     this.wave++;
     this.betweenWaves = false;
+    this.chapterCompletionEmitted = false;
     this.waveKills = 0;
     const mission = BOSS_MISSIONS[this.wave] || null;
     this.currentMission = mission;
-    const count = this.wave <= 1 ? 3 : this.wave === 2 ? 4 : Math.round(3 + (this.wave - 2) * 1.5);
+    // Difficulty grows through archetypes, formations and weapon pressure—not
+    // unbounded entity count. This hard ceiling protects both readability and
+    // late-run browser frame time.
+    const count = this.wave <= 1 ? 3 : this.wave === 2 ? 4 : Math.min(28, Math.round(3 + (this.wave - 2) * 1.15));
     if (mission) {
       this.spawnEnemy(mission.hp, {
         name: mission.name,
@@ -622,14 +663,21 @@
         score: mission.score,
         scale: mission.scale,
         damageMult: mission.damageMult,
+        protocol: mission.protocol,
         boss: true
       });
-      for (let i = 0; i < mission.escorts; i++) this.spawnEnemy();
+      for (let i = 0; i < mission.escorts; i++) {
+        this.spawnEnemy(null, {
+          archetype: mission.escortTypes[i % mission.escortTypes.length],
+          protocol: mission.protocol
+        });
+      }
       this.waveGoal = mission.escorts + 1;
     } else {
       for (let i = 0; i < count; i++) this.spawnEnemy();
       this.waveGoal = count;
     }
+    this._assignAttackWings();
     // guarantee a crate each wave
     this.spawnCrate();
     if (this.wave % 2 === 0) this.spawnCrate();
@@ -683,6 +731,14 @@
     const current = Math.max(0, owned.indexOf(p.weapon));
     const next = (current + (direction < 0 ? -1 : 1) + owned.length) % owned.length;
     return this.switchWeapon(owned[next]);
+  };
+
+  Game.prototype.switchWeaponSlot = function (index) {
+    const p = this.player;
+    if (!p.inventory) return false;
+    const owned = WEAPON_ORDER.filter(function (key) { return !!p.inventory[key]; });
+    const slot = Math.max(0, Math.min(owned.length - 1, Math.round(index)));
+    return owned[slot] ? this.switchWeapon(owned[slot]) : false;
   };
 
   Game.prototype._equip = function (snake, type) {
@@ -948,6 +1004,7 @@
     const lead = clamp(d / 900, 0, 0.5);
     const tx = ph.x + pv.x * lead, ty = ph.y + pv.y * lead;
     const toAng = Math.atan2(ty - eh.y, tx - eh.x);
+    const wingPhase = s.wingRole ? ((this.t + s.wingId * 0.37) % 6) : -1;
 
     // Tactical intent changes slowly; steering remains deterministic every frame.
     // This is the seam where a future on-device SLM director can suggest the
@@ -1003,6 +1060,16 @@
     else if (d > ideal + 120) desired = toAng;                // close in on the player
     else if (d < ideal - 120) desired = toAng + Math.PI;      // back off
     else desired = toAng + s.brain.strafe * (Math.PI / 2) * (s.archetype === 'reaper' ? 1.05 : s.boss ? 0.92 : 0.8); // circle
+    // Four-snake attack wings stage their run like aircraft: a visible bait
+    // commits first, two flankers cross from opposite sides, then the striker
+    // dives through the opening. Roles stay deterministic for replays.
+    if (s.brain.dodgeT <= 0 && s.wingRole) {
+      if (s.wingRole === 'bait') desired = wingPhase < 1.6 ? toAng : toAng + Math.PI * 0.82;
+      else if (s.wingRole === 'flank-left') desired = toAng - (wingPhase < 2.7 ? 1.08 : 0.34);
+      else if (s.wingRole === 'flank-right') desired = toAng + (wingPhase < 2.7 ? 1.08 : 0.34);
+      else if (s.wingRole === 'striker') desired = (wingPhase > 1.35 && wingPhase < 3.7) ? toAng : toAng + s.brain.strafe * Math.PI / 2;
+      if (s.wingRole === 'bait' || s.wingRole === 'striker') s.boosting = wingPhase < 3.7;
+    }
     // flip orbit direction now and then so the circle isn't predictable
     if (s.brain.flipT === undefined) s.brain.flipT = 2 + this.rng() * 3;
     s.brain.flipT -= DT;
@@ -1042,7 +1109,7 @@
     s.heading = angLerp(s.heading, s.targetHeading, TURN_RATE * (s.turnMult || 1) * DT);
     const head = s.pts[0];
     let spd = s.boosting ? s.speed * BOOST_MULT : s.speed;
-    if (s.isPlayer && s.speedBonus) spd *= s.speedBonus;
+    if (s.isPlayer && s.speedBonus !== undefined) spd *= s.speedBonus;
     const nx = clamp(head.x + Math.cos(s.heading) * spd * DT, HEAD_R, W - HEAD_R);
     const ny = clamp(head.y + Math.sin(s.heading) * spd * DT, HEAD_R, H - HEAD_R);
     // prepend new head, keep spacing follow
@@ -1083,7 +1150,23 @@
       }
       this.enemies.length = write;
     }
-    if (!this.betweenWaves && liveEnemies === 0) { this.betweenWaves = true; this.waveCountdown = 2.4; }
+    if (!this.betweenWaves && liveEnemies === 0) {
+      this.betweenWaves = true;
+      if (this.wave > 0 && this.wave % WAVES_PER_LEVEL === 0 && !this.chapterCompletionEmitted) {
+        const chapter = Math.ceil(this.wave / WAVES_PER_LEVEL);
+        this.chapterCompletionEmitted = true;
+        this.waveCountdown = 86400;
+        this.emit({
+          type: 'chapterComplete',
+          chapter: chapter,
+          nextChapter: Math.min(30, chapter + 1),
+          rewardCoins: 250 + chapter * 75,
+          rewardFangs: 2 + Math.floor(chapter / 3)
+        });
+      } else {
+        this.waveCountdown = 2.4;
+      }
+    }
     if (this.betweenWaves) { this.waveCountdown -= dt; if (this.waveCountdown <= 0) this._startWave(); }
 
     // player firing / charge
@@ -1115,7 +1198,8 @@
     if (p.invincibleT > 0) p.invincibleT = Math.max(0, p.invincibleT - dt);
     const overclocked = p.loadout === 'overdrive' && p.abilityActiveT > 0;
     const ghosting = p.loadout === 'phantom' && p.abilityActiveT > 0;
-    p.speedBonus = (overclocked ? 1.15 : 1) * (ghosting ? 1.5 : 1);
+    const siegeActive = p.loadout === 'juggernaut' && p.abilityActiveT > 0;
+    p.speedBonus = siegeActive ? 0 : ((overclocked ? 1.20 : 1) * (ghosting ? 1.45 : 1));
     if (overclocked && p.cd > 0) p.cd -= dt;   // second cd tick = double fire rate
 
     // boost / stamina
@@ -1140,6 +1224,7 @@
       this._thinkEnemy(e);
       this._moveSnake(e);
     }
+    this._obstacleCollisions();
 
     // projectiles
     for (const pr of this.projectiles) {
@@ -1267,6 +1352,7 @@
     const p = this.player;
     if (!p.alive) return;
     const head = p.pts[0];
+    const siegeActive = p.loadout === 'juggernaut' && p.abilityActiveT > 0;
     // no self-collision death: cutting your own tail to shrink your signature is a valid move, not a death
     // enemy bodies
     for (const e of this.enemies) {
@@ -1296,6 +1382,16 @@
       for (let i = 0; i < e.pts.length; i += enemyStride) {
         const rr = (i === 0 ? HEAD_R : BODY_R) + HEAD_R - 2 + (enemyStride === 2 ? SEG * 0.6 : 0);
         if (dist2(head.x, head.y, e.pts[i].x, e.pts[i].y) < rr * rr) {
+          if (siegeActive) {
+            if (e.coilCd <= 0) {
+              e.coilCd = 0.25;
+              const ang = Math.atan2(e.pts[i].y - head.y, e.pts[i].x - head.x);
+              this._hitSnake(e, e.boss ? 36 : 90, ang, 920, p);
+              this.floaters.push({ x: head.x, y: head.y - 18, txt: 'SIEGE BLOCK', life: 0.8, color: '#FFC24B' });
+              this.emit({ type: 'siegeImpact', x: head.x, y: head.y });
+            }
+            break;
+          }
           if (i === 0) {
             // head-on head: a heavy trade with knockback, not an instant death
             this._hitSnake(e, 44, e.heading, 420, p);
@@ -1308,6 +1404,26 @@
           }
           return;
         }
+      }
+    }
+  };
+
+  Game.prototype._obstacleCollisions = function () {
+    const obstacles = this.mapLayout && this.mapLayout.obstacles;
+    if (!obstacles || !obstacles.length) return;
+    const snakes = [this.player].concat(this.enemies);
+    for (const snake of snakes) {
+      if (!snake.alive) continue;
+      const head = snake.pts[0];
+      for (const obstacle of obstacles) {
+        const minD = obstacle.radius + HEAD_R;
+        const dx = head.x - obstacle.x, dy = head.y - obstacle.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 >= minD * minD) continue;
+        const d = Math.sqrt(d2) || 1;
+        head.x = obstacle.x + dx / d * minD;
+        head.y = obstacle.y + dy / d * minD;
+        snake.targetHeading += (snake.brain && snake.brain.strafe < 0 ? -1 : 1) * 0.45;
       }
     }
   };
@@ -1363,6 +1479,7 @@
       lastStands: this.lastStands,
       revives: this.revives,
       abilityName: (ABILITIES[p.loadout] || {}).name || '',
+      abilityDesc: (ABILITIES[p.loadout] || {}).desc || '',
       abilityReady: p.abilityCdT <= 0,
       abilityCdFrac: (ABILITIES[p.loadout] && ABILITIES[p.loadout].cd) ? clamp(1 - p.abilityCdT / ABILITIES[p.loadout].cd, 0, 1) : 1,
       abilityActive: p.abilityActiveT > 0,
@@ -1378,6 +1495,7 @@
       waveKills: this.waveKills,
       missionName: this.currentMission ? this.currentMission.title : ('CLEAR WAVE ' + this.wave),
       bossName: boss ? boss.name : '',
+      bossProtocol: boss ? (boss.protocol || '') : '',
       bossHp: boss ? Math.max(0, Math.round(boss.hp)) : 0,
       bossMaxHp: boss ? boss.maxHp : 0,
       combo: Math.round(this.combo * 10) / 10,

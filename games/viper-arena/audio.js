@@ -79,7 +79,15 @@
       tone(160, 0.5, 'triangle', 0.35, 3.4);
       setTimeout(() => tone(520, 0.42, 'sine', 0.28, 1.7), 120);
       setTimeout(() => tone(880, 0.5, 'sine', 0.22, 1.25), 250);
-    }
+    },
+    overclock() { tone(380, 0.28, 'sawtooth', 0.25, 2.8); tone(760, 0.2, 'triangle', 0.18, 1.7); },
+    ironShell() { tone(95, 0.5, 'square', 0.34, 0.7); noise(0.18, 0.16, 720); },
+    empBurst() { tone(120, 0.45, 'sawtooth', 0.31, 4.2); noise(0.22, 0.14, 3800); },
+    fireRing() { noise(0.42, 0.3, 1050); tone(180, 0.32, 'sawtooth', 0.22, 1.8); },
+    ghostStep() { tone(920, 0.36, 'sine', 0.22, 0.42); tone(1320, 0.24, 'triangle', 0.15, 0.5); },
+    shockwave() { tone(72, 0.62, 'sine', 0.4, 2.2); noise(0.28, 0.22, 520); },
+    siegeMode() { tone(82, 0.72, 'square', 0.38, 1.8); setTimeout(() => tone(164, 0.42, 'triangle', 0.3, 1), 120); },
+    siegeImpact() { noise(0.1, 0.28, 620); tone(110, 0.14, 'square', 0.24, 0.55); }
   };
 
   function setMode(nextMode) {

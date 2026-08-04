@@ -31,6 +31,7 @@
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
     title: $('title'), username: $('username'), usernameError: $('username-error'),
     btnStart: $('btn-start'), leaderboard: $('leaderboard'),
+    selectedLoadoutName: $('selected-loadout-name'),
     gameover: $('gameover'), deathCause: $('death-cause'), finalPlayer: $('final-player'),
     finalScore: $('final-score'), finalWave: $('final-wave'), finalKills: $('final-kills'),
     rankResult: $('rank-result'), btnRestart: $('btn-restart'),
@@ -38,9 +39,14 @@
     reloadWrap: $('reload-wrap'), reloadFill: $('reload-fill'),
     spinWrap: $('spin-wrap'), spinFill: $('spin-fill'),
     storyTicker: $('story-ticker'), storyIntro: $('story-intro'),
-    storyLines: $('story-lines'), btnStoryGo: $('btn-story-go'),
+    storyLines: $('story-lines'), storyEyebrow: $('story-eyebrow'), storyVisual: $('story-visual'), btnStoryGo: $('btn-story-go'),
     levelRow: $('level-row'), revivePanel: $('revive-panel'),
     btnRevive: $('btn-revive'), reviveCost: $('revive-cost'), reviveNote: $('revive-note'),
+    chapterComplete: $('chapter-complete'), chapterCompleteVisual: $('chapter-complete-visual'),
+    chapterCompleteKicker: $('chapter-complete-kicker'), chapterCompleteTitle: $('chapter-complete-title'),
+    chapterCompleteMap: $('chapter-complete-map'), chapterRewardCoins: $('chapter-reward-coins'),
+    chapterRewardFangs: $('chapter-reward-fangs'), chapterNextUnlock: $('chapter-next-unlock'),
+    btnNextChapter: $('btn-next-chapter'), btnReplayChapter: $('btn-replay-chapter'), btnChapterMenu: $('btn-chapter-menu'),
     musMenu: $('mus-menu'), musCombat: $('mus-combat'), musBoss: $('mus-boss')
   };
   el.pause = $('pause');
@@ -67,8 +73,11 @@
   let beltSignature = '';
   let nextHudAt = 0;
   let bossPortraitKey = '';
+  let completedChapter = 0;
   const WALLET_KEY = 'swg_wallet_v1';
   const REVIVE_COST = 3;
+  const CHAPTER_COUNT = 36;
+  const CHAPTER_ASSETS = ['neon-foundry', 'acid-marsh', 'rail-yard', 'frost-vault', 'solar-temple'];
   let wallet = loadWallet();
 
   function loadWallet() {
@@ -77,8 +86,8 @@
     return {
       coins: Math.max(0, Math.round((w && w.coins) || 0)),
       fangs: Math.max(0, Math.round((w && w.fangs) || 5)),   // 5 free fangs so revive is discoverable
-      maxLevel: Math.max(1, Math.round((w && w.maxLevel) || 1)),
-      level: Math.max(1, Math.round((w && w.level) || 1))
+      maxLevel: Math.min(CHAPTER_COUNT, Math.max(1, Math.round((w && w.maxLevel) || 1))),
+      level: Math.min(CHAPTER_COUNT, Math.max(1, Math.round((w && w.level) || 1)))
     };
   }
   function saveWallet() { safeWrite(WALLET_KEY, JSON.stringify(wallet)); }
@@ -101,24 +110,78 @@
     setMuted: function (m) { if (this.cur) this.cur.volume = m ? 0 : 0.32; }
   };
 
+  function chapterMeta(level) {
+    const maps = window.SWGMaps && window.SWGMaps.maps ? window.SWGMaps.maps : [];
+    const mapIndex = maps.length ? (level - 1) % maps.length : 0;
+    const map = maps[mapIndex] || null;
+    return {
+      level: level,
+      mapName: map ? map.name : 'VIPER ARENA',
+      chapterName: map ? map.chapter : 'THE ASCENT',
+      description: map ? map.description : 'Break the next warden line and keep climbing.',
+      visual: './assets/generated/maps/' + CHAPTER_ASSETS[mapIndex % CHAPTER_ASSETS.length] + '.webp',
+      firstWave: (level - 1) * VIPER.WAVES_PER_LEVEL + 1,
+      lastWave: level * VIPER.WAVES_PER_LEVEL
+    };
+  }
+
+  function selectChapter(level, deploy) {
+    if (level < 1 || level > wallet.maxLevel) return false;
+    wallet.level = level;
+    saveWallet();
+    renderLevelRow();
+    if (deploy) return start();
+    return true;
+  }
+
   function renderLevelRow() {
     if (!el.levelRow) return;
     el.levelRow.replaceChildren();
-    for (let i = 1; i <= Math.max(6, wallet.maxLevel + 1); i++) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'level-chip' + (i === wallet.level ? ' selected' : '') + (i > wallet.maxLevel ? ' locked' : '');
-      b.textContent = i;
-      b.title = 'Level ' + i + ' (waves ' + ((i - 1) * 5 + 1) + ' to ' + (i * 5) + ')';
-      if (i > wallet.maxLevel) { b.disabled = true; }
-      else b.addEventListener('click', function () { wallet.level = i; saveWallet(); renderLevelRow(); });
-      el.levelRow.appendChild(b);
+    for (let i = 1; i <= CHAPTER_COUNT; i++) {
+      const meta = chapterMeta(i);
+      const unlocked = i <= wallet.maxLevel;
+      const card = document.createElement('article');
+      card.className = 'chapter-card' + (i === wallet.level ? ' selected' : '') + (!unlocked ? ' locked' : '');
+
+      const select = document.createElement('button');
+      select.type = 'button';
+      select.className = 'chapter-select';
+      select.disabled = !unlocked;
+      select.setAttribute('aria-pressed', String(i === wallet.level));
+      select.setAttribute('aria-label', (unlocked ? 'Select' : 'Locked') + ' chapter ' + i + ', waves ' + meta.firstWave + ' to ' + meta.lastWave);
+      const number = document.createElement('span'); number.textContent = String(i).padStart(2, '0');
+      const copy = document.createElement('span');
+      const title = document.createElement('b'); title.textContent = meta.chapterName;
+      const waves = document.createElement('small'); waves.textContent = 'WAVES ' + meta.firstWave + '—' + meta.lastWave + ' · ' + meta.mapName;
+      copy.append(title, waves); select.append(number, copy);
+
+      const deploy = document.createElement('button');
+      deploy.type = 'button';
+      deploy.className = 'chapter-deploy';
+      deploy.disabled = !unlocked;
+      deploy.textContent = !unlocked ? 'LOCKED' : (i < wallet.maxLevel ? 'REPLAY' : 'DEPLOY');
+      select.addEventListener('click', function () { selectChapter(i, false); });
+      deploy.addEventListener('click', function () { selectChapter(i, true); });
+      card.append(select, deploy);
+      el.levelRow.appendChild(card);
     }
   }
 
-  function showStory(lines, then) {
+  function showStory(lines, then, meta) {
     el.storyLines.replaceChildren();
     lines.forEach(function (t) { const p = document.createElement('p'); p.textContent = t; el.storyLines.appendChild(p); });
+    if (el.storyEyebrow) el.storyEyebrow.textContent = meta && meta.eyebrow ? meta.eyebrow : 'CHAPTER ONE';
+    if (el.storyVisual) {
+      if (meta && meta.visual) {
+        el.storyVisual.src = meta.visual;
+        el.storyVisual.alt = meta.alt || 'Chapter arena briefing';
+        el.storyVisual.classList.remove('hidden');
+      } else {
+        el.storyVisual.removeAttribute('src');
+        el.storyVisual.classList.add('hidden');
+      }
+    }
+    el.btnStoryGo.textContent = meta && meta.action ? meta.action : 'CLIMB';
     el.storyIntro.classList.remove('hidden');
     el.btnStoryGo.onclick = function () { el.storyIntro.classList.add('hidden'); then(); };
   }
@@ -232,6 +295,7 @@
 
   function syncMenu() {
     el.username.value = profile.name;
+    if (el.selectedLoadoutName && LOADOUTS[profile.loadout]) el.selectedLoadoutName.textContent = LOADOUTS[profile.loadout].name;
     document.querySelectorAll('[data-loadout]').forEach(function (button) {
       const selected = button.dataset.loadout === profile.loadout;
       button.classList.toggle('selected', selected);
@@ -270,6 +334,9 @@
     if (code === 'KeyE') { if (down && game && started) game.useAbility(); return true; }
     if ((code === 'KeyQ' || code === 'KeyC') && down && game && started && !game.gameOver) {
       game.cycleWeapon(code === 'KeyQ' ? -1 : 1); return true;
+    }
+    if (/^(Digit|Numpad)[123]$/.test(code) && down && game && started && !game.gameOver) {
+      game.switchWeaponSlot(Number(code.slice(-1)) - 1); return true;
     }
     if (code === 'KeyR' && down && started) {
       if (game && game.gameOver) restartDirect();
@@ -361,6 +428,22 @@
 
   el.btnStart.addEventListener('click', start);
   el.btnResume.addEventListener('click', resumeGame);
+  if (el.btnNextChapter) el.btnNextChapter.addEventListener('click', function () {
+    deployChapter(Math.min(CHAPTER_COUNT, completedChapter + 1));
+  });
+  if (el.btnReplayChapter) el.btnReplayChapter.addEventListener('click', function () {
+    deployChapter(Math.max(1, completedChapter));
+  });
+  if (el.btnChapterMenu) el.btnChapterMenu.addEventListener('click', function () {
+    running = false;
+    started = false;
+    resetInput();
+    el.chapterComplete.classList.add('hidden');
+    el.hud.classList.add('hidden');
+    el.title.classList.remove('hidden');
+    renderLevelRow();
+    music.play('menu');
+  });
   el.username.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') start();
   });
@@ -484,7 +567,7 @@
     if (window.SWGMaps) {
       // Chapters deliberately advance through the five map families. Layouts are
       // generated once per run, never in the animation loop.
-      const mapIndex = Math.min(window.SWGMaps.maps.length - 1, Math.floor((wallet.level - 1) / 3));
+      const mapIndex = (wallet.level - 1) % window.SWGMaps.maps.length;
       game.map = window.SWGMaps.maps[mapIndex];
       game.mapLayout = window.SWGMaps.generateLayout(game.map.id, runSeed, {
         safeZones: [{ x: VIPER.W / 2, y: VIPER.H / 2, radius: 280 }]
@@ -526,11 +609,22 @@
       music.play('combat');
       lastT = performance.now();
     };
-    // chapter one gets the story cold open, later chapters jump straight in
-    if (wallet.level === 1 && !safeRead('swg_seen_intro')) {
-      safeWrite('swg_seen_intro', '1');
+    const chapterSeenKey = 'swg_seen_chapter_' + wallet.level;
+    if (!safeRead(chapterSeenKey)) {
+      safeWrite(chapterSeenKey, '1');
       el.title.classList.add('hidden');
-      showStory(VIPER.STORY.intro, launch);
+      const meta = chapterMeta(wallet.level);
+      const lines = wallet.level === 1 ? VIPER.STORY.intro.slice() : [
+        'WARDEN LINE ' + String(wallet.level).padStart(2, '0') + ' // ' + meta.chapterName,
+        meta.description,
+        'Five waves stand between you and the next ascent. Secure every weapon crate and break the final formation.'
+      ];
+      showStory(lines, launch, {
+        eyebrow: 'CHAPTER ' + String(wallet.level).padStart(2, '0') + ' · ' + meta.mapName,
+        visual: meta.visual,
+        alt: meta.mapName + ' chapter arena',
+        action: 'ENTER CHAPTER ' + String(wallet.level).padStart(2, '0')
+      });
     } else {
       launch();
     }
@@ -546,6 +640,85 @@
     el.hud.classList.remove('hidden');
     lastT = performance.now();
     return true;
+  }
+
+  function bankAndArchiveChapter(state) {
+    if (!runSaved) {
+      archiveRun(state);
+      runSaved = true;
+      renderLeaderboard();
+    }
+    if (!runBanked) {
+      wallet.coins += state.coins;
+      wallet.fangs += state.fangs;
+      runBanked = true;
+    }
+  }
+
+  function showChapterComplete(event) {
+    if (!el.chapterComplete || !game) return;
+    running = false;
+    resetInput();
+    const state = game.getState();
+    const chapter = Math.max(1, Math.round(event.chapter || state.level));
+    completedChapter = chapter;
+    const nextChapter = Math.min(CHAPTER_COUNT, chapter + 1);
+    const rewardCoins = Math.max(0, Math.round(event.rewardCoins || 0));
+    const rewardFangs = Math.max(0, Math.round(event.rewardFangs || 0));
+    const meta = chapterMeta(chapter);
+    bankAndArchiveChapter(state);
+    wallet.coins += rewardCoins;
+    wallet.fangs += rewardFangs;
+    wallet.maxLevel = Math.max(wallet.maxLevel, nextChapter);
+    saveWallet();
+    renderLevelRow();
+
+    el.chapterCompleteKicker.textContent = 'CHAPTER ' + String(chapter).padStart(2, '0') + ' CLEARED';
+    el.chapterCompleteTitle.textContent = chapter >= CHAPTER_COUNT ? 'THE ASCENT IS COMPLETE' : 'WARDEN LINE BROKEN';
+    el.chapterCompleteMap.textContent = meta.chapterName + ' · ' + meta.mapName;
+    el.chapterRewardCoins.textContent = rewardCoins.toLocaleString();
+    el.chapterRewardFangs.textContent = rewardFangs.toLocaleString();
+    el.chapterNextUnlock.textContent = chapter >= CHAPTER_COUNT ? 'CROWNED' : String(nextChapter).padStart(2, '0');
+    el.chapterCompleteVisual.src = meta.visual;
+    el.chapterCompleteVisual.alt = meta.mapName + ' secured';
+    el.btnNextChapter.classList.toggle('hidden', chapter >= CHAPTER_COUNT);
+    el.chapterComplete.classList.remove('hidden');
+    music.play('menu');
+    (chapter >= CHAPTER_COUNT ? el.btnReplayChapter : el.btnNextChapter).focus();
+  }
+
+  function deployChapter(level) {
+    wallet.level = Math.max(1, Math.min(wallet.maxLevel, level));
+    saveWallet();
+    el.chapterComplete.classList.add('hidden');
+    const launch = function () {
+      newGame();
+      started = true;
+      running = true;
+      el.title.classList.add('hidden');
+      el.gameover.classList.add('hidden');
+      el.hud.classList.remove('hidden');
+      music.play('combat');
+      lastT = performance.now();
+    };
+    const seenKey = 'swg_seen_chapter_' + wallet.level;
+    if (!safeRead(seenKey)) {
+      safeWrite(seenKey, '1');
+      el.hud.classList.add('hidden');
+      const meta = chapterMeta(wallet.level);
+      showStory([
+        'WARDEN LINE ' + String(wallet.level).padStart(2, '0') + ' // ' + meta.chapterName,
+        meta.description,
+        'Five waves. One secured ascent. The next warden is already moving.'
+      ], launch, {
+        eyebrow: 'CHAPTER ' + String(wallet.level).padStart(2, '0') + ' · ' + meta.mapName,
+        visual: meta.visual,
+        alt: meta.mapName + ' chapter arena',
+        action: 'ENTER CHAPTER ' + String(wallet.level).padStart(2, '0')
+      });
+    } else {
+      launch();
+    }
   }
 
   function gameOverScreen() {
@@ -605,6 +778,16 @@
         el.storyTicker.classList.remove('hidden');
         storyT = 6;
       }
+      else if (event.type === 'chapterComplete') {
+        showChapterComplete(event);
+      }
+      else if (event.type === 'ability') {
+        el.storyTicker.textContent = event.name + ' ONLINE' + (event.desc ? ' · ' + event.desc : '');
+        el.storyTicker.classList.remove('hidden');
+        storyT = event.loadout === 'juggernaut' ? 3 : 1.8;
+        VAudio.play(event.sound || 'pickup');
+      }
+      else if (event.type === 'siegeImpact') VAudio.play('siegeImpact');
       else if (event.type === 'lastStand') {
         el.storyTicker.textContent = 'LAST STAND. ' + (event.left > 0 ? 'One more in you.' : 'That was the last one.');
         el.storyTicker.classList.remove('hidden');
@@ -655,10 +838,12 @@
       (game.map ? ' \u00B7 ' + game.map.name : '');
     el.loadout.textContent = LOADOUTS[state.loadout].name;
     el.loadout.style.setProperty('--loadout-color', LOADOUTS[state.loadout].color);
-    el.abilityLabel.textContent = state.abilityName + (state.abilityReady ? ' [E]' : '');
+    el.abilityLabel.textContent = state.abilityActive ? (state.abilityName + ' ON') : (state.abilityName + (state.abilityReady ? ' [E]' : ''));
+    el.abilityChip.title = state.abilityDesc || state.abilityName;
     el.abilityFill.style.width = (state.abilityCdFrac * 100) + '%';
     el.abilityChip.classList.toggle('ready', state.abilityReady);
     el.abilityChip.classList.toggle('active', state.abilityActive || state.invincible);
+    el.hud.classList.toggle('siege-active', state.loadout === 'juggernaut' && state.abilityActive);
 
     const signature = (state.weaponBelt || []).map(function (slot) {
       return slot.key + ':' + slot.mag + ':' + slot.ammo + ':' + slot.active;
@@ -666,11 +851,15 @@
     if (el.weaponBelt && signature !== beltSignature) {
       beltSignature = signature;
       el.weaponBelt.replaceChildren();
-      (state.weaponBelt || []).forEach(function (slot) {
+      (state.weaponBelt || []).forEach(function (slot, index) {
         const button = document.createElement('button');
         button.type = 'button'; button.dataset.weapon = slot.key;
         button.className = 'weapon-slot' + (slot.active ? ' active' : '');
-        button.innerHTML = '<b>' + slot.name + '</b><span>' + slot.mag + ' · ' + (slot.ammo === Infinity ? '∞' : slot.ammo) + '</span>';
+        const shortcut = document.createElement('kbd');
+        shortcut.textContent = index < 3 ? String(index + 1) : '·';
+        const name = document.createElement('b'); name.textContent = slot.name;
+        const ammo = document.createElement('span'); ammo.textContent = slot.mag + ' · ' + (slot.ammo === Infinity ? '∞' : slot.ammo);
+        button.append(shortcut, name, ammo);
         el.weaponBelt.appendChild(button);
       });
     }
@@ -688,7 +877,7 @@
     if (state.bossName) {
       const ratio = state.bossMaxHp ? Math.max(0, state.bossHp / state.bossMaxHp) : 0;
       el.bossMeter.classList.remove('hidden');
-      el.bossName.textContent = state.bossName;
+      el.bossName.textContent = state.bossName + (state.bossProtocol ? ' · ' + state.bossProtocol : '');
       const portraitNumber = String((((Math.ceil(state.wave / 3) - 1) % 20) + 1)).padStart(2, '0');
       if (el.bossPortrait && portraitNumber !== bossPortraitKey) {
         bossPortraitKey = portraitNumber;
@@ -816,6 +1005,7 @@
     setWallet: function (w) { Object.assign(wallet, w); saveWallet(); renderLevelRow(); return Object.assign({}, wallet); },
     reload: function () { return game ? game.startReload(game.player) : false; },
     cycleWeapon: function (direction) { return game ? game.cycleWeapon(direction || 1) : false; },
+    switchWeaponSlot: function (index) { return game ? game.switchWeaponSlot(index) : false; },
     switchWeapon: function (type) { return game ? game.switchWeapon(type) : false; },
     revive: function () { return el.btnRevive.click(); },
     music: function () { return music.cur ? music.cur.id : null; },

@@ -1,0 +1,23 @@
+/* Chapter flow cascade layer. Loaded after the shared game stylesheet so the
+   chapter selector is not collapsed back into the legacy numbered-chip row. */
+.level-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 310px;
+  padding-right: 5px;
+  overflow: auto;
+}
+
+.story-inner {
+  width: min(760px, calc(100vw - 32px));
+  max-width: 760px;
+  padding: 0 0 26px;
+}
+
+@media (max-width: 760px) {
+  .level-row {
+    grid-template-columns: 1fr;
+    max-height: 350px;
+  }
+}

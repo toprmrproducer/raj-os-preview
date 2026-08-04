@@ -105,7 +105,7 @@
     this.vw = window.innerWidth || document.documentElement.clientWidth || 960;
     this.vh = window.innerHeight || document.documentElement.clientHeight || 640;
     // zoomed out so the player can see threats travelling in from the rim
-    this.zoom = this.vw < 700 ? 0.62 : 0.70;
+    this.zoom = this.vw < 700 ? 0.41 : 0.43;
     this.wvw = this.vw / this.zoom;   // world units visible horizontally
     this.wvh = this.vh / this.zoom;
     this.canvas.width = Math.floor(this.vw * dpr);
@@ -305,10 +305,28 @@
     for (let i = 0; i < layout.props.length; i++) {
       const p = layout.props[i];
       if (p.x < ox - pad || p.x > x2 || p.y < oy - pad || p.y > y2) continue;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rotation || 0);
       ctx.globalAlpha = 0.46; ctx.fillStyle = palette.prop;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, TAU); ctx.fill();
-      ctx.globalAlpha = 0.75; ctx.strokeStyle = palette.accent; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(3, p.radius * 0.42), 0, TAU); ctx.stroke();
+      ctx.fillRect(-p.radius, -p.radius * 0.38, p.radius * 2, p.radius * 0.76);
+      ctx.globalAlpha = 0.62; ctx.strokeStyle = palette.accent; ctx.lineWidth = 1.5;
+      ctx.strokeRect(-p.radius * 0.55, -p.radius * 0.55, p.radius * 1.1, p.radius * 1.1);
+      ctx.restore();
+    }
+    const obstacles = layout.obstacles || [];
+    for (let i = 0; i < obstacles.length; i++) {
+      const o = obstacles[i];
+      if (o.x < ox - pad || o.x > x2 || o.y < oy - pad || o.y > y2) continue;
+      ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(o.rotation || 0);
+      ctx.globalAlpha = 0.96; ctx.fillStyle = palette.floor; ctx.strokeStyle = palette.border; ctx.lineWidth = 8;
+      ctx.beginPath(); ctx.arc(0, 0, o.radius, 0, TAU); ctx.fill(); ctx.stroke();
+      ctx.globalAlpha = 0.55; ctx.strokeStyle = palette.prop; ctx.lineWidth = 12;
+      ctx.beginPath(); ctx.arc(0, 0, Math.max(18, o.radius - 20), 0, TAU); ctx.stroke();
+      ctx.globalAlpha = 0.85; ctx.fillStyle = palette.accent;
+      for (let b = 0; b < 6; b++) {
+        const a = b / 6 * TAU;
+        ctx.fillRect(Math.cos(a) * (o.radius - 10) - 3, Math.sin(a) * (o.radius - 10) - 3, 6, 6);
+      }
+      ctx.restore();
     }
     const state = {};
     for (let i = 0; i < layout.hazards.length; i++) {
