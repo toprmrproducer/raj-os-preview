@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#04070a" />
+<meta name="description" content="A neon arena snake shooter with guns, bosses, loadouts, and local progression." />
 <title>SNAKES WITH GUNS</title>
-<link rel="stylesheet" href="style.css?v=3" />
+<link rel="preload" href="./assets/generated/player-snake-kit.png" as="image" type="image/png" />
+<link rel="preload" href="./assets/generated/arena-floor.png" as="image" type="image/png" />
+<link rel="stylesheet" href="style.css?v=9" />
 </head>
 <body>
   <canvas id="game"></canvas>
@@ -53,8 +57,10 @@
         </div>
       </div>
       <div class="hud-weapon">
+        <div id="weapon-belt" class="weapon-belt" aria-label="Collected weapon belt"></div>
         <div id="hud-weapon" class="weapon-name">PISTOL</div>
         <div id="hud-ammo" class="weapon-ammo">5 / &#8734;</div>
+        <div class="weapon-cycle-hint">Q / C / WHEEL · CYCLE</div>
         <div id="reload-wrap" class="reload-wrap hidden"><i id="reload-fill"></i><span>RELOADING</span></div>
         <div id="spin-wrap" class="spin-wrap hidden"><i id="spin-fill"></i><span>SPINNING UP</span></div>
       </div>
@@ -70,6 +76,7 @@
         <button type="button" data-touch-key="right" aria-label="Move right">→</button>
       </div>
       <div class="touch-actions">
+        <button type="button" class="touch-swap" data-touch-swap aria-label="Cycle weapon">SWAP</button>
         <button type="button" class="touch-ability" data-touch-ability aria-label="Use ability">ABILITY</button>
         <button type="button" class="touch-boost" data-touch-boost aria-label="Boost">BOOST</button>
         <button type="button" class="touch-fire" data-touch-fire aria-label="Fire weapon">FIRE</button>
@@ -82,6 +89,16 @@
       <p class="eyebrow">CHAPTER ONE</p>
       <div id="story-lines" class="story-lines"></div>
       <button id="btn-story-go" class="btn" type="button">CLIMB</button>
+    </div>
+  </div>
+
+  <div id="pause" class="overlay pause-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+    <div class="overlay-inner pause-inner">
+      <p class="eyebrow">RUN SUSPENDED</p>
+      <h2 id="pause-title">PAUSED</h2>
+      <p>The arena is frozen. Your run is safe.</p>
+      <button id="btn-resume" class="btn" type="button">RESUME</button>
+      <small>ESC / P</small>
     </div>
   </div>
 
@@ -153,6 +170,7 @@
           <span><b>SHIFT</b> boost</span>
           <span><b>E</b> ability</span>
           <span><b>R</b> reload</span>
+          <span><b>P</b> pause</span>
         </div>
 
         <details class="how-to-play">
@@ -163,7 +181,7 @@
             <div><b>BOOST</b><p>Hold Shift (or BOOST) to sprint at 1.65x speed. It drains the orange stamina bar, which refills when you ease off.</p></div>
             <div><b>ABILITY</b><p>Every class has a signature power on E: invincibility, EMP, fire ring, ghost step, shockwave, or overclock. It recharges over time.</p></div>
             <div><b>EAT ORBS</b><p>Green orbs heal you AND permanently grow your max health and stamina. Bigger kills scatter more orbs — farm the big snakes.</p></div>
-            <div><b>CRATES</b><p>Weapon crates drop every wave: shotgun, SMG, railgun, flamethrower. Grab them before the enemies out-gun you.</p></div>
+            <div><b>ARSENAL BELT</b><p>Every gun you collect stays in your belt. Duplicate pickups stack reserve ammo. Press Q/C, use the mouse wheel, tap SWAP, or click a belt slot to cycle all eleven weapons.</p></div>
             <div><b>KNOW YOUR ENEMY</b><p>Blue runners are fast, purple brutes are tanks, yellow snipers snipe from across the arena, orange rushers charge straight at your head, and THE REAPER — a long pink snake — boosts in and coils around you. Do not let it close the circle.</p></div>
             <div><b>COIL TO KILL</b><p>Your tail is a weapon. Any enemy that runs head-first into your body dies on the spot — encircle them, cut them off, farm the orbs they drop. Your own tail never hurts you.</p></div>
             <div><b>SURVIVE</b><p>Enemies dodge your bullets and circle you. Head-on crashes hurt both of you badly. Lead your shots, keep moving, and never fight in a corner.</p></div>
@@ -212,9 +230,10 @@
     </div>
   </div>
 
-  <script src="sim.js?v=3"></script>
-  <script src="render.js?v=3"></script>
-  <script src="audio.js?v=3"></script>
-  <script src="main.js?v=3"></script>
+  <script src="./maps/maps.js?v=1"></script>
+  <script src="sim.js?v=8"></script>
+  <script src="render.js?v=9"></script>
+  <script src="audio.js?v=5"></script>
+  <script src="main.js?v=9"></script>
 </body>
 </html>

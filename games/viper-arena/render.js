@@ -19,8 +19,48 @@
   // per-weapon crate colours (fallback to weapon color)
   const CRATE_COL = {
     pistol: '#7CF9FF', shotgun: '#FFC24B', smg: '#8CFF6B',
-    railgun: '#FF4D6D', flamethrower: '#FF8A2B'
+    railgun: '#FF4D6D', flamethrower: '#FF8A2B', sniper: '#F7E45E',
+    minigun: '#C2B2E9', burstcannon: '#B892FF', needler: '#57E8FF',
+    arcwelder: '#5EEAD4', shredder: '#FF6B9D'
   };
+
+  const SPRITE_PATHS = {
+    player: './assets/generated/player-snake-kit.png',
+    grunt: './assets/generated/enemy-red-kit.png',
+    runner: './assets/generated/enemy-blue-kit.png',
+    brute: './assets/generated/enemy-purple-kit.png',
+    reaper: './assets/generated/enemy-reaper-kit.png',
+    sniperEnemy: './assets/generated/enemy-sniper-kit.png',
+    rusher: './assets/generated/enemy-rusher-kit.png',
+    pistol: './assets/generated/pistol.png', smg: './assets/generated/smg.png',
+    shotgun: './assets/generated/shotgun.png', railgun: './assets/generated/railgun.png',
+    flamethrower: './assets/generated/flamethrower.png', sniper: './assets/generated/sniper.png',
+    crate: './assets/generated/weapon-crate.png', orbs: './assets/generated/orbs.png',
+    coins: './assets/generated/coins.png', combatFx: './assets/generated/combat-fx.png',
+    arenaFloor: './assets/generated/arena-floor.png', grassFloor: './assets/generated/grass-floor.png',
+    arenaBorder: './assets/generated/arena-border.png'
+  };
+
+  // Measured from the actual Replicate outputs in Downloads; the generators did
+  // not use one shared atlas geometry, so each archetype gets explicit cells.
+  const SNAKE_ATLAS = {
+    player: { head: [72, 36, 330, 292], large: [385, 35, 255, 275], small: [645, 70, 205, 230], facesLeft: true },
+    grunt: { head: [280, 45, 470, 300], large: [170, 350, 390, 250], small: [540, 360, 300, 250] },
+    runner: { head: [125, 65, 320, 155], large: [155, 230, 245, 120], small: [390, 230, 210, 120] },
+    brute: { head: [235, 35, 420, 310], large: [105, 345, 380, 275], small: [545, 355, 345, 265] },
+    reaper: { head: [85, 45, 455, 275], large: [105, 345, 410, 300], small: [120, 670, 410, 245], facesLeft: true },
+    sniperEnemy: { head: [150, 45, 330, 230], large: [235, 285, 260, 210], small: [525, 330, 230, 170], facesLeft: true },
+    rusher: { head: [95, 45, 350, 280], large: [145, 370, 370, 245], small: [565, 390, 320, 220], facesLeft: true }
+  };
+
+  function loadSprite(path) {
+    const image = new Image();
+    image.ready = false;
+    image.addEventListener('load', function () { image.ready = true; });
+    image.addEventListener('error', function () { image.ready = false; });
+    image.src = path;
+    return image;
+  }
 
   function Renderer(canvas, minimap) {
     this.canvas = canvas;
@@ -34,6 +74,13 @@
     this.particles = [];          // {x,y,vx,vy,life,max,r,color,kind}
     this.hitmarkerT = 0;
     this.time = 0;
+    this.crowded = false;
+    this.lastMinimapAt = -1;
+    // One-time asset intake. Collision remains deterministic and independent of
+    // pixels; failed images fall back to the existing vector renderer.
+    this.sprites = {};
+    for (const key in SPRITE_PATHS) this.sprites[key] = loadSprite(SPRITE_PATHS[key]);
+    this.floorPatterns = Object.create(null);
     this.resize();
   }
 
@@ -77,6 +124,12 @@
         r: 2 + Math.random() * 3, color: color || '#7CF9FF', kind: 'spark'
       });
     }
+    this._capParticles();
+  };
+
+  Renderer.prototype._capParticles = function () {
+    const max = 300;
+    if (this.particles.length > max) this.particles.splice(0, this.particles.length - max);
   };
 
   Renderer.prototype.muzzle = function (x, y, ang, power, color, kind) {
@@ -92,6 +145,7 @@
     }
     // bright flash blob at the muzzle
     this.particles.push({ x: x, y: y, vx: 0, vy: 0, life: 0.06, max: 0.06, r: 10 + power * 8, color: color || '#FFF', kind: 'flash' });
+    this._capParticles();
   };
 
   // ---- drain events emitted by the sim ----
@@ -107,8 +161,19 @@
         case 'pop': this.burst(e.x, e.y, '#9CFFB0', 8, 180, 0.5); break;
         case 'pickup': this.burst(e.x, e.y, CRATE_COL[e.weapon] || '#FFF', 18, 260, 0.7); break;
         case 'kill': this.burst(e.x, e.y, '#FFE45E', 20, 340, 0.9); break;
+        case 'coins':
+          for (let c = 0; c < (e.boss ? 8 : 3); c++) {
+            this.particles.push({
+              x: e.x, y: e.y, vx: (Math.random() - 0.5) * 220,
+              vy: -100 - Math.random() * 180, life: 0.8 + Math.random() * 0.45,
+              max: 1.25, r: e.boss ? 8 : 6, color: '#FFE45E', kind: e.boss && c === 0 ? 'coinStack' : 'coin'
+            });
+          }
+          this._capParticles();
+          break;
         case 'bossKill':
           this.burst(e.x, e.y, '#FF4D9D', 48, 520, 1.3);
+          this.particles.push({ x: e.x, y: e.y, vx: 0, vy: 0, life: 0.62, max: 0.62, r: 72, color: '#FF8A2B', kind: 'explosion' });
           this.addShake(30);
           break;
         case 'say': this.speak(e.x, e.y, e.line, e.color, e.boss); break;
@@ -162,19 +227,22 @@
   Renderer.prototype.draw = function (game) {
     const ctx = this.ctx;
     const ox = this._originX(), oy = this._originY();
+    this.crowded = game.enemies.length > 30 || game.projectiles.length > 220;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = '#04070a';
+    const palette = game.map ? game.map.palette : null;
+    ctx.fillStyle = palette ? palette.background : '#04070a';
     ctx.fillRect(0, 0, this.vw, this.vh);
     ctx.save();
     ctx.scale(this.zoom, this.zoom);
     ctx.translate(-ox, -oy);   // -> world space
-    this._drawGrid(ctx, ox, oy);
-    this._drawBorder(ctx);
+    this._drawMap(ctx, game, ox, oy);
+    this._drawGrid(ctx, ox, oy, game.map);
+    this._drawBorder(ctx, game.map);
     this._drawPellets(ctx, game.pellets);
     this._drawCrates(ctx, game.crates);
     this._drawBeams(ctx, game.beams);
     this._drawProjectiles(ctx, game.projectiles);
-    for (const e of game.enemies) if (e.alive) this._drawSnake(ctx, e, false);
+    for (const e of game.enemies) if (e.alive && this._snakeVisible(e, ox, oy)) this._drawSnake(ctx, e, false);
     if (game.player.alive) this._drawSnake(ctx, game.player, true);
     this._drawAimLine(ctx, game);
     this._drawParticles(ctx);
@@ -183,14 +251,71 @@
     ctx.restore();             // -> screen space
     this._drawVignette(ctx, game.player);
     this._drawHitmarker(ctx);
-    this._drawMinimap(game);
+    if (this.time - this.lastMinimapAt >= 0.09) {
+      this._drawMinimap(game);
+      this.lastMinimapAt = this.time;
+    }
   };
 
-  Renderer.prototype._drawGrid = function (ctx, ox, oy) {
-    const step = 80;
+  Renderer.prototype._snakeVisible = function (snake, ox, oy) {
+    const head = snake.pts[0];
+    const pad = 180 + (snake.scale || 1) * 60;
+    return head.x >= ox - pad && head.x <= ox + this.wvw + pad &&
+      head.y >= oy - pad && head.y <= oy + this.wvh + pad;
+  };
+
+  Renderer.prototype._drawMap = function (ctx, game, ox, oy) {
+    const map = game.map, layout = game.mapLayout;
+    if (!map || !layout) return;
+    const palette = map.palette;
+    ctx.save();
+    ctx.fillStyle = palette.floor;
+    ctx.fillRect(0, 0, W, H);
+    // The two finished terrain sheets are used as low-cost cached patterns.
+    const floorKey = map.id === 'acid_marsh' ? 'grassFloor' : (map.id === 'neon_foundry' ? 'arenaFloor' : '');
+    const floor = floorKey && this.sprites[floorKey];
+    if (floor && floor.ready) {
+      if (!this.floorPatterns[floorKey]) this.floorPatterns[floorKey] = ctx.createPattern(floor, 'repeat');
+      ctx.globalAlpha = map.id === 'acid_marsh' ? 0.30 : 0.22;
+      ctx.fillStyle = this.floorPatterns[floorKey];
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = 1;
+    }
+    // Props and hazards are generated once and remain deliberately simple: they
+    // give each map identity without adding per-frame simulation allocations.
+    const pad = 100, x2 = ox + this.wvw + pad, y2 = oy + this.wvh + pad;
+    for (let i = 0; i < layout.props.length; i++) {
+      const p = layout.props[i];
+      if (p.x < ox - pad || p.x > x2 || p.y < oy - pad || p.y > y2) continue;
+      ctx.globalAlpha = 0.46; ctx.fillStyle = palette.prop;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, TAU); ctx.fill();
+      ctx.globalAlpha = 0.75; ctx.strokeStyle = palette.accent; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(3, p.radius * 0.42), 0, TAU); ctx.stroke();
+    }
+    const state = {};
+    for (let i = 0; i < layout.hazards.length; i++) {
+      const h = layout.hazards[i];
+      const hs = (typeof SWGMaps !== 'undefined') ? SWGMaps.resolveHazardState(h, game.t || 0, state) : state;
+      ctx.save(); ctx.translate(hs.x || h.x, hs.y || h.y); ctx.rotate(hs.rotation || h.rotation || 0);
+      ctx.globalAlpha = hs.active ? 0.28 : (hs.telegraphing ? 0.18 : 0.08);
+      ctx.fillStyle = palette.hazard; ctx.strokeStyle = palette.hazard; ctx.lineWidth = hs.telegraphing ? 4 : 2;
+      if (h.type.indexOf('disc') !== -1) {
+        ctx.beginPath(); ctx.arc(0, 0, h.radius, 0, TAU); ctx.fill(); ctx.stroke();
+      } else {
+        ctx.fillRect(-h.width / 2, -h.height / 2, h.width, h.height);
+        ctx.strokeRect(-h.width / 2, -h.height / 2, h.width, h.height);
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+  };
+
+  Renderer.prototype._drawGrid = function (ctx, ox, oy, map) {
+    const grid = map ? map.grid : null;
+    const step = grid ? grid.size : 80;
     const x1 = ox + this.wvw, y1 = oy + this.wvh;
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(124,249,255,0.05)';
+    ctx.strokeStyle = map ? map.palette.gridMinor : 'rgba(124,249,255,0.05)';
     ctx.beginPath();
     for (let x = Math.floor(ox / step) * step; x <= x1; x += step) {
       if (x < 0 || x > W) continue;
@@ -203,10 +328,23 @@
     ctx.stroke();
   };
 
-  Renderer.prototype._drawBorder = function (ctx) {
+  Renderer.prototype._drawBorder = function (ctx, map) {
+    const color = map ? map.palette.border : '#7CF9FF';
     ctx.save();
-    ctx.shadowColor = '#7CF9FF'; ctx.shadowBlur = 26;
-    ctx.strokeStyle = 'rgba(124,249,255,0.75)'; ctx.lineWidth = 5;
+    const border = this.sprites.arenaBorder;
+    if (border && border.ready) {
+      const sx = 25, sy = 265, sw = 970, sh = 135, thickness = 34;
+      ctx.globalAlpha = 0.92;
+      ctx.drawImage(border, sx, sy, sw, sh, 0, -thickness * 0.15, W, thickness);
+      ctx.save(); ctx.translate(W, 0); ctx.rotate(Math.PI / 2);
+      ctx.drawImage(border, sx, sy, sw, sh, 0, -thickness * 0.15, H, thickness); ctx.restore();
+      ctx.save(); ctx.translate(W, H); ctx.rotate(Math.PI);
+      ctx.drawImage(border, sx, sy, sw, sh, 0, -thickness * 0.15, W, thickness); ctx.restore();
+      ctx.save(); ctx.translate(0, H); ctx.rotate(-Math.PI / 2);
+      ctx.drawImage(border, sx, sy, sw, sh, 0, -thickness * 0.15, H, thickness); ctx.restore();
+    }
+    ctx.shadowColor = color; ctx.shadowBlur = 26;
+    ctx.strokeStyle = color; ctx.globalAlpha = 0.78; ctx.lineWidth = 5;
     ctx.strokeRect(0, 0, W, H);
     ctx.restore();
   };
@@ -223,14 +361,21 @@
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     ctx.shadowColor = isPlayer ? '#39FF9E' : '#FF5A5A';
     ctx.shadowBlur = 18;
-    // tapered, gradiented segments from tail up to the head
-    for (let i = n - 1; i >= 1; i--) {
+    // Crowd mode turns N tapered strokes into one path per snake. The close-up
+    // renderer keeps the richer gradient when the arena is less saturated.
+    if (this.crowded) {
+      ctx.shadowBlur = 0; ctx.strokeStyle = base; ctx.lineWidth = BODY_R * scale * 1.55;
+      ctx.beginPath(); ctx.moveTo(pts[n - 1].x, pts[n - 1].y);
+      for (let i = n - 2; i >= 0; i--) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.stroke();
+    } else for (let i = n - 1; i >= 1; i--) {
       const a = pts[i], b = pts[i - 1], t = i / n;
       ctx.strokeStyle = mix(base, tail, t);
       ctx.lineWidth = Math.max(2, BODY_R * scale * (1 - t * 0.55) * 2);
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
     }
     ctx.shadowBlur = 0;
+    this._drawSnakeBodySprites(ctx, s, isPlayer);
     // head
     ctx.fillStyle = flash ? '#fff' : (isPlayer ? '#8BFFD0' : '#FF9A9A');
     ctx.beginPath(); ctx.arc(head.x, head.y, HEAD_R * scale, 0, TAU); ctx.fill();
@@ -239,6 +384,8 @@
     if (isPlayer) this._drawEquipment(ctx, s, head, ax, ay);
     ctx.fillStyle = '#04070a';
     ctx.beginPath(); ctx.arc(head.x + ax * 4 * scale, head.y + ay * 4 * scale, 3.4 * scale, 0, TAU); ctx.fill();
+    this._drawSnakeSprite(ctx, s, head, isPlayer);
+    this._drawWeaponSprite(ctx, s, head);
     // recoil flash line
     const rk = s.recoil / 320;
     if (rk > 0.02) {
@@ -269,6 +416,60 @@
         ctx.restore();
       }
     }
+  };
+
+  Renderer.prototype._drawSnakeSprite = function (ctx, snake, head, isPlayer) {
+    const key = isPlayer ? 'player' : (snake.archetype === 'sniper' ? 'sniperEnemy' : (snake.archetype || 'grunt'));
+    const sprite = this.sprites[key] || this.sprites.grunt;
+    if (!sprite || !sprite.ready) return;
+    const atlas = SNAKE_ATLAS[key] || SNAKE_ATLAS.grunt;
+    const crop = atlas.head;
+    const size = (key === 'grunt' || key === 'brute' ? 58 : 54) * (snake.scale || 1);
+    ctx.save();
+    ctx.translate(head.x, head.y);
+    ctx.rotate((snake.aimAng || 0) + (atlas.facesLeft ? Math.PI : 0));
+    ctx.globalAlpha = snake.hitFlash > 0 ? 0.72 : 1;
+    ctx.drawImage(sprite, crop[0], crop[1], crop[2], crop[3], -size * 0.54, -size * 0.42, size, size * 0.84);
+    ctx.restore();
+  };
+
+  Renderer.prototype._drawSnakeBodySprites = function (ctx, snake, isPlayer) {
+    const key = isPlayer ? 'player' : (snake.archetype === 'sniper' ? 'sniperEnemy' : (snake.archetype || 'grunt'));
+    const sprite = this.sprites[key] || this.sprites.grunt;
+    if (!sprite || !sprite.ready) return;
+    const atlas = SNAKE_ATLAS[key] || SNAKE_ATLAS.grunt;
+    const pts = snake.pts, scale = snake.scale || 1;
+    const maxAccents = this.crowded ? 2 : Math.min(6, Math.max(2, Math.floor(pts.length / 5)));
+    const stride = Math.max(2, Math.floor((pts.length - 2) / maxAccents));
+    let drawn = 0;
+    for (let i = 2; i < pts.length && drawn < maxAccents; i += stride, drawn++) {
+      const p = pts[i];
+      const small = i > pts.length * 0.58;
+      const crop = small ? atlas.small : atlas.large;
+      const size = (small ? 24 : 30) * scale;
+      ctx.drawImage(sprite, crop[0], crop[1], crop[2], crop[3], p.x - size / 2, p.y - size / 2, size, size);
+    }
+  };
+
+  Renderer.prototype._drawWeaponSprite = function (ctx, snake, head) {
+    const sprite = this.sprites[snake.weapon];
+    const scale = snake.scale || 1;
+    ctx.save();
+    ctx.translate(head.x, head.y);
+    ctx.rotate(snake.aimAng || 0);
+    ctx.globalAlpha = 0.96;
+    if (sprite && sprite.ready) {
+      // Full transparent canvas is intentional: each weapon's art occupies the
+      // centre and keeps a consistent visual pivot across the generated files.
+      ctx.drawImage(sprite, -27 * scale, -36 * scale, 108 * scale, 72 * scale);
+    } else {
+      ctx.translate(24 * scale, 1 * scale);
+      ctx.scale(scale, scale);
+      ctx.strokeStyle = ctx.fillStyle = CRATE_COL[snake.weapon] || '#7CF9FF';
+      ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 8;
+      drawWeaponIcon(ctx, snake.weapon, 17);
+    }
+    ctx.restore();
   };
 
   Renderer.prototype._drawEquipment = function (ctx, s, head, ax, ay) {
@@ -325,8 +526,15 @@
   Renderer.prototype._drawPellets = function (ctx, pellets) {
     ctx.save();
     ctx.shadowColor = '#9CFFB0'; ctx.shadowBlur = 12;
+    const orbSprite = this.sprites.orbs;
     for (const p of pellets) {
       const pr = p.r * (0.85 + Math.sin(p.ph) * 0.18);
+      if (orbSprite && orbSprite.ready) {
+        const crop = p.kind === 'rainbow' ? [385, 385, 260, 250] : (p.kind === 'gold' ? [130, 380, 230, 240] : [150, 135, 200, 210]);
+        const size = pr * (p.kind === 'rainbow' ? 5.2 : (p.kind === 'gold' ? 4.7 : 4.2));
+        ctx.drawImage(orbSprite, crop[0], crop[1], crop[2], crop[3], p.x - size / 2, p.y - size / 2, size, size);
+        continue;
+      }
       ctx.fillStyle = '#9CFFB0';
       ctx.beginPath(); ctx.arc(p.x, p.y, pr, 0, TAU); ctx.fill();
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
@@ -342,6 +550,15 @@
       ctx.save();
       ctx.translate(c.x, c.y + Math.sin(c.ph) * 3);
       ctx.rotate(Math.sin(c.ph * 0.5) * 0.12);
+      const crateSprite = this.sprites.crate;
+      if (crateSprite && crateSprite.ready) {
+        ctx.globalAlpha = 0.98;
+        ctx.drawImage(crateSprite, -r * 2.05, -r * 2.05, r * 4.1, r * 4.1);
+        ctx.fillStyle = col; ctx.strokeStyle = col; ctx.shadowColor = col; ctx.shadowBlur = 8;
+        drawWeaponIcon(ctx, c.type, r * 0.78);
+        ctx.restore();
+        continue;
+      }
       ctx.shadowColor = col; ctx.shadowBlur = 20;
       ctx.fillStyle = 'rgba(6,12,16,0.9)'; ctx.strokeStyle = col; ctx.lineWidth = 3;
       roundRect(ctx, -r, -r, r * 2, r * 2, 5);
@@ -481,6 +698,27 @@
     for (const p of this.particles) {
       const a = Math.max(0, Math.min(1, p.life / p.max));
       ctx.globalAlpha = a;
+      if (p.kind === 'coin' && this.sprites.coins && this.sprites.coins.ready) {
+        const size = p.r * 4;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((1 - a) * 7);
+        ctx.drawImage(this.sprites.coins, 145, 35, 315, 280, -size / 2, -size / 2, size, size); ctx.restore();
+        continue;
+      }
+      if (p.kind === 'coinStack' && this.sprites.coins && this.sprites.coins.ready) {
+        const size = p.r * 7;
+        ctx.drawImage(this.sprites.coins, 520, 340, 400, 280, p.x - size / 2, p.y - size / 2, size, size * 0.72);
+        continue;
+      }
+      if (p.kind === 'explosion' && this.sprites.combatFx && this.sprites.combatFx.ready) {
+        const size = p.r * (1.3 - a * 0.3);
+        ctx.drawImage(this.sprites.combatFx, 240, 360, 290, 230, p.x - size / 2, p.y - size / 2, size, size);
+        continue;
+      }
+      if (p.kind === 'flash' && this.sprites.combatFx && this.sprites.combatFx.ready) {
+        const size = p.r * 4.6;
+        ctx.drawImage(this.sprites.combatFx, 380, 80, 270, 230, p.x - size / 2, p.y - size / 2, size, size);
+        continue;
+      }
       ctx.shadowColor = p.color;
       ctx.shadowBlur = p.kind === 'flash' ? 24 : 8;
       ctx.fillStyle = p.color;
@@ -615,6 +853,21 @@
         ctx.quadraticCurveTo(0, 0, s * 0.4, -s * 0.3);
         ctx.quadraticCurveTo(s, s * 0.2, s * 0.4, s * 0.6);
         ctx.closePath(); ctx.fill();
+        break;
+      case 'needler':
+        ctx.moveTo(-s, 0); ctx.lineTo(s, 0); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(s * 0.25, -s * 0.32); ctx.lineTo(s, 0); ctx.lineTo(s * 0.25, s * 0.32); ctx.stroke();
+        break;
+      case 'burstcannon':
+        ctx.rect(-s, -s * 0.32, s * 1.55, s * 0.64); ctx.stroke();
+        ctx.beginPath(); ctx.arc(-s * 0.35, s * 0.36, s * 0.24, 0, TAU); ctx.stroke();
+        break;
+      case 'arcwelder':
+        ctx.moveTo(-s, 0); ctx.lineTo(-s * 0.25, 0); ctx.lineTo(0, -s * 0.45); ctx.lineTo(s * 0.15, s * 0.15); ctx.lineTo(s, 0); ctx.stroke();
+        break;
+      case 'shredder':
+        ctx.arc(0, 0, s * 0.55, 0, TAU); ctx.stroke();
+        for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2; ctx.beginPath(); ctx.moveTo(Math.cos(a) * s * 0.28, Math.sin(a) * s * 0.28); ctx.lineTo(Math.cos(a + 0.5) * s * 0.72, Math.sin(a + 0.5) * s * 0.72); ctx.stroke(); }
         break;
       default:
         ctx.arc(0, 0, s * 0.6, 0, TAU); ctx.stroke();

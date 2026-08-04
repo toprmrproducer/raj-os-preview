@@ -25,6 +25,7 @@
     enemies: $('hud-enemies'), progress: $('hud-progress'), mission: $('hud-mission'),
     player: $('hud-player'), banner: $('wave-banner'), healthFill: $('health-fill'),
     healthNum: $('hud-health-num'), staminaFill: $('stamina-fill'), weapon: $('hud-weapon'), ammo: $('hud-ammo'),
+    weaponBelt: $('weapon-belt'),
     abilityChip: $('hud-ability'), abilityFill: $('ability-fill'), abilityLabel: $('ability-label'),
     loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'),
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
@@ -42,6 +43,8 @@
     btnRevive: $('btn-revive'), reviveCost: $('revive-cost'), reviveNote: $('revive-note'),
     musMenu: $('mus-menu'), musCombat: $('mus-combat'), musBoss: $('mus-boss')
   };
+  el.pause = $('pause');
+  el.btnResume = $('btn-resume');
 
   const renderer = new VRender.Renderer(canvas, minimap);
   const keys = { up: false, down: false, left: false, right: false };
@@ -61,6 +64,8 @@
   let runSaved = false;
   let runBanked = false;
   let storyT = 0;
+  let beltSignature = '';
+  let nextHudAt = 0;
   const WALLET_KEY = 'swg_wallet_v1';
   const REVIVE_COST = 3;
   let wallet = loadWallet();
@@ -258,7 +263,13 @@
     if (dir) { keys[dir] = down; return true; }
     if (code === 'Space') { firing = down; return true; }
     if (code === 'ShiftLeft' || code === 'ShiftRight') { boosting = down; return true; }
+    if ((code === 'Escape' || code === 'KeyP') && down && started && game && !game.gameOver) {
+      togglePause(); return true;
+    }
     if (code === 'KeyE') { if (down && game && started) game.useAbility(); return true; }
+    if ((code === 'KeyQ' || code === 'KeyC') && down && game && started && !game.gameOver) {
+      game.cycleWeapon(code === 'KeyQ' ? -1 : 1); return true;
+    }
     if (code === 'KeyR' && down && started) {
       if (game && game.gameOver) restartDirect();
       else if (game) game.startReload(game.player);
@@ -285,14 +296,46 @@
   window.addEventListener('mouseup', function (event) {
     if (event.button === 0) firing = false;
   });
-  window.addEventListener('blur', resetInput);
+  window.addEventListener('blur', function () {
+    resetInput();
+    if (started && running && game && !game.gameOver) pauseGame();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && started && running && game && !game.gameOver) pauseGame();
+  });
   window.addEventListener('resize', function () { renderer.resize(); });
+  canvas.addEventListener('wheel', function (event) {
+    if (!started || !running || !game || game.gameOver) return;
+    event.preventDefault();
+    game.cycleWeapon(event.deltaY < 0 ? -1 : 1);
+  }, { passive: false });
 
   function resetInput() {
     keys.up = keys.down = keys.left = keys.right = false;
     firing = false;
     boosting = false;
   }
+
+  function pauseGame() {
+    if (!started || !running || !game || game.gameOver) return false;
+    running = false;
+    resetInput();
+    el.pause.classList.remove('hidden');
+    el.btnResume.focus();
+    return true;
+  }
+
+  function resumeGame() {
+    if (!started || running || !game || game.gameOver) return false;
+    el.pause.classList.add('hidden');
+    running = true;
+    acc = 0;
+    lastT = performance.now();
+    canvas.focus();
+    return true;
+  }
+
+  function togglePause() { return running ? pauseGame() : resumeGame(); }
 
   document.querySelectorAll('[data-loadout]').forEach(function (button) {
     button.addEventListener('click', function () {
@@ -316,6 +359,7 @@
   });
 
   el.btnStart.addEventListener('click', start);
+  el.btnResume.addEventListener('click', resumeGame);
   el.username.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') start();
   });
@@ -404,6 +448,17 @@
     if (touchBoost.setPointerCapture && event.pointerId !== undefined) touchBoost.setPointerCapture(event.pointerId);
   });
 
+  const touchSwap = document.querySelector('[data-touch-swap]');
+  if (touchSwap) touchSwap.addEventListener('pointerdown', function (event) {
+    event.preventDefault(); touchMode = true;
+    if (game && started && !game.gameOver) game.cycleWeapon(1);
+  });
+
+  if (el.weaponBelt) el.weaponBelt.addEventListener('click', function (event) {
+    const button = event.target.closest('[data-weapon]');
+    if (button && game) game.switchWeapon(button.dataset.weapon);
+  });
+
   function currentAimWorld() {
     if (touchMode && game) {
       const head = game.player.pts[0];
@@ -423,7 +478,17 @@
   }
 
   function newGame() {
-    game = new VIPER.Game((Date.now() & 0xffffff) || 1337, { loadout: profile.loadout, level: wallet.level });
+    const runSeed = (Date.now() & 0xffffff) || 1337;
+    game = new VIPER.Game(runSeed, { loadout: profile.loadout, level: wallet.level });
+    if (window.SWGMaps) {
+      // Chapters deliberately advance through the five map families. Layouts are
+      // generated once per run, never in the animation loop.
+      const mapIndex = Math.min(window.SWGMaps.maps.length - 1, Math.floor((wallet.level - 1) / 3));
+      game.map = window.SWGMaps.maps[mapIndex];
+      game.mapLayout = window.SWGMaps.generateLayout(game.map.id, runSeed, {
+        safeZones: [{ x: VIPER.W / 2, y: VIPER.H / 2, radius: 280 }]
+      });
+    }
     renderer.camX = game.player.pts[0].x;
     renderer.camY = game.player.pts[0].y;
     renderer.particles.length = 0;
@@ -456,6 +521,7 @@
       el.title.classList.add('hidden');
       el.gameover.classList.add('hidden');
       el.hud.classList.remove('hidden');
+      el.pause.classList.add('hidden');
       music.play('combat');
       lastT = performance.now();
     };
@@ -543,6 +609,14 @@
         el.storyTicker.classList.remove('hidden');
         storyT = 3;
       }
+      else if (event.type === 'weaponSwitch' || event.type === 'ammoStack') {
+        const weapon = WEAPONS[event.weapon];
+        el.storyTicker.textContent = event.type === 'ammoStack'
+          ? ((weapon ? weapon.name : event.weapon) + ' AMMO STACKED')
+          : ('EQUIPPED ' + (weapon ? weapon.name : event.weapon));
+        el.storyTicker.classList.remove('hidden');
+        storyT = 1.35;
+      }
     }
     renderer.consume(events);
     events.length = 0;
@@ -576,7 +650,8 @@
     } else el.spinWrap.classList.add('hidden');
     el.coins.textContent = (wallet.coins + state.coins).toLocaleString();
     el.fangs.textContent = (wallet.fangs + state.fangs).toLocaleString();
-    el.levelLbl.textContent = 'LEVEL ' + state.level + ' \u00B7 ' + state.waveInLevel + '/' + state.wavesPerLevel;
+    el.levelLbl.textContent = 'LEVEL ' + state.level + ' \u00B7 ' + state.waveInLevel + '/' + state.wavesPerLevel +
+      (game.map ? ' \u00B7 ' + game.map.name : '');
     el.loadout.textContent = LOADOUTS[state.loadout].name;
     el.loadout.style.setProperty('--loadout-color', LOADOUTS[state.loadout].color);
     el.abilityLabel.textContent = state.abilityName + (state.abilityReady ? ' [E]' : '');
@@ -584,14 +659,29 @@
     el.abilityChip.classList.toggle('ready', state.abilityReady);
     el.abilityChip.classList.toggle('active', state.abilityActive || state.invincible);
 
+    const signature = (state.weaponBelt || []).map(function (slot) {
+      return slot.key + ':' + slot.mag + ':' + slot.ammo + ':' + slot.active;
+    }).join('|');
+    if (el.weaponBelt && signature !== beltSignature) {
+      beltSignature = signature;
+      el.weaponBelt.replaceChildren();
+      (state.weaponBelt || []).forEach(function (slot) {
+        const button = document.createElement('button');
+        button.type = 'button'; button.dataset.weapon = slot.key;
+        button.className = 'weapon-slot' + (slot.active ? ' active' : '');
+        button.innerHTML = '<b>' + slot.name + '</b><span>' + slot.mag + ' · ' + (slot.ammo === Infinity ? '∞' : slot.ammo) + '</span>';
+        el.weaponBelt.appendChild(button);
+      });
+    }
+
     const weapon = WEAPONS[state.weapon];
     el.weapon.textContent = weapon ? weapon.name : state.weapon.toUpperCase();
     if (state.ammo === Infinity || state.ammo === null) {
-      el.ammo.innerHTML = '&#8734;';
+      el.ammo.textContent = state.mag + ' / ∞';
       el.ammo.classList.remove('empty');
     } else {
-      el.ammo.textContent = state.ammo;
-      el.ammo.classList.toggle('empty', state.ammo <= 5);
+      el.ammo.textContent = state.mag + ' / ' + state.ammo;
+      el.ammo.classList.toggle('empty', state.mag <= 0 && state.ammo <= 0);
     }
 
     if (state.bossName) {
@@ -649,7 +739,7 @@
     const head = game.player.pts[0];
     renderer.update(delta, head.x, head.y);
     renderer.draw(game);
-    updateHud();
+    if (now >= nextHudAt) { updateHud(); nextHudAt = now + 66; }
   }
 
   syncMenu();
@@ -693,6 +783,8 @@
       firing = true; tick(); firing = false; return true;
     },
     setFire: function (down) { firing = !!down; return firing; },
+    pause: pauseGame,
+    resume: resumeGame,
     spawnCrate: function (type) { return game ? game.spawnCrate(type) : null; },
     spawnEnemy: function () { return game ? game.spawnEnemy() : null; },
     forceWave: function (wave) {
@@ -715,6 +807,8 @@
     wallet: function () { return Object.assign({}, wallet); },
     setWallet: function (w) { Object.assign(wallet, w); saveWallet(); renderLevelRow(); return Object.assign({}, wallet); },
     reload: function () { return game ? game.startReload(game.player) : false; },
+    cycleWeapon: function (direction) { return game ? game.cycleWeapon(direction || 1) : false; },
+    switchWeapon: function (type) { return game ? game.switchWeapon(type) : false; },
     revive: function () { return el.btnRevive.click(); },
     music: function () { return music.cur ? music.cur.id : null; },
     game: function () { return game; },
