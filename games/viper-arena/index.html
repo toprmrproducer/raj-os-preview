@@ -8,7 +8,8 @@
 <title>SNAKES WITH GUNS</title>
 <link rel="preload" href="./assets/generated/player-snake-kit.png" as="image" type="image/png" />
 <link rel="preload" href="./assets/generated/arena-floor.png" as="image" type="image/png" />
-<link rel="stylesheet" href="style.css?v=9" />
+<link rel="preload" href="./assets/generated/ui/title-screen-background.webp" as="image" type="image/webp" />
+<link rel="stylesheet" href="style.css?v=10" />
 </head>
 <body>
   <canvas id="game"></canvas>
@@ -41,8 +42,11 @@
     <div id="wave-banner" class="wave-banner hidden"></div>
     <div id="story-ticker" class="story-ticker hidden"></div>
     <div id="boss-meter" class="boss-meter hidden">
-      <div class="boss-meter-line"><span id="boss-name">BOSS</span><span id="boss-hp-text">100%</span></div>
-      <div class="boss-bar"><div id="boss-fill" class="boss-fill"></div></div>
+      <img id="boss-portrait" class="boss-portrait" alt="" decoding="async" />
+      <div class="boss-meter-content">
+        <div class="boss-meter-line"><span id="boss-name">BOSS</span><span id="boss-hp-text">100%</span></div>
+        <div class="boss-bar"><div id="boss-fill" class="boss-fill"></div></div>
+      </div>
     </div>
 
     <div class="hud-bottom">
@@ -232,8 +236,8 @@
 
   <script src="./maps/maps.js?v=1"></script>
   <script src="sim.js?v=8"></script>
-  <script src="render.js?v=9"></script>
+  <script src="render.js?v=10"></script>
   <script src="audio.js?v=5"></script>
-  <script src="main.js?v=9"></script>
+  <script src="main.js?v=10"></script>
 </body>
 </html>

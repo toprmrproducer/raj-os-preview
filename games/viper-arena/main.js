@@ -27,7 +27,7 @@
     healthNum: $('hud-health-num'), staminaFill: $('stamina-fill'), weapon: $('hud-weapon'), ammo: $('hud-ammo'),
     weaponBelt: $('weapon-belt'),
     abilityChip: $('hud-ability'), abilityFill: $('ability-fill'), abilityLabel: $('ability-label'),
-    loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'),
+    loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'), bossPortrait: $('boss-portrait'),
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
     title: $('title'), username: $('username'), usernameError: $('username-error'),
     btnStart: $('btn-start'), leaderboard: $('leaderboard'),
@@ -66,6 +66,7 @@
   let storyT = 0;
   let beltSignature = '';
   let nextHudAt = 0;
+  let bossPortraitKey = '';
   const WALLET_KEY = 'swg_wallet_v1';
   const REVIVE_COST = 3;
   let wallet = loadWallet();
@@ -688,10 +689,17 @@
       const ratio = state.bossMaxHp ? Math.max(0, state.bossHp / state.bossMaxHp) : 0;
       el.bossMeter.classList.remove('hidden');
       el.bossName.textContent = state.bossName;
+      const portraitNumber = String((((Math.ceil(state.wave / 3) - 1) % 20) + 1)).padStart(2, '0');
+      if (el.bossPortrait && portraitNumber !== bossPortraitKey) {
+        bossPortraitKey = portraitNumber;
+        el.bossPortrait.src = './assets/generated/bosses/boss-' + portraitNumber + '.webp';
+        el.bossPortrait.alt = state.bossName + ' portrait';
+      }
       el.bossHpText.textContent = Math.round(ratio * 100) + '%';
       el.bossFill.style.width = (ratio * 100) + '%';
     } else {
       el.bossMeter.classList.add('hidden');
+      bossPortraitKey = '';
     }
 
     if (waveBannerT > 0) {

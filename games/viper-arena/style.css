@@ -316,6 +316,13 @@ canvas#game {
   backdrop-filter: blur(4px);
 }
 
+#title {
+  background:
+    linear-gradient(90deg, rgba(1, 5, 10, 0.38) 0%, rgba(1, 5, 10, 0.12) 44%, rgba(1, 5, 10, 0.05) 100%),
+    url('./assets/generated/ui/title-screen-background.webp') center / cover no-repeat;
+  backdrop-filter: none;
+}
+
 .overlay-inner { text-align: center; padding: 40px; }
 
 .pause-overlay {
@@ -450,7 +457,7 @@ input:focus-visible {
   grid-template-columns: minmax(0, 1.65fr) minmax(290px, 0.75fr);
   align-items: stretch;
   border: 1px solid rgba(124, 249, 255, 0.24);
-  background: rgba(3, 8, 12, 0.88);
+  background: rgba(3, 8, 12, 0.74);
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.58), 0 0 80px rgba(124, 249, 255, 0.06);
   backdrop-filter: blur(18px);
 }
@@ -782,6 +789,24 @@ input:focus-visible {
   left: 50%;
   width: min(520px, calc(100% - 420px));
   transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.boss-portrait {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  border: 1px solid rgba(255, 77, 157, 0.7);
+  background: rgba(0, 0, 0, 0.64);
+  box-shadow: 0 0 22px rgba(255, 77, 157, 0.28);
+  border-radius: 50%;
+}
+
+.boss-meter-content {
+  min-width: 0;
 }
 
 .boss-meter-line {
