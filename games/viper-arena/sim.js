@@ -74,8 +74,8 @@
       knock: 260, pierce: 999, color: '#FF4D6D', kind: 'beam', range: 3200
     },
     flamethrower: {
-      name: 'FLAME', ammo: 240, magSize: 80, reload: 2.1, cd: 0.03, spread: 0.5, pellets: 2,
-      speed: 560, dmg: 4.5, life: 0.55, radius: 10, recoil: 30, shake: 1.6,
+      name: 'FLAME', ammo: 240, magSize: 80, reload: 2.1, cd: 0.03, spread: 0.38, pellets: 2,
+      speed: 840, dmg: 4.5, life: 1.15, radius: 11, recoil: 30, shake: 1.6,
       knock: 12, pierce: 999, color: '#FF8A2B', kind: 'flame', style: 'flame',
     },
     minigun: {
