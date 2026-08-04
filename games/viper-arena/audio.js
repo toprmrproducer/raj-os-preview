@@ -87,7 +87,8 @@
     ghostStep() { tone(920, 0.36, 'sine', 0.22, 0.42); tone(1320, 0.24, 'triangle', 0.15, 0.5); },
     shockwave() { tone(72, 0.62, 'sine', 0.4, 2.2); noise(0.28, 0.22, 520); },
     siegeMode() { tone(82, 0.72, 'square', 0.38, 1.8); setTimeout(() => tone(164, 0.42, 'triangle', 0.3, 1), 120); },
-    siegeImpact() { noise(0.1, 0.28, 620); tone(110, 0.14, 'square', 0.24, 0.55); }
+    siegeImpact() { noise(0.1, 0.28, 620); tone(110, 0.14, 'square', 0.24, 0.55); },
+    bounce() { tone(150, 0.12, 'triangle', 0.2, 0.62); noise(0.07, 0.14, 900); }
   };
 
   function setMode(nextMode) {

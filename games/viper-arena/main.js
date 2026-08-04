@@ -29,6 +29,7 @@
     abilityChip: $('hud-ability'), abilityFill: $('ability-fill'), abilityLabel: $('ability-label'),
     loadout: $('hud-loadout'), bossMeter: $('boss-meter'), bossName: $('boss-name'), bossPortrait: $('boss-portrait'),
     bossFill: $('boss-fill'), bossHpText: $('boss-hp-text'), soundToggle: $('sound-toggle'),
+    assistToggle: $('assist-toggle'),
     title: $('title'), username: $('username'), usernameError: $('username-error'),
     btnStart: $('btn-start'), leaderboard: $('leaderboard'),
     selectedLoadoutName: $('selected-loadout-name'),
@@ -221,7 +222,8 @@
     return {
       name: normalizeName(saved && saved.name) || cookieName || '',
       loadout: LOADOUTS[saved && saved.loadout] ? saved.loadout : 'overdrive',
-      sound: ['asmr', 'arcade', 'mute'].includes(saved && saved.sound) ? saved.sound : 'asmr'
+      sound: ['asmr', 'arcade', 'mute'].includes(saved && saved.sound) ? saved.sound : 'asmr',
+      assist: ['manual', 'aim', 'fire'].includes(saved && saved.assist) ? saved.assist : 'manual'
     };
   }
 
@@ -308,6 +310,7 @@
     });
     VAudio.setMode(profile.sound);
     updateSoundLabel();
+    updateAssistLabel();
     renderLeaderboard();
     renderLevelRow();
     music.setMuted(profile.sound === 'mute');
@@ -317,6 +320,25 @@
     const mode = (VAudio.getMode ? VAudio.getMode() : profile.sound).toUpperCase();
     el.soundToggle.textContent = 'SOUND · ' + mode;
     el.soundToggle.setAttribute('aria-label', 'Sound mode ' + mode + '. Activate to change.');
+  }
+
+  function updateAssistLabel() {
+    if (!el.assistToggle) return;
+    const labels = { manual: 'MANUAL', aim: 'AUTO AIM', fire: 'AUTO FIRE' };
+    const next = profile.assist === 'manual' ? 'auto aim' : (profile.assist === 'aim' ? 'auto fire' : 'manual aim');
+    el.assistToggle.textContent = 'ASSIST · ' + labels[profile.assist] + ' [F]';
+    el.assistToggle.classList.toggle('active', profile.assist !== 'manual');
+    el.assistToggle.setAttribute('aria-label', 'Combat assist ' + labels[profile.assist] + '. Activate to switch to ' + next + '.');
+    el.assistToggle.setAttribute('aria-pressed', String(profile.assist !== 'manual'));
+  }
+
+  function cycleAssist() {
+    const modes = ['manual', 'aim', 'fire'];
+    profile.assist = modes[(modes.indexOf(profile.assist) + 1) % modes.length];
+    saveProfile();
+    updateAssistLabel();
+    VAudio.play('pickup');
+    return profile.assist;
   }
 
   function setKey(code, down) {
@@ -332,6 +354,7 @@
       togglePause(); return true;
     }
     if (code === 'KeyE') { if (down && game && started) game.useAbility(); return true; }
+    if (code === 'KeyF' && down && started) { cycleAssist(); return true; }
     if ((code === 'KeyQ' || code === 'KeyC') && down && game && started && !game.gameOver) {
       game.cycleWeapon(code === 'KeyQ' ? -1 : 1); return true;
     }
@@ -425,6 +448,7 @@
     saveProfile();
     syncMenu();
   });
+  if (el.assistToggle) el.assistToggle.addEventListener('click', cycleAssist);
 
   el.btnStart.addEventListener('click', start);
   el.btnResume.addEventListener('click', resumeGame);
@@ -543,8 +567,8 @@
     if (button && game) game.switchWeapon(button.dataset.weapon);
   });
 
-  function currentAimWorld() {
-    if (touchMode && game) {
+  function findAssistTarget() {
+    if (!game) return null;
       const head = game.player.pts[0];
       let target = null;
       let best = Infinity;
@@ -554,11 +578,20 @@
         const d = Math.hypot(enemyHead.x - head.x, enemyHead.y - head.y);
         if (d < best) { best = d; target = enemyHead; }
       });
+    return target;
+  }
+
+  function currentAimWorld() {
+    if ((profile.assist !== 'manual' || touchMode) && game) {
+      const target = findAssistTarget();
       if (target) return { x: target.x, y: target.y };
     }
-    const ox = renderer.camX - renderer.vw / 2;
-    const oy = renderer.camY - renderer.vh / 2;
-    return { x: mouse.x + ox, y: mouse.y + oy };
+    // Screen pixels must be divided by zoom. The previous mapping used a 1:1
+    // offset, which compressed the available aim arc after the camera zoom-out.
+    return {
+      x: renderer.camX + (mouse.x - renderer.vw / 2) / renderer.zoom,
+      y: renderer.camY + (mouse.y - renderer.vh / 2) / renderer.zoom
+    };
   }
 
   function newGame() {
@@ -788,6 +821,7 @@
         VAudio.play(event.sound || 'pickup');
       }
       else if (event.type === 'siegeImpact') VAudio.play('siegeImpact');
+      else if (event.type === 'contactBounce') VAudio.play('bounce');
       else if (event.type === 'lastStand') {
         el.storyTicker.textContent = 'LAST STAND. ' + (event.left > 0 ? 'One more in you.' : 'That was the last one.');
         el.storyTicker.classList.remove('hidden');
@@ -903,7 +937,8 @@
     game.applyKeys(keys);
     const aim = currentAimWorld();
     game.setAim(aim.x, aim.y);
-    game.setFire(firing);
+    const assistedFire = profile.assist === 'fire' && !!findAssistTarget();
+    game.setFire(firing || assistedFire);
     game.setBoost(boosting);
     game.step();
     processEvents();
@@ -968,10 +1003,8 @@
       return { x: x, y: y };
     },
     aimWorld: function (worldX, worldY) {
-      const ox = renderer.camX - renderer.vw / 2;
-      const oy = renderer.camY - renderer.vh / 2;
-      mouse.x = worldX - ox;
-      mouse.y = worldY - oy;
+      mouse.x = (worldX - renderer.camX) * renderer.zoom + renderer.vw / 2;
+      mouse.y = (worldY - renderer.camY) * renderer.zoom + renderer.vh / 2;
       touchMode = false;
       return { x: mouse.x, y: mouse.y };
     },
@@ -1007,6 +1040,7 @@
     cycleWeapon: function (direction) { return game ? game.cycleWeapon(direction || 1) : false; },
     switchWeaponSlot: function (index) { return game ? game.switchWeaponSlot(index) : false; },
     switchWeapon: function (type) { return game ? game.switchWeapon(type) : false; },
+    cycleAssist: cycleAssist,
     revive: function () { return el.btnRevive.click(); },
     music: function () { return music.cur ? music.cur.id : null; },
     game: function () { return game; },

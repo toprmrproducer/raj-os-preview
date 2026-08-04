@@ -329,7 +329,7 @@
       weapon: 'pistol', ammo: Infinity, mag: 5, cd: 0, charging: 0, wantFire: false,
       reloading: false, reloadT: 0, spin: 0, turnMult: 1,
       recoil: 0, aimAng: heading, name: isPlayer ? 'YOU' : 'ENEMY',
-      hitFlash: 0, color: isPlayer ? '#39FF9E' : '#FF5A5A', damageDir: 0, damageFlash: 0, coilCd: 0,
+      hitFlash: 0, color: isPlayer ? '#39FF9E' : '#FF5A5A', damageDir: 0, damageFlash: 0, coilCd: 0, contactCd: 0,
       brain: { reactT: 0, strafe: 1, dodgeT: 0, dodgeAng: 0 }
     };
   }
@@ -588,6 +588,7 @@
     s.bossScore = options.score || 0;
     s.damageMult = options.damageMult || 1;
     s.protocol = options.protocol || '';
+    s.engageAt = this.t + (s.boss ? 4.8 : 3.6) + this.rng() * 0.8;
     if (options.scale) s.scale = options.scale; else if (!s.scale) s.scale = 1;
     if (options.color) s.color = options.color;
     if (!options.color && this.map && this.map.enemyTheme && this.map.enemyTheme.palette) {
@@ -1004,7 +1005,24 @@
     const lead = clamp(d / 900, 0, 0.5);
     const tx = ph.x + pv.x * lead, ty = ph.y + pv.y * lead;
     const toAng = Math.atan2(ty - eh.y, tx - eh.x);
-    const wingPhase = s.wingRole ? ((this.t + s.wingId * 0.37) % 6) : -1;
+    const wingPhase = s.wingRole ? (((this.t - s.engageAt) + (s.wingId % 3) * 0.85 + 90) % 9) : -1;
+
+    // Arrival grace: enemies establish the formation outside immediate striking
+    // distance before committing. This produces readable quiet/attack rhythms.
+    if (this.t < s.engageAt) {
+      s.boosting = false;
+      s.targetHeading = d < 900 ? toAng + Math.PI : toAng + s.brain.strafe * Math.PI / 2;
+      s.aimAng = toAng;
+      return;
+    }
+    // Every wing deliberately holds between coordinated attack runs. They stay
+    // visible and reposition, but do not fire during this phase.
+    if (s.wingRole && wingPhase < 2.2) {
+      s.boosting = false;
+      s.targetHeading = d < 760 ? toAng + Math.PI : toAng + s.brain.strafe * Math.PI / 2;
+      s.aimAng = toAng;
+      return;
+    }
 
     // Tactical intent changes slowly; steering remains deterministic every frame.
     // This is the seam where a future on-device SLM director can suggest the
@@ -1064,11 +1082,11 @@
     // commits first, two flankers cross from opposite sides, then the striker
     // dives through the opening. Roles stay deterministic for replays.
     if (s.brain.dodgeT <= 0 && s.wingRole) {
-      if (s.wingRole === 'bait') desired = wingPhase < 1.6 ? toAng : toAng + Math.PI * 0.82;
-      else if (s.wingRole === 'flank-left') desired = toAng - (wingPhase < 2.7 ? 1.08 : 0.34);
-      else if (s.wingRole === 'flank-right') desired = toAng + (wingPhase < 2.7 ? 1.08 : 0.34);
-      else if (s.wingRole === 'striker') desired = (wingPhase > 1.35 && wingPhase < 3.7) ? toAng : toAng + s.brain.strafe * Math.PI / 2;
-      if (s.wingRole === 'bait' || s.wingRole === 'striker') s.boosting = wingPhase < 3.7;
+      if (s.wingRole === 'bait') desired = wingPhase < 4.2 ? toAng : toAng + Math.PI * 0.82;
+      else if (s.wingRole === 'flank-left') desired = toAng - (wingPhase < 5.4 ? 1.08 : 0.34);
+      else if (s.wingRole === 'flank-right') desired = toAng + (wingPhase < 5.4 ? 1.08 : 0.34);
+      else if (s.wingRole === 'striker') desired = (wingPhase > 3.8 && wingPhase < 6.4) ? toAng : toAng + s.brain.strafe * Math.PI / 2;
+      if (s.wingRole === 'bait' || s.wingRole === 'striker') s.boosting = wingPhase > 2.2 && wingPhase < 6.4;
     }
     // flip orbit direction now and then so the circle isn't predictable
     if (s.brain.flipT === undefined) s.brain.flipT = 2 + this.rng() * 3;
@@ -1159,7 +1177,7 @@
         this.emit({
           type: 'chapterComplete',
           chapter: chapter,
-          nextChapter: Math.min(30, chapter + 1),
+          nextChapter: Math.min(36, chapter + 1),
           rewardCoins: 250 + chapter * 75,
           rewardFangs: 2 + Math.floor(chapter / 3)
         });
@@ -1182,6 +1200,7 @@
     if (p.recoil > 0) p.recoil = Math.max(0, p.recoil - 900 * dt);
     if (p.hitFlash > 0) p.hitFlash -= dt;
     if (p.damageFlash > 0) p.damageFlash -= dt;
+    if (p.contactCd > 0) p.contactCd = Math.max(0, p.contactCd - dt);
 
     // reload + gatling spin
     this._tickReload(p, dt);
@@ -1216,6 +1235,7 @@
       if (!e.alive) continue;
       if (e.cd > 0) e.cd -= dt;
       if (e.coilCd > 0) e.coilCd -= dt;
+      if (e.contactCd > 0) e.contactCd = Math.max(0, e.contactCd - dt);
       this._tickReload(e, dt);
       const ewd = WEAPONS[e.weapon];
       if (ewd.spinup) e.spin = Math.min(ewd.spinup, e.spin + dt);
@@ -1348,6 +1368,27 @@
     this.crates = this.crates.filter(c => !c.dead);
   };
 
+  Game.prototype._bounceHeadFromPoint = function (snake, x, y, minDistance) {
+    const head = snake.pts[0];
+    let dx = head.x - x, dy = head.y - y;
+    let distance = Math.hypot(dx, dy);
+    if (distance < 0.001) {
+      dx = Math.cos(snake.heading + Math.PI);
+      dy = Math.sin(snake.heading + Math.PI);
+      distance = 1;
+    }
+    const nx = dx / distance, ny = dy / distance;
+    head.x = clamp(x + nx * (minDistance + 5), HEAD_R, W - HEAD_R);
+    head.y = clamp(y + ny * (minDistance + 5), HEAD_R, H - HEAD_R);
+    const away = Math.atan2(ny, nx);
+    const side = snake.brain && snake.brain.strafe < 0 ? -1 : 1;
+    snake.heading = away;
+    snake.targetHeading = away + side * 0.32;
+    snake.boosting = false;
+    snake.contactCd = 0.34;
+    this.emit({ type: 'contactBounce', x: head.x, y: head.y, color: snake.color });
+  };
+
   Game.prototype._bodyCollisions = function () {
     const p = this.player;
     if (!p.alive) return;
@@ -1357,50 +1398,58 @@
     // enemy bodies
     for (const e of this.enemies) {
       if (!e.alive) continue;
-      // coil kill: an enemy head that runs into YOUR tail dies — encircling is a real weapon
+      // An enemy head striking the player's coil takes damage and physically
+      // rebounds. It may die from the impact, but can never phase through the
+      // body and create a delayed, incorrectly attributed player collision.
       const ehd = e.pts[0];
+      let enemyBounced = false;
       for (let j = 4; j < p.pts.length; j += 2) {
         const rr2 = BODY_R + HEAD_R + SEG * 0.45;
         if (dist2(ehd.x, ehd.y, p.pts[j].x, p.pts[j].y) < rr2 * rr2) {
-          this.deathCause = '';
-          if (e.boss || e.archetype === 'brute') {
-            // a Titan does not die to a rope. it hurts, and it gets shoved off.
-            if (e.coilCd > 0) break;
-            e.coilCd = 0.9;
-            const ang = Math.atan2(ehd.y - p.pts[j].y, ehd.x - p.pts[j].x);
-            this._hitSnake(e, Math.max(60, e.maxHp * 0.10), ang, 520, p);
-            this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COIL BURN', life: 1.0, color: '#FFC24B' });
-          } else {
-            this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COILED!', life: 1.1, color: '#39FF9E' });
-            this._killSnake(e, p);
-          }
+          if (e.contactCd > 0) break;
+          const point = p.pts[j];
+          const ang = Math.atan2(ehd.y - point.y, ehd.x - point.x);
+          this._bounceHeadFromPoint(e, point.x, point.y, BODY_R + HEAD_R + SEG * 0.45);
+          e.coilCd = 0.7;
+          this._hitSnake(e, e.boss ? Math.max(34, e.maxHp * 0.07) : Math.max(36, e.maxHp * 0.24), ang, 760, p);
+          this.floaters.push({ x: ehd.x, y: ehd.y, txt: 'COIL REBOUND', life: 0.9, color: '#39FF9E' });
+          enemyBounced = true;
           break;
         }
       }
-      if (!e.alive) continue;
+      if (!e.alive || enemyBounced) continue;
       const enemyStride = e.pts.length > 24 ? 2 : 1;
       for (let i = 0; i < e.pts.length; i += enemyStride) {
         const rr = (i === 0 ? HEAD_R : BODY_R) + HEAD_R - 2 + (enemyStride === 2 ? SEG * 0.6 : 0);
         if (dist2(head.x, head.y, e.pts[i].x, e.pts[i].y) < rr * rr) {
           if (siegeActive) {
-            if (e.coilCd <= 0) {
-              e.coilCd = 0.25;
-              const ang = Math.atan2(e.pts[i].y - head.y, e.pts[i].x - head.x);
+            if (e.contactCd <= 0) {
+              const contact = e.pts[i];
+              const ang = Math.atan2(contact.y - head.y, contact.x - head.x);
+              this._bounceHeadFromPoint(e, head.x, head.y, rr);
               this._hitSnake(e, e.boss ? 36 : 90, ang, 920, p);
               this.floaters.push({ x: head.x, y: head.y - 18, txt: 'SIEGE BLOCK', life: 0.8, color: '#FFC24B' });
               this.emit({ type: 'siegeImpact', x: head.x, y: head.y });
             }
             break;
           }
+          if (p.contactCd > 0 || e.contactCd > 0) break;
           if (i === 0) {
-            // head-on head: a heavy trade with knockback, not an instant death
-            this._hitSnake(e, 44, e.heading, 420, p);
-            this._hitSnake(p, 30, p.heading + Math.PI, 420, e);
+            const px = head.x, py = head.y, ex = e.pts[0].x, ey = e.pts[0].y;
+            this._bounceHeadFromPoint(p, ex, ey, HEAD_R * 2);
+            this._bounceHeadFromPoint(e, px, py, HEAD_R * 2);
+            this._hitSnake(e, 32, Math.atan2(ey - py, ex - px), 520, p);
+            this._hitSnake(p, 22, Math.atan2(py - ey, px - ex), 520, e);
             if (!p.alive) this.deathCause = e.name;
           } else {
-            // your head into their body: you die (classic snake rules)
-            this.deathCause = e.name;
-            this._killSnake(p, e);
+            const contact = e.pts[i];
+            const away = Math.atan2(head.y - contact.y, head.x - contact.x);
+            this._bounceHeadFromPoint(p, contact.x, contact.y, rr);
+            e.contactCd = 0.22;
+            this._hitSnake(p, 18, away, 620, e);
+            this._hitSnake(e, 14, away + Math.PI, 260, p);
+            this.floaters.push({ x: head.x, y: head.y, txt: 'DEFLECTED', life: 0.7, color: '#7CF9FF' });
+            if (!p.alive) this.deathCause = e.name;
           }
           return;
         }

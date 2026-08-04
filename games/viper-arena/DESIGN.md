@@ -34,6 +34,8 @@ Use the existing system sans stack with uppercase, high-weight labels. HUD label
 - **Loadout dossier:** every class card names its starting gun, passive trade-off, exact E ability effect, duration/radius where relevant, and cooldown. Cards remain collapsed behind a single LOADOUT action until requested.
 - **Numbered weapon slot:** the first three owned belt slots expose persistent `1`, `2`, and `3` badges. Number keys and clicks select the matching slot directly; Q/C and the wheel remain cycling fallbacks.
 - **Sponsor rail:** desktop combat reserves slim left/right safe rails for future ads. Rails never cover the player, vitals, mission, minimap, weapon belt, or touch controls and disappear below 1180px.
+- **Combat assist toggle:** a persistent HUD control cycles MANUAL → AUTO AIM → AUTO FIRE. State is named in text, keyboard-accessible, never overrides movement, and keeps manual fire available in AUTO AIM.
+- **Collision response:** snake-on-snake contact visibly separates and redirects the moving head. No unit may phase through another body or leave an overlap that is later misattributed as a player collision.
 
 ## 5. Interaction and motion
 
@@ -41,7 +43,7 @@ Combat effects use transform, opacity, canvas drawing, and short glow pulses. Mo
 
 Weapon switching is immediate, preserves each gun's loaded magazine and reserve pool, and shows a short text confirmation. Repeated pickups add reserve ammo instead of discarding the existing weapon state.
 
-Launcher drawers animate only opacity/transform, start closed, and keep PLAY available without scrolling at common laptop sizes. Gameplay camera scale targets a wider tactical view (`0.58` desktop, `0.55` compact) while keeping sprite identities legible.
+Launcher drawers animate only opacity/transform, start closed, and keep PLAY available without scrolling at common laptop sizes. Gameplay camera scale targets a wide tactical view (`0.43` desktop, `0.41` compact) while keeping sprite identities legible. Aim direction is independent of movement and maps the entire viewport into world space, allowing unrestricted 360° tracking.
 
 ## 6. Responsive behavior and accessibility
 

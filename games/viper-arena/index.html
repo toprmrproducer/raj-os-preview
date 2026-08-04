@@ -9,7 +9,7 @@
 <link rel="preload" href="./assets/generated/player-snake-kit.png" as="image" type="image/png" />
 <link rel="preload" href="./assets/generated/arena-floor.png" as="image" type="image/png" />
 <link rel="preload" href="./assets/generated/ui/title-screen-background.webp" as="image" type="image/webp" />
-<link rel="stylesheet" href="style.css?v=12" />
+<link rel="stylesheet" href="style.css?v=13" />
 <link rel="stylesheet" href="chapter.css?v=2" />
 </head>
 <body>
@@ -73,6 +73,7 @@
 
     <canvas id="minimap"></canvas>
     <button id="sound-toggle" class="sound-toggle" type="button" aria-label="Change sound mode">SOUND · ASMR</button>
+    <button id="assist-toggle" class="assist-toggle" type="button" aria-label="Combat assist is manual. Activate to enable auto aim">ASSIST · MANUAL [F]</button>
     <aside class="ad-rail ad-rail-left" aria-label="Reserved advertisement area"><span>SPONSOR SLOT</span></aside>
     <aside class="ad-rail ad-rail-right" aria-label="Reserved advertisement area"><span>SPONSOR SLOT</span></aside>
     <div id="touch-controls" class="touch-controls" aria-label="Touch controls">
@@ -224,6 +225,7 @@
             <div><b>ABILITY</b><p>Every class has a signature power on E: invincibility, EMP, fire ring, ghost step, shockwave, or overclock. It recharges over time.</p></div>
             <div><b>EAT ORBS</b><p>Green orbs heal you AND permanently grow your max health and stamina. Bigger kills scatter more orbs — farm the big snakes.</p></div>
             <div><b>ARSENAL BELT</b><p>Every gun stays in your belt and duplicate pickups stack reserve ammo. Press 1/2/3 for the first three slots; Q/C, wheel, SWAP, or a belt click accesses the rest.</p></div>
+            <div><b>COMBAT ASSIST</b><p>Press F or use ASSIST to cycle Manual, Auto Aim, and Auto Fire. Movement stays manual, so you can focus on forming a defensive coil while the assist tracks threats.</p></div>
             <div><b>KNOW YOUR ENEMY</b><p>Blue runners are fast, purple brutes are tanks, yellow snipers snipe from across the arena, orange rushers charge straight at your head, and THE REAPER — a long pink snake — boosts in and coils around you. Do not let it close the circle.</p></div>
             <div><b>COIL TO KILL</b><p>Your tail is a weapon. Any enemy that runs head-first into your body dies on the spot — encircle them, cut them off, farm the orbs they drop. Your own tail never hurts you.</p></div>
             <div><b>SURVIVE</b><p>Enemies dodge your bullets and circle you. Head-on crashes hurt both of you badly. Lead your shots, keep moving, and never fight in a corner.</p></div>
@@ -273,9 +275,9 @@
   </div>
 
   <script src="./maps/maps.js?v=3"></script>
-  <script src="sim.js?v=10"></script>
-  <script src="render.js?v=13"></script>
-  <script src="audio.js?v=6"></script>
-  <script src="main.js?v=12"></script>
+  <script src="sim.js?v=11"></script>
+  <script src="render.js?v=14"></script>
+  <script src="audio.js?v=7"></script>
+  <script src="main.js?v=13"></script>
 </body>
 </html>

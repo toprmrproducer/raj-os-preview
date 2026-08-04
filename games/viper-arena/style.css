@@ -506,7 +506,7 @@ canvas#game {
 @media (min-width: 1180px) {
   #hud .hud-top { left: 132px; right: 132px; }
   #hud .hud-bottom { left: 132px; right: 132px; }
-  #hud #minimap, #hud .sound-toggle { right: 132px; }
+  #hud #minimap, #hud .sound-toggle, #hud .assist-toggle { right: 132px; }
 }
 
 /* ===== CHAPTER SELECT + COMPLETION CHECKPOINT ===== */
@@ -1093,7 +1093,8 @@ input:focus-visible {
 }
 
 .sound-picker button,
-.sound-toggle {
+.sound-toggle,
+.assist-toggle {
   padding: 8px 12px;
   color: var(--muted);
   background: rgba(255, 255, 255, 0.03);
@@ -1295,6 +1296,29 @@ input:focus-visible {
   background: rgba(4, 7, 10, 0.84);
 }
 
+.assist-toggle {
+  position: absolute;
+  top: 266px;
+  right: 32px;
+  z-index: 4;
+  pointer-events: auto;
+  padding: 8px 12px;
+  color: var(--muted);
+  background: rgba(4, 7, 10, 0.84);
+  border: 1px solid rgba(124, 249, 255, 0.24);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+}
+.assist-toggle.active {
+  color: var(--bg);
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 18px rgba(124, 249, 255, .42);
+}
+
 .rank-result {
   margin-top: 18px;
   color: var(--cyan);
@@ -1423,6 +1447,12 @@ input:focus-visible {
 
   .sound-toggle {
     top: 168px;
+    right: 14px;
+    padding: 6px 8px;
+    font-size: 8px;
+  }
+  .assist-toggle {
+    top: 204px;
     right: 14px;
     padding: 6px 8px;
     font-size: 8px;

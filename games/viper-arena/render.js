@@ -169,6 +169,7 @@
         case 'shake': this.addShake(e.amt); break;
         case 'muzzle': this.muzzle(e.x, e.y, e.ang, e.power || 1, e.color, e.kind); break;
         case 'spark': this.burst(e.x, e.y, e.color, 4, 160, 0.4); break;
+        case 'contactBounce': this.burst(e.x, e.y, e.color || '#7CF9FF', 10, 240, 0.45); this.addShake(5); break;
         case 'blood': this.burst(e.x, e.y, e.color, e.n || 6, 200, 0.5); break;
         case 'burst': this.burst(e.x, e.y, e.color, 14, 300, 0.8); break;
         case 'pop': this.burst(e.x, e.y, '#9CFFB0', 8, 180, 0.5); break;
