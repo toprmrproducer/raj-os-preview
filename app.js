@@ -80,8 +80,8 @@ const caseFileSystem = {
           type: "folder",
           children: [
             { name: "Kawsaypac Preview 3.case", type: "link", url: "https://toprmrproducer.github.io/kawsaypac-preview3/", copy: "Final cinematic commerce preview across a 17-product catalog." },
-            { name: "EXTNGO.case", type: "link", url: "https://extngo-cable-385.netlify.app", copy: "Shopify-backed product site for a retractable flat CAT6 cable." },
-            { name: "SimpliiGood.case", type: "link", url: "https://simpliigood-spirulina.netlify.app/simplii-green", copy: "Retail-first spirulina experience and education system." },
+            { name: "EXTNGO.case", type: "link", url: "https://www.extngo.com/", copy: "Shopify-backed product site for a retractable flat CAT6 cable." },
+            { name: "SimpliiGood.case", type: "link", url: "https://www.simpliigood.com/", copy: "Retail-first spirulina experience and education system." },
             { name: "Pawd Store.case", type: "link", url: "https://pawdstore.com", copy: "Live pet-commerce storefront and Shopify implementation." },
             { name: "Try Nokt.case", type: "link", url: "https://trynokt.com", copy: "Live product website from the RapidXAI web portfolio." },
             { name: "Fastcreek AI Studio.case", type: "link", url: "https://fastcreek-creatives.vercel.app", copy: "AI-native creative studio website and conversion system." }
@@ -175,11 +175,11 @@ const apps = {
         <div class="project-list">
           ${projectCard("01","RapidX Voice Studio","AI Voice Product","A studio for building personas, testing conversations, generating speech, and launching outbound calls. The former public host is offline, so this opens as a documented case file instead of a dead link.","ARCHIVED HOST","VOICE INFRASTRUCTURE","#b9dfe8","")}
           ${projectCard("02","Kawsaypac Preview 3","Premium Commerce","The final cinematic Shopify preview, moving from Cotopaxi to the living forest across a 17-product catalog.","FINAL PREVIEW 3","17 PRODUCT FLOWS","#e3b5a3","https://toprmrproducer.github.io/kawsaypac-preview3/")}
-          ${projectCard("03","EXTNGO","Headless Commerce","A Shopify-backed storefront for a retractable flat CAT6 cable, from product states through purchasing flow.","SHOPIFY BACKED","LIVE DEPLOYMENT","#c7f36b","https://extngo-cable-385.netlify.app")}
+          ${projectCard("03","EXTNGO","Headless Commerce","A Shopify-backed storefront for a retractable flat CAT6 cable, from product states through purchasing flow.","SHOPIFY BACKED","LIVE DEPLOYMENT","#c7f36b","https://www.extngo.com/")}
           ${projectCard("04","Pan-India CPaaS Voice Layer","Delivered AI Voice Infrastructure","Delivered voice cloning and a multi-provider AI voice layer: Gemini and Cartesia integration, prompt hardening, voicemail handling, and dashboard work.","DELIVERED + PAID","ANONYMIZED CASE","#c2b2e9","")}
           ${projectCard("05","V2U Stocks Operations","Platform Infrastructure","Operate and maintain backend infrastructure for a stocks-research platform on an ongoing retainer; its public dashboard expansion is scoped, not claimed as shipped.","ONGOING RETAINER","STATUS: OPERATING","#ffd95a","")}
           ${projectCard("06","Dental Voice Agent","US Practice Workflow Demo","Built and iterated a dental voice-agent demo for a US practice workflow; final client sign-off remains pending.","LIVE DEMO","SIGN-OFF PENDING","#a8d7e8","https://voicedemo.rapidx-ai.org")}
-          ${projectCard("07","SimpliiGood","Consumer Brand Website","A retail-first spirulina experience rebuilt around product education and cinematic storytelling.","LIVE WEBSITE","MOBILE QA","#a9e1d2","https://simpliigood-spirulina.netlify.app/simplii-green")}
+          ${projectCard("07","SimpliiGood","Consumer Brand Website","A retail-first spirulina experience rebuilt around product education and cinematic storytelling.","LIVE WEBSITE","MOBILE QA","#a9e1d2","https://www.simpliigood.com/")}
           ${projectCard("08","Pawd Store","Commerce Website","A live pet-commerce storefront and Shopify implementation from the RapidXAI web portfolio.","LIVE STORE","SHOPIFY BUILD","#f5c5a9","https://pawdstore.com")}
           ${projectCard("09","Try Nokt","Product Website","A live product website shipped inside the RapidXAI web portfolio.","LIVE WEBSITE","PUBLIC BUILD","#d9edc0","https://trynokt.com")}
           ${projectCard("10","Fastcreek AI Studio","Creative AI Website","A live creative-studio web experience combining conversion structure with a distinctive AI-native visual system.","LIVE WEBSITE","PUBLIC BUILD","#f6c1d0","https://fastcreek-creatives.vercel.app")}
