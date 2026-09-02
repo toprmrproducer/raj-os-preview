@@ -14,7 +14,7 @@ const clientCases = [
     metric: "₹80Cr+",
     metricLabel: "PIPELINE INFLUENCED IN ONE MONTH",
     summary: "A real-estate growth engagement designed to help move premium inventory through a faster, more systematic sales pipeline.",
-    outcome: "Shreyas reports that the engagement influenced more than ₹80 crore of property pipeline in one month. This is presented as pipeline influenced—not audited realized revenue.",
+    outcome: "Shreyas reports that the engagement influenced more than ₹80 crore of property pipeline in one month. This is presented as pipeline influenced - not audited realized revenue.",
     image: "./assets/case-studies/uk-realty.png",
     color: "#f3aaa8"
   },
@@ -101,7 +101,7 @@ const caseFileSystem = {
       name: "Client Videos",
       type: "folder",
       children: proofVideos.map((video, index) => ({
-        name: `${String(index + 1).padStart(2, "0")} — ${video.label}.story`,
+        name: `${String(index + 1).padStart(2, "0")}  -  ${video.label}.story`,
         type: "video",
         videoId: video.id,
         title: video.label,
@@ -155,12 +155,12 @@ const portraitPoses = [
 
 const apps = {
   projects: {
-    title: "Projects — Finder",
+    title: "Projects  -  Finder",
     chrome: "#f5a39c",
     subtitle: "10 SELECTED CASE FILES",
     render: () => `
       <div class="app-content projects-app">
-        <span class="app-kicker">SELECTED WORK / 2024—2026</span>
+        <span class="app-kicker">SELECTED WORK / 2024 - 2026</span>
         <h2 class="app-heading">Things that<br><em>actually shipped.</em></h2>
         <p class="app-deck">The portfolio is the point of this operating system: consulting, websites, AI voice infrastructure, operational platforms, and the proof behind them.</p>
         <section class="case-study-overview">
@@ -187,7 +187,7 @@ const apps = {
       </div>`,
   },
   revenue: {
-    title: "Client Results — Proof.app",
+    title: "Client Results  -  Proof.app",
     chrome: "#c7f36b",
     subtitle: "CLIENT-CASE OUTCOMES",
     render: () => `
@@ -213,7 +213,7 @@ const apps = {
       </div>`,
   },
   process: {
-    title: "How We Work — Systems.app",
+    title: "How We Work  -  Systems.app",
     chrome: "#a8d7e8",
     subtitle: "OPERATING LOOP",
     render: () => `
@@ -235,7 +235,7 @@ const apps = {
       </div>`,
   },
   achievements: {
-    title: "Achievements — Vault.app",
+    title: "Achievements  -  Vault.app",
     chrome: "#ffd95a",
     subtitle: "6 / 6 UNLOCKED",
     render: () => `
@@ -255,7 +255,7 @@ const apps = {
       </div>`,
   },
   testimonials: {
-    title: "Testimonials — Voices.app",
+    title: "Testimonials  -  Voices.app",
     chrome: "#ffd95a",
     subtitle: "5 REAL VIDEOS",
     render: () => `
@@ -268,7 +268,7 @@ const apps = {
       </div>`,
   },
   journey: {
-    title: "Journey — Timeline.app",
+    title: "Journey  -  Timeline.app",
     chrome: "#b8a7e8",
     subtitle: "2015 → NOW",
     render: () => `
@@ -299,27 +299,27 @@ const apps = {
       </div>`,
   },
   founder: {
-    title: "Founder.txt — Notepad",
+    title: "Founder.txt  -  Notepad",
     chrome: "#e6e35f",
     subtitle: "PLAIN TEXT / READ ONLY",
     render: () => `
       <div class="notepad-app">
         <header><span>FOUNDER.TXT</span><small>SHREYASRAJ.COM</small></header>
         <p class="notepad-lead">Building systems<br>that make money<br>while I sleep.</p>
-        <p>I am Shreyas Raj—founder, operator, and AI builder. I care about commercially useful systems: products that ship, automations that remove expensive work, and interfaces people remember.</p>
+        <p>I am Shreyas Raj - founder, operator, and AI builder. I care about commercially useful systems: products that ship, automations that remove expensive work, and interfaces people remember.</p>
         <p>The main folders on this desktop are Projects and Results. Start there. The rest explains how the machine works.</p>
         <blockquote>My word is iron. I do what I say, I say what I do.</blockquote>
         <footer>AVAILABLE FOR SELECT BUILDS · LAST PATCHED 29 JUL 2026</footer>
       </div>`,
   },
   files: {
-    title: "Case Files — Finder",
+    title: "Case Files  -  Finder",
     chrome: "#a8d7e8",
     subtitle: "NESTED FOLDERS / DOUBLE-CLICK",
     render: () => renderFileExplorer(),
   },
   blog: {
-    title: "AI Field Notes — Blog.app",
+    title: "AI Field Notes  -  Blog.app",
     chrome: "#b8a7e8",
     subtitle: "PUNE · INDIA · APPLIED AI",
     render: () => `
@@ -328,7 +328,7 @@ const apps = {
         <h2 class="app-heading">Useful answers.<br><em>Built from the work.</em></h2>
         <p class="app-deck">No one can honestly guarantee a “number one” Google ranking. This library targets the questions buyers actually ask and backs every claim with projects, methods, and clearly labelled case evidence.</p>
         <div class="blog-card-grid">
-          ${blogCard("AI Specialist in India","A practical framework for evaluating an AI specialist in India—technical depth, deployment ownership, proof, and commercial outcomes.","./blog/ai-specialist-india.html","#f3aaa8")}
+          ${blogCard("AI Specialist in India","A practical framework for evaluating an AI specialist in India - technical depth, deployment ownership, proof, and commercial outcomes.","./blog/ai-specialist-india.html","#f3aaa8")}
           ${blogCard("AI Specialist in Pune","What Pune companies should look for in an applied AI partner, from discovery through voice, automation, integrations, and handoff.","./blog/ai-specialist-pune.html","#b9dfe8")}
           ${blogCard("AI Agency in Pune","A buyer's guide to selecting an AI agency in Pune without confusing demos, automations, or vanity metrics for production systems.","./blog/ai-agency-pune.html","#c7f36b")}
         </div>
@@ -337,7 +337,7 @@ const apps = {
       </div>`,
   },
   whiteboard: {
-    title: "Whiteboard — Notes.app",
+    title: "Whiteboard  -  Notes.app",
     chrome: "#fff8dc",
     subtitle: "DRAG · WRITE · PERSIST",
     render: () => `
@@ -355,7 +355,7 @@ const apps = {
       </div>`,
   },
   socials: {
-    title: "Socials — Broadcast.app",
+    title: "Socials  -  Broadcast.app",
     chrome: "#f4b6cf",
     subtitle: "100K+ CONNECTED",
     render: () => `
@@ -363,10 +363,10 @@ const apps = {
         <span class="app-kicker">THE DISTRIBUTION LAYER</span>
         <h2 class="app-heading">Build in public.<br><em>Learn in public.</em></h2>
         <p class="app-deck">I document the tools, decisions, failures, and systems behind the work for builders who want usable signal.</p>
-        <p class="source-note">My 70K Instagram @ai.w.raj got banned 😭. New account: @theshreyasraj9595.</p>
+        <p class="source-note">AI builds, business lessons, and behind-the-scenes work from Shreyas Raj.</p>
         <div class="social-list">
-          ${social("YT","YouTube","31.7K subscribers · 1.81M views","https://www.youtube.com/@AIwithShreyasRaj","#ffb2ae")}
-          ${social("IG","New Instagram","Rebuilding after the 70K account ban","https://www.instagram.com/theshreyasraj9595/","#f3b8db")}
+          ${social("YT","YouTube","AI tutorials · production builds","https://www.youtube.com/@AIwithShreyasRaj","#ffb2ae")}
+          ${social("IG","Instagram","AI builds and founder updates","https://www.instagram.com/ai.w.raj/","#f3b8db")}
           ${social("X","X / Twitter","Daily experiments and operator notes","https://x.com/TopR9595","#b9dfe8")}
           ${social("GH","GitHub","Products, experiments, and shipped code","https://github.com/TopR9595","#d4c7ed")}
         </div>
@@ -378,7 +378,7 @@ const apps = {
       </div>`,
   },
   updates: {
-    title: "Updates — Changelog.app",
+    title: "Updates  -  Changelog.app",
     chrome: "#9ec58f",
     subtitle: "LIVE OS / v5.0.0",
     render: () => `
@@ -398,7 +398,7 @@ const apps = {
       </div>`,
   },
   about: {
-    title: "About — Raj.app",
+    title: "About  -  Raj.app",
     chrome: "#e9d19d",
     subtitle: "PROFILE / ONLINE",
     render: () => `
@@ -421,7 +421,7 @@ const apps = {
       </div>`,
   },
   contact: {
-    title: "Contact — Mail.app",
+    title: "Contact  -  Mail.app",
     chrome: "#a9e1d2",
     subtitle: "CHANNEL OPEN",
     render: () => `
@@ -472,7 +472,7 @@ const apps = {
       </div>`,
   },
   voice: {
-    title: "Talk to the AI Voice Agent — Concierge.app",
+    title: "Talk to the AI Voice Agent  -  Concierge.app",
     chrome: "#9fded4",
     subtitle: "BROWSER VOICE / ONLINE",
     render: () => `
@@ -511,7 +511,7 @@ const apps = {
       </div>`,
   },
   browser: {
-    title: "Browser — RajNet.app",
+    title: "Browser  -  RajNet.app",
     chrome: "#a8d7e8",
     subtitle: "WEB / SECURE",
     render: () => `
@@ -525,7 +525,7 @@ const apps = {
         <nav class="browser-bookmarks" aria-label="Browser bookmarks">
           <button type="button" data-browser-url="https://rapidxai.com">RAPIDXAI</button>
           <button type="button" data-browser-url="https://www.youtube.com/@AIwithShreyasRaj">YOUTUBE</button>
-          <button type="button" data-browser-url="https://www.instagram.com/theshreyasraj9595/">INSTAGRAM</button>
+          <button type="button" data-browser-url="https://www.instagram.com/ai.w.raj/">INSTAGRAM</button>
           <button type="button" data-browser-url="https://github.com/TopR9595">GITHUB</button>
         </nav>
         <div class="browser-start">
@@ -538,7 +538,7 @@ const apps = {
       </div>`,
   },
   music: {
-    title: "Music — SoundDeck.app",
+    title: "Music  -  SoundDeck.app",
     chrome: "#f4b6cf",
     subtitle: "4 TRACKS / MANUAL PLAY",
     render: () => `
@@ -560,7 +560,7 @@ const apps = {
       </div>`,
   },
   games: {
-    title: "Games — Arcade.app",
+    title: "Games  -  Arcade.app",
     chrome: "#8d78d8",
     subtitle: "2 LIVE / LOCAL LEADERBOARDS",
     render: () => `
@@ -587,7 +587,7 @@ const apps = {
       </div>`,
   },
   learn: {
-    title: "Learn — YouTube.library",
+    title: "Learn  -  YouTube.library",
     chrome: "#e6e35f",
     subtitle: "6 VIDEOS / REAL LIBRARY",
     render: () => `
@@ -599,7 +599,7 @@ const apps = {
       </div>`,
   },
   keys: {
-    title: "API_KEYS.env — TextEdit",
+    title: "API_KEYS.env  -  TextEdit",
     chrome: "#a9e1d2",
     subtitle: "DEMO FILE / NOT REAL",
     render: () => `
@@ -618,19 +618,19 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   prank: {
-    title: "DO_NOT_OPEN — Finder",
+    title: "DO_NOT_OPEN  -  Finder",
     chrome: "#ff6b63",
     subtitle: "6 ITEMS / YOU WERE WARNED",
     render: () => renderPrankFinder(),
   },
   hack: {
-    title: "HACK RAJ OS — Terminal.exe",
+    title: "HACK RAJ OS  -  Terminal.exe",
     chrome: "#17131b",
     subtitle: "UNAUTHORIZED ACCESS MODE",
     render: () => `
       <div class="hack-terminal" data-hack-terminal>
         <div class="hack-output" data-hack-output>
-          <p>SHREYAS OS SECURE SHELL v5.4 — unauthorized session</p>
+          <p>SHREYAS OS SECURE SHELL v5.4  -  unauthorized session</p>
           <p>This entire OS was vibe-coded. Surely the security is terrible.</p>
           <p>Somewhere in here are Shreyas's API keys. Go on. Take them.</p>
           <p>Type <b>help</b> to see your options.</p>
@@ -639,7 +639,7 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   emergency: {
-    title: "Emergency — Hotline.app",
+    title: "Emergency  -  Hotline.app",
     chrome: "#ff6b63",
     subtitle: "PRIORITY CHANNEL",
     render: () => `
@@ -655,7 +655,7 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   rickroll: {
-    title: "media player — now playing",
+    title: "media player  -  now playing",
     chrome: "#ff6b63",
     subtitle: "LOADING YOUR FILE...",
     render: () => `
@@ -668,7 +668,7 @@ MESSAGE="Nice try. Real secrets never ship to the browser."</code></pre>
       </div>`,
   },
   run: {
-    title: "Founder Run — Arcade.exe",
+    title: "Founder Run  -  Arcade.exe",
     chrome: "#c7f36b",
     subtitle: "ONE BUTTON / INFINITE HUSTLE",
     render: () => `
@@ -1893,7 +1893,7 @@ function bindVoiceAgent(win, voiceInput) {
       response = "Opening Shreyas's public journey and milestone file.";
       target = "journey";
     } else if (/founder|note|who.*shreyas|about/.test(q)) {
-      response = "Opening Founder dot text—the plain-language note behind the operating system.";
+      response = "Opening Founder dot text - the plain-language note behind the operating system.";
       target = "founder";
     } else if (/instagram|social|youtube|github|twitter|\\bx\\b/.test(q)) {
       response = "Opening the live social channels. LinkedIn is intentionally not listed.";
@@ -2119,7 +2119,7 @@ function recordVisit(id, silent = false) {
   visits.add(id);
   localStorage.setItem("raj-os-visits", JSON.stringify([...visits]));
   if (!silent && visits.size > before) toast("APP DISCOVERED", `${apps[id].title} added to your session.`);
-  if (visits.size === Object.keys(apps).length) toast("ACHIEVEMENT UNLOCKED", "FULL SYSTEM TOUR — you found every Raj OS app.");
+  if (visits.size === Object.keys(apps).length) toast("ACHIEVEMENT UNLOCKED", "FULL SYSTEM TOUR  -  you found every Raj OS app.");
 }
 
 function toast(title, message) {
@@ -2516,7 +2516,7 @@ function initWallpaperRotator() {
   const rotator = document.querySelector("[data-wallpaper-rotator]");
   if (!rotator) return;
   const layers = [...rotator.querySelectorAll("[data-wallpaper-layer]")];
-  // all 4 video wallpapers rotate together, regardless of day/night theme —
+  // all 4 video wallpapers rotate together, regardless of day/night theme
   // the previous light/dark split silently dropped deep-space out of rotation on the
   // default (light) theme, which read as "the space video never shows up"
   const set = ["cotton-candy-dawn", "anime-sky", "deep-space", "founder-window"];

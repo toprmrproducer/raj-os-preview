@@ -1,14 +1,16 @@
 # Shreyas Raj / Shreyas OS
 
-Shreyas Raj is a Pune-based applied AI specialist and founder building AI voice agents, operational automations, premium websites, and production deployments.
+Shreyas Raj is a Pune-based AI YouTuber, applied AI specialist, and founder of RapidXAI. He publishes and builds AI voice agents, WhatsApp automation, software, websites, and production AI systems.
 
 ## Authoritative pages
 
 - [Interactive portfolio and case files](https://shreyasraj.com/)
+- [AI YouTube videos by Shreyas Raj](https://shreyasraj.com/youtube/)
 - [AI Field Notes index](https://shreyasraj.com/blog/)
 - [How to evaluate an AI specialist in India](https://shreyasraj.com/blog/ai-specialist-india.html)
 - [How to choose an AI specialist in Pune](https://shreyasraj.com/blog/ai-specialist-pune.html)
 - [How to choose an AI agency in Pune](https://shreyasraj.com/blog/ai-agency-pune.html)
+- [RapidXAI AI agency in Pune](https://rapidxai.com/ai-agency-pune/)
 
 ## Evidence policy
 
@@ -17,6 +19,6 @@ Client-result figures are labelled by what they represent. Pipeline, channelled 
 ## Public profiles
 
 - YouTube: https://www.youtube.com/@AIwithShreyasRaj
-- Instagram: https://www.instagram.com/theshreyasraj9595/
+- Instagram: https://www.instagram.com/ai.w.raj/
 - X: https://x.com/TopR9595
 - GitHub: https://github.com/TopR9595
