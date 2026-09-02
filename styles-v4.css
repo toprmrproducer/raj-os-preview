@@ -310,6 +310,8 @@
   transform: translateY(-5px) scale(1.025);
   filter: none;
 }
+.desktop-app-link { color: inherit; text-decoration: none; }
+.desktop-app-link:focus-visible { outline: 3px solid var(--desktop-wine); outline-offset: 3px; }
 .featured-app .pixel-icon { width: 70px; height: 70px; }
 .featured-app strong { color: var(--paper); background: var(--desktop-wine); border-color: var(--desktop-ink); }
 
