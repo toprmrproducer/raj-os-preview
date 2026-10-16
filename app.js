@@ -366,7 +366,7 @@ const apps = {
         <p class="source-note">AI builds, business lessons, and behind-the-scenes work from Shreyas Raj.</p>
         <div class="social-list">
           ${social("YT","YouTube","AI tutorials · production builds","https://www.youtube.com/@AIwithShreyasRaj","#ffb2ae")}
-          ${social("IG","Instagram","AI builds and founder updates","https://www.instagram.com/ai.w.raj/","#f3b8db")}
+          ${social("IG","Instagram","AI builds and founder updates","https://www.instagram.com/theshreyasraj9595/","#f3b8db")}
           ${social("X","X / Twitter","Daily experiments and operator notes","https://x.com/TopR9595","#b9dfe8")}
           ${social("GH","GitHub","Products, experiments, and shipped code","https://github.com/TopR9595","#d4c7ed")}
         </div>
@@ -525,7 +525,7 @@ const apps = {
         <nav class="browser-bookmarks" aria-label="Browser bookmarks">
           <button type="button" data-browser-url="https://rapidxai.com">RAPIDXAI</button>
           <button type="button" data-browser-url="https://www.youtube.com/@AIwithShreyasRaj">YOUTUBE</button>
-          <button type="button" data-browser-url="https://www.instagram.com/ai.w.raj/">INSTAGRAM</button>
+          <button type="button" data-browser-url="https://www.instagram.com/theshreyasraj9595/">INSTAGRAM</button>
           <button type="button" data-browser-url="https://github.com/TopR9595">GITHUB</button>
         </nav>
         <div class="browser-start">
