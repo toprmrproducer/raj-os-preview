@@ -5,6 +5,7 @@ Shreyas Raj is a Pune-based AI YouTuber, applied AI specialist, and founder of R
 ## Authoritative pages
 
 - [Interactive portfolio and case files](https://shreyasraj.com/)
+- [About Shreyas Raj](https://shreyasraj.com/about/)
 - [AI YouTube videos by Shreyas Raj](https://shreyasraj.com/youtube/)
 - [AI Field Notes index](https://shreyasraj.com/blog/)
 - [How to evaluate an AI specialist in India](https://shreyasraj.com/blog/ai-specialist-india.html)

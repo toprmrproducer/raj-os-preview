@@ -1,0 +1,117 @@
+{
+ "cleanUrls": false,
+ "redirects": [
+  {
+   "source": "/(.*)",
+   "has": [
+    {
+     "type": "host",
+     "value": "www.shreyasraj.com"
+    }
+   ],
+   "destination": "https://shreyasraj.com/$1",
+   "statusCode": 301
+  }
+ ],
+ "headers": [
+  {
+   "source": "/(.*)",
+   "headers": [
+    {
+     "key": "Content-Security-Policy",
+     "value": "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://app.auto4you.in https://widget.trustpilot.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://i.ytimg.com https://app.auto4you.in https://*.trustpilot.com; media-src 'self' blob:; frame-src 'self' https:; connect-src 'self' https://api.auto4you.in wss://api.auto4you.in https://app.auto4you.in https://*.trustpilot.com; worker-src 'self' blob:; frame-ancestors 'none'; form-action 'self'"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "X-Frame-Options",
+     "value": "DENY"
+    },
+    {
+     "key": "X-Permitted-Cross-Domain-Policies",
+     "value": "none"
+    },
+    {
+     "key": "Permissions-Policy",
+     "value": "camera=(), geolocation=(), payment=(), usb=(), microphone=(self)"
+    },
+    {
+     "key": "Strict-Transport-Security",
+     "value": "max-age=31536000"
+    }
+   ]
+  },
+  {
+   "source": "/games/(.*)",
+   "headers": [
+    {
+     "key": "Content-Security-Policy",
+     "value": "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self' blob: data:; connect-src 'self'; frame-src 'self' https:; worker-src 'self' blob:; frame-ancestors 'self'; form-action 'self'"
+    },
+    {
+     "key": "X-Frame-Options",
+     "value": "SAMEORIGIN"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    }
+   ]
+  },
+  {
+   "source": "/index.html",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "no-cache, no-store, must-revalidate"
+    }
+   ]
+  },
+  {
+   "source": "/blog/(.*).html",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=300, must-revalidate"
+    }
+   ]
+  },
+  {
+   "source": "/(.*).js",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=0, must-revalidate"
+    }
+   ]
+  },
+  {
+   "source": "/(.*).css",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=0, must-revalidate"
+    }
+   ]
+  },
+  {
+   "source": "/assets/(.*)",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=86400, stale-while-revalidate=604800"
+    }
+   ]
+  }
+ ]
+}
